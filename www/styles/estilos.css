@@ -2,6 +2,11 @@ html {
     scroll-behavior: smooth;
 }
 
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
 a {
     color: rgb(179, 226, 169);
 }
@@ -17,38 +22,106 @@ a {
 /* MENU STYLE */
 
 #menu {
+    display: none;
+    position: absolute;
     list-style-type: none;
+    margin: 0;
     padding: 0;
-    position: fixed;
-    /* Set the navbar to fixed position */
-    top: 0;
-    /* Position the navbar at the top of the page */
     width: 100%;
-    /* Full width */
+    background-color: #CCC;
 }
 
-#menu li {
-    float: left;
-    width: 25%;
-    height: 25px;
-    text-align: center;
-    background-color: rgb(82, 129, 70);
-    display: block;
+#menuHome {
+    background-image: url("../images/sustentavel.png");
+}
+
+#menuGoal1 {
+    background-image: url("../images/pilares.png");
+}
+
+#menuGoal2 {
+    background-image: url("../images/campus.png");
+}
+
+#menuGoal3 {
+    background-image: url("../images/projectos.png");
 }
 
 #menu a {
+    display: block;
+    background-size: 32px 32px;
+    background-repeat: no-repeat;
+    background-color: rgb(82, 129, 70);
+    line-height: 32px;
+    padding-left: 32px;
     text-decoration: none;
-    color: rgb(254, 255, 254);
+    color: #000;
 }
 
-#menu li:hover {
+#menu a:hover {
     background-color: rgb(154, 192, 157);
+}
+
+#hamburger-checkbox {
+    display: none;
+}
+
+.hamburger {
+    display: block;
+    width: 100%;
+    background-color: rgb(82, 129, 70);
+    text-align: right;
+}
+
+.hamburger-button {
+    display: inline-block;
+    padding-left: 8px;
+    background-color: rgb(154, 192, 157);
+    cursor: pointer;
+}
+
+.hamburger-button::after {
+    content: "\2630";
+    font-size: 150%;
+    vertical-align: middle;
+    padding: 0 8px;
+}
+
+#hamburger-checkbox:checked~#menu {
+    display: block;
+}
+
+@media screen and (min-width: 768px) {
+    .hamburger {
+        display: none;
+    }
+    #menu {
+        display: block;
+    }
+    nav {
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+    #menu li {
+        float: left;
+        width: 25%;
+    }
+    #menu a {
+        line-height: 64px;
+        padding-left: 64px;
+        background-size: 64px 64px;
+    }
+    body {
+        margin-top: 80px;
+    }
 }
 
 
 /* MENU ICON*/
 
-.container {
+
+/*.container {
     display: inline-block;
     cursor: pointer;
 }
@@ -61,7 +134,7 @@ a {
     background-color: #333;
     margin: 6px 0;
     transition: 0.4s;
-}
+}*/
 
 
 /* Rotate first bar */
