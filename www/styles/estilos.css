@@ -37,7 +37,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: rgb(68, 66, 66);
+    background-color: rgb(114, 107, 93);
     opacity: 0.9;
     text-align: center;
     overflow: hidden;
@@ -69,15 +69,15 @@ body {
     display: block;
     background-size: 26px 26px;
     background-repeat: no-repeat;
-    background-color: rgb(68, 66, 66);
     line-height: 26px;
     padding-left: 26px;
     text-decoration: none;
+    font-weight: bold;
     color: rgb(255, 255, 255);
 }
 
 #menu a:hover {
-    background-color: rgb(143, 209, 148);
+    background-color: rgb(146, 187, 150);
     color: rgb(38, 71, 10);
 }
 
