@@ -211,6 +211,12 @@ td {
     padding-left: 20px;
 }
 
+#special_sentences {
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 2%;
+}
+
 
 /* Team button*/
 
@@ -367,6 +373,7 @@ td {
     bottom: 8px;
     width: 100%;
     text-align: center;
+    font-weight: bold;
 }
 
 
