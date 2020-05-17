@@ -417,4 +417,24 @@ td {
     }
 }
 
+#container{
+    display : grid;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+}
 
+.grid-item {
+    padding: 10px;
+    font-size: 10px;
+    text-align: center;
+  }
+
+  label {
+    font-size: 20px;
+    font-weight: 1000px;
+  }
+  #input-contact {
+    width: 850px;
+    height: 25px;
+    border: 1px solid #666;
+  }
