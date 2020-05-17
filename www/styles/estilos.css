@@ -1,6 +1,8 @@
 /*=======================================================================================*/
 
-/*                                STRUCTURE STYLES                                       */
+
+/*                                STRUCTURE AND POSITION STYLES                                       */
+
 
 /*=======================================================================================*/
 
@@ -8,7 +10,7 @@ html {
     scroll-behavior: smooth;
 }
 
-header{
+header {
     display: flex;
     justify-content: space-evenly;
 }
@@ -35,6 +37,7 @@ nav {
     background-color: white;
 }
 
+
 /* MENU STYLE */
 
 #menu {
@@ -55,8 +58,7 @@ nav {
     /* Full width */
 }
 
-#logo{
-
+#logo {
     background-image: url("../images/logotipoBeAware.png");
 }
 
@@ -131,6 +133,9 @@ nav {
     display: block;
 }
 
+
+/* MENU RESPONSIVE*/
+
 @media screen and (min-width: 768px) {
     .hamburger {
         display: none;
@@ -152,6 +157,151 @@ nav {
     }
 }
 
+
+/* TEAM PAGE POSITIONING */
+
+#team_info {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(15, 50px);
+    padding: 20px;
+    justify-items: center;
+}
+
+#sara_name {
+    margin-top: 0px;
+    grid-column: 1;
+    grid-row: 1/span 6;
+}
+
+#bruno_name {
+    margin-top: 0px;
+    grid-column: 2;
+    grid-row: 1/span 6;
+}
+
+#sara_photo {
+    margin-top: 0px;
+    margin-left: 60px;
+    grid-column: 1;
+    grid-row: 3/span 6;
+    width: 310px;
+    height: 420px;
+}
+
+#bruno_photo {
+    margin-top: 0px;
+    margin-left: 70px;
+    grid-column: 2;
+    grid-row: 3/span 6;
+    width: 310px;
+    height: 420px;
+}
+
+#sara_info {
+    margin-top: 0px;
+    margin-right: 20px;
+    grid-column: 1;
+    grid-row: 9/span 6;
+}
+
+#bruno_info {
+    margin-top: 0px;
+    margin-left: 20px;
+    grid-column: 2;
+    grid-row: 9/span 6;
+}
+
+#team_function {
+    text-align: center;
+    font-weight: bold;
+}
+
+#sara_links {
+    grid-column: 1;
+    margin-right: 20px;
+}
+
+#bruno_links {
+    grid-column: 2;
+    margin-left: 20px;
+}
+
+#dynamic_numbers {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 50px 25px 25px;
+    padding: 20px;
+    justify-items: center;
+}
+
+#dynamic_numbers_icon1 {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+#dynamic_numbers_icon2 {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+#dynamic_numbers_icon3 {
+    grid-row: 1;
+    grid-column: 3;
+}
+
+#dynamic_numbers_icon4 {
+    grid-row: 1;
+    grid-column: 4;
+}
+
+#dynamic_numbers_value1 {
+    grid-row: 2;
+    grid-column: 1;
+    font-weight: bold;
+}
+
+#dynamic_numbers_value2 {
+    grid-row: 2;
+    grid-column: 2;
+    font-weight: bold;
+}
+
+#dynamic_numbers_value3 {
+    grid-row: 2;
+    grid-column: 3;
+    font-weight: bold;
+}
+
+#dynamic_numbers_value4 {
+    grid-row: 2;
+    grid-column: 4;
+    font-weight: bold;
+}
+
+#dynamic_numbers_description1 {
+    grid-row: 3;
+    grid-column: 1;
+}
+
+#dynamic_numbers_description2 {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+#dynamic_numbers_description3 {
+    grid-row: 3;
+    grid-column: 3;
+}
+
+#dynamic_numbers_description4 {
+    grid-row: 3;
+    grid-column: 4;
+}
+
+
 /*FOOTER STYLE*/
 
 #footer {
@@ -172,25 +322,17 @@ nav {
     width: 922px;
 }
 
-.table {
-    margin: 0 auto;
-    text-align: justify;
-    padding: 0px;
-    /*width: 922px;*/
-}
-
-.table_inside {
-    font-weight: bold;
-}
-
 .flex-container {
     display: flex;
     justify-content: space-evenly;
 }
 
+
 /*=======================================================================================*/
 
+
 /*                             AESTHETIC POINTS STYLES                                   */
+
 
 /*=======================================================================================*/
 
@@ -220,6 +362,7 @@ td {
     margin-left: 2%;
 }
 
+
 /* Team button*/
 
 .team_button {
@@ -233,6 +376,7 @@ td {
     margin-left: 43%;
     border-radius: 12px;
 }
+
 
 /* Submit button */
 
@@ -248,11 +392,13 @@ td {
     border-radius: 12px;
 }
 
+
 /* Sustainability Video */
 
 #video_introdutorio {
     margin-left: 13%;
 }
+
 
 /* Profile Pictures*/
 
@@ -266,6 +412,7 @@ td {
     width: 50px;
     height: 50px;
 }
+
 
 /* Card Itens*/
 
@@ -296,15 +443,19 @@ td {
     background-image: url("../images/background.jpg");
 }
 
+
 /*=======================================================================================*/
 
+
 /*                                 SLIDE SHOW STYLE                                     */
+
 
 /*=======================================================================================*/
 
 * {
     box-sizing: border-box;
 }
+
 
 /* Slideshow container */
 
@@ -314,15 +465,18 @@ td {
     margin: auto;
 }
 
+
 /* Hide the images by default */
 
 .mySlides {
     display: none;
 }
 
+
 /* Next & previous buttons */
 
-.prev, .next {
+.prev,
+.next {
     cursor: pointer;
     position: absolute;
     top: 50%;
@@ -337,6 +491,7 @@ td {
     user-select: none;
 }
 
+
 /* Position the "next button" to the right */
 
 .next {
@@ -344,11 +499,14 @@ td {
     border-radius: 3px 0 0 3px;
 }
 
+
 /* On hover, add a black background color with a little bit see-through */
 
-.prev:hover, .next:hover {
+.prev:hover,
+.next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+
 
 /* Caption text */
 
@@ -363,6 +521,7 @@ td {
     font-weight: bold;
 }
 
+
 /* Number text (1/3 etc) */
 
 .numbertext {
@@ -372,6 +531,7 @@ td {
     position: absolute;
     top: 0;
 }
+
 
 /* The dots/bullets/indicators */
 
@@ -386,9 +546,11 @@ td {
     transition: background-color 0.6s ease;
 }
 
-.active, .dot:hover {
+.active,
+.dot:hover {
     background-color: #717171;
 }
+
 
 /* Fading animation */
 
@@ -417,8 +579,8 @@ td {
     }
 }
 
-#container{
-    display : grid;
+#container {
+    display: grid;
     grid-template-columns: auto auto auto auto;
     padding: 10px;
 }
@@ -427,14 +589,15 @@ td {
     padding: 10px;
     font-size: 10px;
     text-align: center;
-  }
+}
 
-  label {
+label {
     font-size: 20px;
     font-weight: 1000px;
-  }
-  #input-contact {
+}
+
+#input-contact {
     width: 850px;
     height: 25px;
     border: 1px solid #666;
-  }
+}
