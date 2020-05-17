@@ -29,9 +29,9 @@ nav {
 #main {
     text-align: justify;
     box-sizing: border-box;
-    width: 65%;
+    width: 70%;
     height: 100%;
-    margin-left: 18%;
+    margin-left: 15%;
     padding: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: white;
@@ -101,14 +101,15 @@ nav {
 .hamburger {
     display: block;
     width: 100%;
-    background-color: rgb(82, 129, 70);
+    background-color: rgb(114, 107, 93);
+    opacity: 0.8;
     text-align: right;
 }
 
 .hamburger-button {
     display: inline-block;
     padding-left: 8px;
-    background-color: rgb(154, 192, 157);
+    background-color: rgb(194, 184, 164);
     cursor: pointer;
 }
 
@@ -136,7 +137,7 @@ nav {
 
 /* MENU RESPONSIVE*/
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1000px) {
     .hamburger {
         display: none;
     }
@@ -154,6 +155,15 @@ nav {
     }
     body {
         margin-top: 80px;
+    }
+}
+
+
+/* Hide some images (Responsive)*/
+
+@media screen and (max-width: 1000px) {
+    #img_to_hide {
+        display: none;
     }
 }
 
@@ -396,7 +406,8 @@ td {
 /* Sustainability Video */
 
 #video_introdutorio {
-    margin-left: 13%;
+    margin-left: 15%;
+    max-width: 100%;
 }
 
 
@@ -416,6 +427,10 @@ td {
 
 /* Card Itens*/
 
+#card_container {
+    box-sizing: border-box;
+}
+
 #card {
     width: 250px;
     height: 300px;
@@ -429,6 +444,18 @@ td {
 }
 
 #card:hover {
+    transform: scale(1.3) translateY(30px);
+}
+
+#card_tecno {
+    width: 250px;
+    height: 370px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    background-color: white;
+}
+
+#card_tecno:hover {
     transform: scale(1.3) translateY(30px);
 }
 
@@ -597,7 +624,7 @@ label {
 }
 
 #input-contact {
-    width: 850px;
+    width: 100%;
     height: 25px;
     border: 1px solid #666;
 }
