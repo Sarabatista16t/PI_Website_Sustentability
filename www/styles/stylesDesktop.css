@@ -486,6 +486,36 @@ td {
 
 /* Slideshow container */
 
+.slideshow-container a img {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+.slideshow-container a:nth-of-type(1) {
+    animation-name: fader;
+    animation-delay: 4s;
+    animation-duration: 1s;
+    z-index: 20;
+}
+
+.slideshow-container a:nth-of-type(2) {
+    z-index: 10;
+}
+
+.slideshow-container a:nth-of-type(n+3) {
+    display: none;
+}
+
+@keyframes fader {
+    from {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.0;
+    }
+}
+
 .slideshow-container {
     max-width: 1000px;
     position: relative;
