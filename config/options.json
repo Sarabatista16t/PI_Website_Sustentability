@@ -4,5 +4,8 @@
     },
     "mongoDB": {
         "connectionString": "mongodb://localhost:27017/BeAware"
+    },
+    "secrectKey": {
+        "SECRET_KEY": "whateverYouWant "
     }
 }
