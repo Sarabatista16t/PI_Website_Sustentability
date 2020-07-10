@@ -1,8 +1,8 @@
 "use strict";
 
 /** 
- * @class Guarda toda informação necessaria na execução do exercicio 
- * @constructs Informacao
+ * @class Gets all the necessary information from the database and displays it correctly in the HTML.
+ * @constructs InfoManager
  * @param {string} id - id do elemento HTML que contém a informação.
  * 
  * @property {string} id - id do elemento HTML que contém a informação.
@@ -13,24 +13,6 @@ function InfoManager(id) {
     this.id = id;
     this.people = [];
     this.countries = [];
-};
-
-/**
- * coloca a view "MainPage" no div "divMainPage" e limpa o div "divTeam"
- */
-InfoManager.prototype.showHome = function() {
-    document.getElementById("divMainPage").textContent = "../views/MainPage.html";
-    document.getElementById("divTeam").style.display = "none";
-    replaceChilds(this.id, document.createElement("div"));
-};
-
-/**
- * coloca a view "TeamPage" no div "divTeam" e limpa o div "divMainPage"
- */
-InfoManager.prototype.showHome = function() {
-    document.getElementById("divTeam").textContent = "../views/TeamPage.html";
-    document.getElementById("divMainPage").style.display = "none";
-    replaceChilds(this.id, document.createElement("div"));
 };
 
 
