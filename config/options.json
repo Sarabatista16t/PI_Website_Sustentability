@@ -1,0 +1,8 @@
+{
+    "server": {
+        "port": 8081
+    },
+    "mongoDB": {
+        "connectionString": "mongodb://localhost:27017/BeAware"
+    }
+}
