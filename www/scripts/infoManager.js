@@ -15,6 +15,18 @@ function InfoManager(id) {
     this.countries = [];
 };
 
+InfoManager.prototype.showUsers = function() {}
+InfoManager.prototype.showTopics = function() {}
+InfoManager.prototype.showCampusCards = function() {}
+InfoManager.prototype.showProjectCards = function() {}
+
+
+
+
+
+
+
+
 
 /**
  * coloca a palavra "People" no div titulo e cria dinamicamente uma tabela com a informação das pessoas

@@ -56,7 +56,7 @@ function getUsers(req, res) {
 
         if (err) {
 
-            res.json({ "message": "error", "error": err });
+            res.status(404).json({ "message": "error", "error": err });
 
         } else {
 
@@ -66,11 +66,11 @@ function getUsers(req, res) {
 
                 if (err) {
 
-                    res.json({ "message": "error", "error": err });
+                    res.status(404).json({ "message": "error", "error": err });
 
                 } else {
 
-                    res.json({ "message": "success", "person": documents });
+                    res.status(200).json({ "message": "success", "person": documents });
 
                 }
 

@@ -1,4 +1,6 @@
 "use strict";
+showMainPage();
+
 /**
  * Função que será executada quando a página estiver toda carregada, criando a variável global "info" com um objeto Information
  * Aproveitamos ainda para solicitar ao servidor o carregamento de dados de forma assincrona(AJAX)
@@ -6,16 +8,9 @@
  * @params {Event} event - objeto que representará o evento
  */
 window.onload = function(event) {
-    showSlides(1); // inicializar o slide show
+    slideshow(1); // inicializar o slide show
     // var info = new Information("divInformation");
-
     var info = new infoManager();
-    /*info.getGames();
-    info.getPlayers();
-    info.getTeams();
-    info.getNews();
-    info.getTournaments();*/
-    showMainPage(); // show only the main page
     window.info = info;
 };
 
@@ -23,7 +18,7 @@ window.onload = function(event) {
  * Function to hide all the HTML elements in the page, using the CSS properties. 
  */
 function hideAll() {
-    if (info.loggedUser) {
+    /*if (info.loggedUser) {
         document.getElementById("unlogged").style.display = "none";
         document.getElementById("menuManager").style.display = "block";
         document.getElementById("logged").style.display = "block";
@@ -32,11 +27,11 @@ function hideAll() {
         document.getElementById("unlogged").style.display = "block";
         document.getElementById("menuManager").style.display = "none";
 
-    }
-    document.getElementById("LoginPage").style.display = "none";
-    document.getElementById("RegisterPage").style.display = "none";
-    document.getElementById("MainPage").style.display = "none";
-    document.getElementById("TeamPage").style.display = "none";
+    }*/
+    document.getElementById("LoginPage ").style.display = "none";
+    document.getElementById("RegisterPage ").style.display = "none";
+    document.getElementById("MainPage ").style.display = "none";
+    document.getElementById("TeamPage ").style.display = "none";
 }
 
 /**
@@ -44,7 +39,7 @@ function hideAll() {
  */
 function showMainPage() {
     hideAll();
-    document.getElementById("MainPage").style.display = "block";
+    document.getElementById("MainPage ").style.display = "block";
 }
 
 /**
@@ -52,7 +47,7 @@ function showMainPage() {
  */
 function showTeamPage() {
     hideAll();
-    document.getElementById("TeamPage").style.display = "block";
+    document.getElementById("TeamPage ").style.display = "block";
 }
 
 /**
@@ -60,7 +55,7 @@ function showTeamPage() {
  */
 function showLoginPage() {
     hideAll();
-    document.getElementById("LoginPage").style.display = "block";
+    document.getElementById("LoginPage ").style.display = "block";
 }
 
 /**
@@ -68,7 +63,7 @@ function showLoginPage() {
  */
 function showRegisterPage() {
     hideAll();
-    document.getElementById("RegisterPage").style.display = "block";
+    document.getElementById("RegisterPage ").style.display = "block";
 }
 
 /**
