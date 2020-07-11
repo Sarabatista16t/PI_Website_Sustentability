@@ -60,3 +60,20 @@ function createButton(fatherNode, eventHandler, value) {
     button.addEventListener("click", eventHandler);
     fatherNode.appendChild(button);
 }
+
+/**
+ * Função que cria um elemento "topic" com base nos parâmetros.
+ * @param {*} topicTitle 
+ * @param {*} topicText 
+ */
+function createTopic(topicTitle, topicText) {
+    var title = document.createElement("h1");
+    title.textContent(topicTitle);
+    var text = document.createElement("p");
+    text.textContent(topicText);
+    var divTopic = document.createElement("div");
+    divTopic.setAttribute("id", "divTopic");
+    divTopic.appendChild(title);
+    divTopic.appendChild(text);
+    return divTopic;
+}

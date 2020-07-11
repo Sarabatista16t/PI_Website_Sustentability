@@ -11,6 +11,7 @@ window.onload = function(event) {
     slideshow(1); // inicializar o slide show
     // var info = new Information("divInformation");
     var info = new infoManager();
+    info.getTopics();
     window.info = info;
 };
 
