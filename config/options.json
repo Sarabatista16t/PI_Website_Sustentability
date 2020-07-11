@@ -7,5 +7,10 @@
     },
     "secrectKey": {
         "SECRET_KEY": "whateverYouWant "
+    },
+    "email": {
+        "email_to": "beawareforpi@outlook.pt",
+        "SENDGRID_API_KEY": "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",
+        "API_KEY_NAME": "WeLovePi"
     }
 }
