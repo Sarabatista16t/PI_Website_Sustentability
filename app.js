@@ -20,7 +20,22 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + '/www/index.html');
 });
 
-app.get("/topics", requestHandlers.getTopics);
+/*  AUTENTICAÇÃO  */
+app.post("/register", requestHandlers.register);
+app.post("/login", requestHandlers.login);
+
+/* OPERAÇÕES CRUD USER   */
+/*app.get("/users", requestHandlers.getAllUsers);
+app.get("/:id", requestHandlers.getUser);
+app.put("/:id", requestHandlers.updateUser);
+app.delete("/:id", requestHandlers.deleteUser);*/
+
+/* OPERAÇÕES CRUD TOPIC  */
+/*app.get("/topics", requestHandlers.getTopics);
+app.get("/topic/:id", requestHandlers.getTopic);
+app.post("/topic", requestHandlers.createTopic);
+app.delete("/topic/:id", requestHandlers.deleteTopic);
+app.put("/topic/:id", requestHandlers.updateTopic);*/
 
 app.listen(options.server.port, function() {
     console.log("Server running at port:" + options.server.port);

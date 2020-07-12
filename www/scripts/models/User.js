@@ -6,7 +6,6 @@ var UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
     emailConfirmation: { type: Boolean, default: false },
     password: { type: String, required: true },
-    address: { type: String, required: false },
     roles: { type: Array },
     changePasswordToken: {
         token: { type: String },

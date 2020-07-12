@@ -1,16 +1,10 @@
-/** 
- * @class Structure to store the state of a topic. 
- * @constructs Topic
- * @param {*} _id 
- * @param {*} title 
- * @param {*} text 
- * @param {*} imageURL 
- * @param {*} idUser 
- */
-function Topic(_id, title, text, imageURL, idUser) {
-    this._id = _id;
-    this.title = title;
-    this.text = text;
-    this.imageURL = imageURL;
-    this.idUser = idUser;
-};
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+
+var TopicSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    text: { type: String, required: true },
+    idUser: { type: String, required: true }
+})
+
+module.exports = mongoose.model('Topic', TopicSchema)

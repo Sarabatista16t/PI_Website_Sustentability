@@ -1,19 +1,9 @@
 "use strict";
-showMainPage();
 
-/**
- * Função que será executada quando a página estiver toda carregada, criando a variável global "info" com um objeto Information
- * Aproveitamos ainda para solicitar ao servidor o carregamento de dados de forma assincrona(AJAX)
- * @memberof window
- * @params {Event} event - objeto que representará o evento
- */
-window.onload = function(event) {
-    slideshow(1); // inicializar o slide show
-    // var info = new Information("divInformation");
-    var info = new infoManager();
-    info.getTopics();
-    window.info = info;
-};
+showMainPage();
+var info = new InfoManager();
+window.info = info;
+
 
 /**
  * Function to hide all the HTML elements in the page, using the CSS properties. 

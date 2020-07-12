@@ -11,10 +11,52 @@
  */
 function InfoManager(id) {
     this.id = id;
-    this.people = [];
-    this.countries = [];
     this.topics = [];
 };
+
+
+/**
+ * Sends the login info to the server, for it to check from the database and display the page if successfully
+ */
+InfoManager.prototype.login = function() {
+    let div = document.getElementById("LoginPage ").children;
+    let form = div.loginForm;
+    let email = form.email.value;
+    let password = form.password.value;
+    let user = {
+        "email": email,
+        "password": password
+    }
+    let req = new XMLHttpRequest();
+    req.open("POST", "/login");
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function() {
+        console.log("Login realizado com sucesso");
+        //showProfile()
+    });
+
+    const self = this;
+    req.responseType = 'json';
+
+    req.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let user = this.response.user[0];
+            self.loggedUser = new User(user.Id, user.Name, user.Email, user.Password, user.roles);
+            self.loggedUser.logIn();
+        }
+    }
+    req.send(JSON.stringify(user));
+}
+
+
+
+
+
+
+
+
+
+
 
 InfoManager.prototype.showUsers = function() {}
 
@@ -267,7 +309,6 @@ InfoManager.prototype.processingTopic = function(acao) {
     if (acao === "create") {
 
         /** @todo Completar */
-        var xhr = new XMLHttpRequest();
         xhr.open("POST", "/person", true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
@@ -281,13 +322,11 @@ InfoManager.prototype.processingTopic = function(acao) {
     } else if (acao === "update") {
 
         /** @todo Completar */
-        var xhr = new XMLHttpRequest();
         xhr.open("PUT", "/person/" + id, true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
                 var response = JSON.parse(xhr.responseText);
                 console.log(response);
-
 
             }
         }

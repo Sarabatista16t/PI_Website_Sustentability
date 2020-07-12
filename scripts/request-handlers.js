@@ -9,35 +9,11 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth.js')
 const crypto = require('crypto')
 const express = require('express')
+const User = require('../www/scripts/models/User.js')
 
 const SALT_WORK_FACTOR = 10
 const router = express.Router()
 const authRouter = express.Router({ mergeParams: true })
-
-/**
- * Função para retornar a lista de utilizadores da BD.
- * @param {*} req 
- * @param {*} res 
- */
-function getTopics(req, res) {
-    const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function() {
-        // we're connected!
-        const topicSchema = new mongoose.Schema({
-            title: String,
-            text: String
-        });
-
-        const Topic = mongoose.model('Topic', topicSchema);
-
-        Topic.find(function(err, Topics) {
-            if (err) return console.error(err);
-            console.log(Topics);
-        })
-    });
-}
-
 
 /**
  * The Register function creates the user and places him in the database
@@ -49,8 +25,8 @@ async function register(req, res) {
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
     }
-
     const user = new User(req.body)
+    user.roles = ['editor']
 
     try {
         // hashes the password
@@ -67,50 +43,10 @@ async function register(req, res) {
             expirationDate
         }
 
-        /*if (req.body.internal) {
-            user.roles = ['intern']
-        } else {
-            user.roles = ['extern']
-        }*/
-
         await user.save()
-
         res.sendStatus(200)
-            // send an email asking to confirm the email given
-        const email = new Email(user.email, 'confirm_email', {
-            token: token
-        })
-        email.send()
     } catch (error) {
         res.status(400).json(error.errors)
-    }
-}
-
-/**
- * Function to confirm the email, once the user registered in the platform.
- * @param {*} req 
- * @param {*} res 
- */
-async function confirmEmail(req, res) {
-    try {
-        const user = await User.findOne({
-            $and: [
-                { 'confirmEmailToken.token': req.params.token },
-                { 'confirmEmailToken.expirationDate': { $gte: new Date() } } // expiration date greater than or equal to the current date
-            ]
-        })
-
-        if (!user) return res.status(404).json({ error: 'A token fornecida é inválida' })
-
-        await User.updateOne({ _id: user._id }, {
-            'confirmEmailToken.token': undefined,
-            'confirmEmailToken.expirationDate': undefined,
-            emailConfirmation: true
-        })
-
-        return res.sendStatus(200)
-    } catch (err) {
-        return res.sendStatus(500)
     }
 }
 
@@ -134,12 +70,6 @@ async function login(req, res) {
             })
         }
 
-        if (!user.emailConfirmation) {
-            return res.status(403).json({
-                error: 'É necessário confirmar o e-mail.'
-            })
-        }
-
         const isMatch = await user.comparePassword(req.body.password)
         if (!isMatch) {
             return res.status(403).json({
@@ -148,7 +78,7 @@ async function login(req, res) {
         }
 
         const token = jwt.sign({ user }, options.secrectKey.SECRET_KEY, { expiresIn: '24h' })
-        return res.json(user.filter({ token }))
+        return res.json({ msg: "smth", user: user.filter({ token }) })
     } catch (err) {
         console.log(err)
         return res.sendStatus(500)
@@ -283,13 +213,118 @@ async function changePassword(req, res) {
     }
 }
 
+/**
+ * Function to get the user (Profile)
+ * @param {*} req 
+ * @param {*} res 
+ */
+
+function getUser(req, res) {
+    // ACCESS PROFILE
+    User.findOne({ _id: req.params.id }, (err, user) => {
+        if (err) return res.status(500).json({ error: err })
+
+        if (req.user._id.toString() !== req.params.id) {
+            const fieldsToDelete = {
+                emailConfirmation: 'emailConfirmation',
+                roles: 'roles',
+                confirmEmailToken: 'confirmEmailToken'
+            }
+
+            const filtered = user.filter(undefined, fieldsToDelete)
+            return res.json(filtered)
+        }
+
+        const filteredUser = user.filter()
+        return res.json(filteredUser)
+    })
+}
+
+/**
+ * Function to update the user
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function updateUser(req, res) {
+
+    // ROLES: verify if req.params.id matches token.user.id
+    if (req.user._id !== req.params.id) {
+        return res.status(403).json({ error: 'only the profile owner can modify it' })
+    }
+
+    const user = req.body
+    User.updateOne({ _id: req.params.id }, user, { runValidators: true }, function(err) {
+        if (err) return res.status(400).json({ error: err.message })
+
+        User.findById({ _id: req.params.id }, function(err, updatedUser) {
+            if (err) return res.sendStatus(500)
+            res.json(updatedUser)
+        })
+    })
+}
+
+/**
+ * Function to delete the user
+ * @param {*} req 
+ * @param {*} res 
+ */
+function deleteUser(req, res) {
+    // ROLES: verify if is admin or req.params.id matches token.user.id
+    const reqUser = new User(req.user)
+    if (reqUser._id !== req.params.id && !reqUser.hasRoles('admin')) {
+        return res.status(403).json({ error: 'only the profile owner can modify it' })
+    }
+    let userImage
+    User.findById(req.params.id, (err, user) => {
+        if (err) return res.status(500).json(err)
+        userImage = user.imageUrl
+    })
+    User.deleteOne({ _id: req.params.id }, function(err) {
+        if (err) return res.status(500).json(err)
+        fs.unlink(userImage, (err) => {
+            if (err) {
+                // console.error(err)
+            }
+        })
+        res.sendStatus(200)
+    })
+}
+
+
+/**
+ * Função para retornar a lista de utilizadores da BD.
+ * @param {*} req 
+ * @param {*} res 
+ */
+function getTopics(req, res) {
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        // we're connected!
+        const topicSchema = new mongoose.Schema({
+            title: String,
+            text: String
+        });
+
+        const Topic = mongoose.model('Topic', topicSchema);
+
+        Topic.find(function(err, Topics) {
+            if (err) return console.error(err);
+            console.log(Topics);
+        })
+    });
+}
+
 module.exports.register = register;
 module.exports.login = login;
+/* ============== OPERAÇÕES DE CRUD USER  ================ */
+module.exports.getUser = getUser;
+module.exports.updateUser = updateUser;
+module.exports.deleteUser = deleteUser;
 module.exports.forgotPassword = forgotPassword;
 module.exports.changePassword = changePassword;
 module.exports.recoverPassword = recoverPassword;
 module.exports.validateRecoverPasswordToken = validateRecoverPasswordToken;
-module.exports.confirmEmail = confirmEmail;
 
 
 
