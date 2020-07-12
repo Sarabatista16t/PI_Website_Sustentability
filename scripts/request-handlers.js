@@ -10,45 +10,15 @@ const auth = require('../middleware/auth.js')
 const crypto = require('crypto')
 const express = require('express')
 const User = require('../www/scripts/models/User.js')
+const Topic = require('../www/scripts/models/Topic.js')
 
 const SALT_WORK_FACTOR = 10
 const router = express.Router()
 const authRouter = express.Router({ mergeParams: true })
 
-/**
- * The Register function creates the user and places him in the database
- * @param {*} req 
- * @param {*} res 
- */
-async function register(req, res) {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() })
-    }
-    const user = new User(req.body)
-    user.roles = ['editor']
-
-    try {
-        // hashes the password
-        user.password = await bcrypt.hash(user.password, SALT_WORK_FACTOR)
-
-        // creates the token
-        const token = crypto.randomBytes(20).toString('hex')
-
-        // create an expiration date (7 days)
-        const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
-        user.confirmEmailToken = {
-            token,
-            expirationDate
-        }
-
-        await user.save()
-        res.sendStatus(200)
-    } catch (error) {
-        res.status(400).json(error.errors)
-    }
-}
+/*====================================================================================*/
+/*==================             AUTENTICATION               =========================*/
+/*====================================================================================*/
 
 /**
  * Funtion to do the login in the platform.
@@ -86,102 +56,37 @@ async function login(req, res) {
 }
 
 /**
- * 
+ * The Register function creates the user and places him in the database
  * @param {*} req 
  * @param {*} res 
  */
-async function forgotPassword(req, res) {
+async function createUser(req, res) {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() })
+    }
+    const user = new User(req.body)
+    user.roles = ['editor']
+
     try {
-        const user = await User.findOne({ email: req.body.email })
+        // hashes the password
+        user.password = await bcrypt.hash(user.password, SALT_WORK_FACTOR)
 
-        if (!user) {
-            return res.sendStatus(200)
-        }
-
+        // creates the token
         const token = crypto.randomBytes(20).toString('hex')
 
-        // create an expiration date
-        const expirationDate = new Date(Date.now() + 3600000)
+        // create an expiration date (7 days)
+        const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
-        await User.updateOne({ _id: user._id }, { 'changePasswordToken.token': token, 'changePasswordToken.expirationDate': expirationDate })
+        user.confirmEmailToken = {
+            token,
+            expirationDate
+        }
 
-        // send an email with the link to recover password
-        const email = new Email(user.email, 'recover_password', {
-            name: user.name,
-            token: token
-        })
-        email.send()
-
+        await user.save()
         res.sendStatus(200)
-    } catch (err) {
-        res.sendStatus(500)
-    }
-}
-
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- */
-async function validateRecoverPasswordToken(req, res) {
-    try {
-        const user = await User.findOne({
-            $and: [
-                { 'changePasswordToken.token': req.params.token },
-                { 'changePasswordToken.expirationDate': { $gte: new Date() } } // expiration date greater than or equal to the current date
-            ]
-        })
-
-        if (!user) {
-            return res.sendStatus(404)
-        }
-
-        return res.sendStatus(200)
-    } catch (err) {
-        return res.sendStatus(500)
-    }
-}
-
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- */
-async function recoverPassword(req, res) {
-    try {
-        const user = await User.findOne({
-            $and: [
-                { 'changePasswordToken.token': req.params.token },
-                { 'changePasswordToken.expirationDate': { $gte: new Date() } } // expiration date greater than or equal to the current date
-            ]
-        })
-
-        if (!user) {
-            return res.sendStatus(404)
-        }
-
-        if (req.body.newPassword === req.body.confirmNewPassword) {
-            // set the new password as the user password
-            const newPassword = await bcrypt.hash(req.body.newPassword, SALT_WORK_FACTOR)
-
-            await User.updateOne({ _id: user._id }, {
-                'changePasswordToken.token': undefined,
-                'changePasswordToken.expirationDate': undefined,
-                password: newPassword
-            })
-
-            // send an email confirming that the password was changed
-            const email = new Email(user.email, 'changed_password', {
-                name: user.name
-            })
-            email.send()
-
-            return res.sendStatus(200)
-        } else {
-            return res.status(400).json({ error: "newPassword and confirmPassword don't match" })
-        }
-    } catch (err) {
-        return res.sendStatus(500)
+    } catch (error) {
+        res.status(400).json(error.errors)
     }
 }
 
@@ -213,14 +118,27 @@ async function changePassword(req, res) {
     }
 }
 
+/*====================================================================================*/
+/*==================               CRUD USER                 =========================*/
+/*====================================================================================*/
+
+/**
+ * Function to get all the users 
+ * @param {*} req 
+ * @param {*} res 
+ */
+function getAllUsers(req, res) {
+    User.find({}, function(err, users) {
+        res.send(users);
+    });
+}
+
 /**
  * Function to get the user (Profile)
  * @param {*} req 
  * @param {*} res 
  */
-
 function getUser(req, res) {
-    // ACCESS PROFILE
     User.findOne({ _id: req.params.id }, (err, user) => {
         if (err) return res.status(500).json({ error: err })
 
@@ -290,42 +208,77 @@ function deleteUser(req, res) {
     })
 }
 
+/*====================================================================================*/
+/*==================               CRUD TOPICS                 =========================*/
+/*====================================================================================*/
 
 /**
- * Função para retornar a lista de utilizadores da BD.
+ * Function to get all the topics 
  * @param {*} req 
  * @param {*} res 
  */
-function getTopics(req, res) {
-    const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function() {
-        // we're connected!
-        const topicSchema = new mongoose.Schema({
-            title: String,
-            text: String
-        });
-
-        const Topic = mongoose.model('Topic', topicSchema);
-
-        Topic.find(function(err, Topics) {
-            if (err) return console.error(err);
-            console.log(Topics);
-        })
+function getAllTopics(req, res) {
+    Topic.find({}, function(err, topics) {
+        res.send(topics);
     });
 }
 
-module.exports.register = register;
+
+/**
+ * Function to get the topic
+ * @param {*} req 
+ * @param {*} res 
+ */
+function getTopic(req, res) {
+    Topic.findOne({ _id: req.params.id }, (err, topic) => {
+        if (err) return res.status(500).json({ error: err })
+        return res.json(topic)
+    })
+}
+
+/**
+ * Function to update the topic
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function updateTopic(req, res) {
+    const topic = req.body
+    Topic.updateOne({ _id: req.params.id }, topic, { runValidators: true }, function(err) {
+        if (err) return res.status(400).json({ error: err.message })
+
+        Topic.findById({ _id: req.params.id }, function(err, topic) {
+            if (err) return res.sendStatus(500)
+            res.json(topic)
+        })
+    })
+}
+
+/**
+ * Function to delete the Topic
+ * @param {*} req 
+ * @param {*} res 
+ */
+function deleteTopic(req, res) {
+    Topic.deleteOne({ _id: req.params.id }, function(err) {
+        if (err) return res.status(500).json(err)
+        res.sendStatus(200)
+    })
+}
+
+/* ==============  AUTENTICATION  ================ */
 module.exports.login = login;
-/* ============== OPERAÇÕES DE CRUD USER  ================ */
+module.exports.changePassword = changePassword;
+
+/* ============== CRUD USERS  ================ */
+module.exports.getAllUsers = getAllUsers;
 module.exports.getUser = getUser;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
-module.exports.forgotPassword = forgotPassword;
-module.exports.changePassword = changePassword;
-module.exports.recoverPassword = recoverPassword;
-module.exports.validateRecoverPasswordToken = validateRecoverPasswordToken;
+module.exports.createUser = createUser;
 
 
-
-module.exports.getTopics = getTopics;
+/* ============== CRUD TOPICS  ================ */
+module.exports.getAllTopics = getAllTopics;
+module.exports.getTopic = getTopic;
+module.exports.updateTopic = updateTopic;
+module.exports.deleteTopic = deleteTopic;

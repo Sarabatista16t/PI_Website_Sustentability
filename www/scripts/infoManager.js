@@ -11,8 +11,13 @@
  */
 function InfoManager(id) {
     this.id = id;
+    this.users = [];
     this.topics = [];
 };
+
+/*====================================================================================*/
+/*==================           AUTENTICATION AJAX            =========================*/
+/*====================================================================================*/
 
 
 /**
@@ -50,99 +55,37 @@ InfoManager.prototype.login = function() {
 
 
 
-
-
-
-
-
-
-
-
-InfoManager.prototype.showUsers = function() {}
-
-/**
- * coloca a palavra "showTopics" no div titulo e cria dinamicamente uma tabela com a informação das showTopics
- */
-InfoManager.prototype.showTopics = function() {
-    let divTopics = document.getElementById("Topics ");
-
-    window.info.topics.forEach(p => {
-        divTopics.appendChild(createTopic(p.title, p.text));
-    });
-
-    divTopics.style.display = "block";
-
-    function deleteTopicEventHandler() {
-        for (const row of table.rows) {
-            const checkBox = row.cells[0].firstChild;
-            const idPerson = row.cells[1].firstChild.nodeValue;
-            if (checkBox && checkBox.checked) {
-                self.removePerson(idPerson);
-                divTable.deleteRow(row.rowIndex);
-            }
-
-        }
-    }
-
-    function newTopicEventHandler() {
-        /** @todo Completar */
-        replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formPerson').action = 'javascript:info.processingPerson("create");';
-        document.getElementById('formPerson').style.display = 'block';
-        document.getElementById('formPerson').reset();
-        document.getElementById('contries').innerHTML = '';
-        for (const c of self.countries) {
-            document.getElementById('countries').options.add(new Option(c.name, c._id));
-        }
-
-    }
-
-    function updatePersonEventHandler() {
-        /** @todo Completar */
-        let idPerson = null;
-        for (const row of table.rows) {
-            const checkBox = row.cells[0].firstChild;
-            if (checkBox && checkBox.checked) {
-                idPerson = row.cells[1].firstChild.nodeValue;
-                break;
-            }
-        }
-
-        if (idPerson) {
-            replaceChilds('divTable', document.createElement('div'));
-            document.getElementById('formPerson').action = 'javascript:info.processingPerson("update");';
-            document.getElementById('formPerson').style.display = 'block';
-            document.getElementById('formPerson').reset();
-            document.getElementById('id').value = idPerson;
-            const person = self.people.find(i => i.id === idPerson);
-            document.getElementById('name').value = person.name;
-            document.getElementById('date').value = person.birthDate.toISOString().split('T')[0];
-            document.getElementById('countries').options;
-        }
-
-    }
-    createButton(divTable, newPersonEventHandler, "New Person");
-    createButton(divTable, deletePersonEventHandler, "Delete Person");
-    createButton(divTable, updatePersonEventHandler, "Update Person");
-    replaceChilds(this.id, divTable);
-};
-
-InfoManager.prototype.showCampusCards = function() {}
-InfoManager.prototype.showProjectCards = function() {}
-
-
-
+/*====================================================================================*/
+/*=======================             GETS AJAX              =========================*/
+/*====================================================================================*/
 
 /**
  * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
  */
-InfoManager.prototype.getTopic = function() {
+InfoManager.prototype.getUsers = function() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/users');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let users = JSON.parse(xhr.responseText);
+            users.forEach(u => {
+                window.info.users.push(u);
+            });
+        }
+    };
+    xhr.send();
+};
+
+/**
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.getTopics = function() {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', '/topics');
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             let topics = JSON.parse(xhr.responseText);
-            topics.topic.forEach(t => {
+            topics.forEach(t => {
                 window.info.topics.push(t);
             });
         }
@@ -151,113 +94,124 @@ InfoManager.prototype.getTopic = function() {
 };
 
 
+/*====================================================================================*/
+/*=======================                SHOW                =========================*/
+/*====================================================================================*/
 
 
 /**
- * coloca a palavra "People" no div titulo e cria dinamicamente uma tabela com a informação das pessoas
+ * coloca a palavra "Utilizadores" no div titulo e cria dinamicamente uma tabela com a informação dos utilizadores
  */
-InfoManager.prototype.showPerson = function() {
-    document.getElementById("headerTitle").textContent = "People";
+InfoManager.prototype.showUsers = function() {
+    document.getElementById("headerTitle").textContent = "Utilizadores";
     document.getElementById("formPerson").style.display = "none";
     let table = document.createElement("table");
-    table.appendChild(tableLine(new Person(), true));
-    window.info.people.forEach(p => {
-        table.appendChild(tableLine(p, false));
+    table.appendChild(dom.tableLine(new User(), true));
+    window.info.users.forEach(u => {
+        table.appendChild(tableLine(u, false));
     });
 
     let divTable = document.createElement("divTable");
     divTable.setAttribute("id", "divTable");
     divTable.appendChild(table);
 
-    function deletePersonEventHandler() {
-        /** @todo Completar */
+    function deleteUserEventHandler() {
         for (const row of table.rows) {
             const checkBox = row.cells[0].firstChild;
-            const idPerson = row.cells[1].firstChild.nodeValue;
+            const idUser = row.cells[1].firstChild.nodeValue;
             if (checkBox && checkBox.checked) {
-                self.removePerson(idPerson);
+                self.removeUser(idUser);
                 divTable.deleteRow(row.rowIndex);
             }
-
         }
     }
 
-    function newPersonEventHandler() {
-        /** @todo Completar */
+    function newUserEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formPerson').action = 'javascript:info.processingPerson("create");';
+        document.getElementById('formPerson').action = 'javascript:info.processingUser("create");';
         document.getElementById('formPerson').style.display = 'block';
         document.getElementById('formPerson').reset();
-        document.getElementById('contries').innerHTML = '';
-        for (const c of self.countries) {
-            document.getElementById('countries').options.add(new Option(c.name, c._id));
-        }
-
     }
 
-    function updatePersonEventHandler() {
-        /** @todo Completar */
-        let idPerson = null;
+    function updateUserEventHandler() {
+        let idUser = null;
         for (const row of table.rows) {
             const checkBox = row.cells[0].firstChild;
             if (checkBox && checkBox.checked) {
-                idPerson = row.cells[1].firstChild.nodeValue;
+                idUser = row.cells[1].firstChild.nodeValue;
                 break;
             }
         }
 
-        if (idPerson) {
+        if (idUser) {
             replaceChilds('divTable', document.createElement('div'));
-            document.getElementById('formPerson').action = 'javascript:info.processingPerson("update");';
+            document.getElementById('formPerson').action = 'javascript:info.processingUser("update");';
             document.getElementById('formPerson').style.display = 'block';
             document.getElementById('formPerson').reset();
-            document.getElementById('id').value = idPerson;
-            const person = self.people.find(i => i.id === idPerson);
-            document.getElementById('name').value = person.name;
-            document.getElementById('date').value = person.birthDate.toISOString().split('T')[0];
-            document.getElementById('countries').options;
+            document.getElementById('id').value = idUser;
+            const user = self.users.find(i => i.id === idUser);
+            document.getElementById('name').value = user.name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('role').value = user.roles[0];
         }
-
     }
-    createButton(divTable, newPersonEventHandler, "New Person");
-    createButton(divTable, deletePersonEventHandler, "Delete Person");
-    createButton(divTable, updatePersonEventHandler, "Update Person");
+    createButton(divTable, newUserEventHandler, "Novo utilizador");
+    createButton(divTable, deleteUserEventHandler, "Eliminar");
+    createButton(divTable, updateUserEventHandler, "Editar");
     replaceChilds(this.id, divTable);
 };
 
-/**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso person através do verbo GET, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.getPerson = function() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '/person');
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let people = JSON.parse(xhr.responseText);
-            people.person.forEach(p => {
-                window.info.people.push(p);
-            });
-        }
-    };
-    xhr.send();
-};
 
 /**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso país através do verbo GET, usando pedidos assincronos e JSON
+ * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
  */
-InfoManager.prototype.getCountry = function() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/country");
+InfoManager.prototype.removeUser = function(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/user/" + id, true);
     xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let response = JSON.parse(xhr.responseText);
-            response.country.forEach(function(current) {
-                window.info.countries.push(current);
-            });
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
         }
-    };
+    }
     xhr.send();
-};
+}
+
+
+/**
+ * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+ * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ */
+InfoManager.prototype.processingUser = function(acao) {
+    let id = document.getElementById("id").value;
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let user = { id: id, name: name, email: email };
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    if (acao === "create ") {
+        xhr.open("POST", "/user", true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        xhr.send();
+
+    } else if (acao === "update ") {
+        xhr.open("PUT", "/user/" + id, true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        xhr.send();
+    }
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(person));
+}
 
 /**
  * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
@@ -273,66 +227,4 @@ InfoManager.prototype.removeTopic = function(id) {
         }
     }
     xhr.send();
-}
-
-/**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.removePerson = function(id) {
-    /** @todo Completar */
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/person/" + id, true);
-    xhr.onreadystatechange = function() {
-        if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
-            console.log(response);
-
-
-        }
-    }
-    xhr.send();
-}
-
-/**
- * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
- * @param {String} acao - controla qual a operação do CRUD queremos fazer
- */
-InfoManager.prototype.processingTopic = function(acao) {
-    let id = document.getElementById("id").value;
-    let name = document.getElementById("name").value;
-    let birthDate = document.getElementById("date").value;
-    let countryList = document.getElementById("countries");
-    let idCountry = countryList.options[countryList.selectedIndex].value;
-    let person = { id: id, name: name, birthDate: birthDate, idCountry: idCountry };
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    if (acao === "create") {
-
-        /** @todo Completar */
-        xhr.open("POST", "/person", true);
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-
-            }
-        }
-        xhr.send();
-
-    } else if (acao === "update") {
-
-        /** @todo Completar */
-        xhr.open("PUT", "/person/" + id, true);
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-
-            }
-        }
-        xhr.send();
-
-    }
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(person));
 }

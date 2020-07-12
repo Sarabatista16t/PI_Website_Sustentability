@@ -3,6 +3,8 @@
 showMainPage();
 var info = new InfoManager();
 window.info = info;
+info.getUsers();
+info.getTopics();
 
 
 /**
@@ -19,10 +21,10 @@ function hideAll() {
         document.getElementById("menuManager").style.display = "none";
 
     }*/
-    document.getElementById("LoginPage ").style.display = "none";
-    document.getElementById("RegisterPage ").style.display = "none";
-    document.getElementById("MainPage ").style.display = "none";
-    document.getElementById("TeamPage ").style.display = "none";
+    document.getElementById("LoginPage").style.display = "none";
+    document.getElementById("CreateUserPage").style.display = "none";
+    document.getElementById("MainPage").style.display = "none";
+    document.getElementById("TeamPage").style.display = "none";
 }
 
 /**
@@ -30,7 +32,15 @@ function hideAll() {
  */
 function showMainPage() {
     hideAll();
-    document.getElementById("MainPage ").style.display = "block";
+    document.getElementById("MainPage").style.display = "block";
+}
+
+/**
+ * Function to show only the main page.
+ */
+function showManageContentsPage() {
+    hideAll();
+    document.getElementById("manageContents").style.display = "block";
 }
 
 /**
@@ -38,7 +48,7 @@ function showMainPage() {
  */
 function showTeamPage() {
     hideAll();
-    document.getElementById("TeamPage ").style.display = "block";
+    document.getElementById("TeamPage").style.display = "block";
 }
 
 /**
@@ -46,15 +56,15 @@ function showTeamPage() {
  */
 function showLoginPage() {
     hideAll();
-    document.getElementById("LoginPage ").style.display = "block";
+    document.getElementById("LoginPage").style.display = "block";
 }
 
 /**
  * Function to show only the register page.
  */
-function showRegisterPage() {
+function showCreateUserPage() {
     hideAll();
-    document.getElementById("RegisterPage ").style.display = "block";
+    document.getElementById("CreateUserPage").style.display = "block";
 }
 
 /**
