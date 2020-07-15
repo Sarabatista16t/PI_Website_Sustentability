@@ -125,6 +125,7 @@ InfoManager.prototype.getTopics = function() {
             topics.forEach(t => {
                 window.info.topics.push(t);
             });
+            window.info.showTopics();
         }
     };
     xhr.send();
@@ -145,18 +146,6 @@ InfoManager.prototype.showUsers = function() {
     document.getElementById("formPerson").style.display = "none";
     let table = document.createElement("table");
     table.className = "table .table-bordered";
-
-    window.info.users.forEach(u => {
-        console.log(u)
-        let userAux = {
-            "id": u._id,
-            "name": u.name,
-            "email": u.email,
-            "role": u.roles
-        }
-        table.appendChild(tableLine(userAux, false));
-    });
-
 
     //table.appendChild(tableLine(new User(), true));
 
@@ -189,7 +178,17 @@ InfoManager.prototype.showUsers = function() {
     header.appendChild(th4);
 
     table.appendChild(header);
-    console.log("            IIIIIIIIIIIIIIIIIIIIIIIII ");
+
+    window.info.users.forEach(u => {
+        console.log(u)
+        let userAux = {
+            "id": u._id,
+            "name": u.name,
+            "email": u.email,
+            "role": u.roles
+        }
+        table.appendChild(tableLine(userAux, false));
+    });
 
     let divTable = document.createElement("divTable");
     divTable.setAttribute("id", "divTable");

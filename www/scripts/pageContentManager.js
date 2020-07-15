@@ -86,7 +86,7 @@ function showTopicsFormPage() {
  */
 function showUsersPage() {
     hideAll();
-    info.showUsers();
+    //info.showUsers();
     document.getElementById("headerTitleUser").style.display = "block";
     document.getElementById("divInformationUser").style.display = "block";
 }
@@ -96,9 +96,9 @@ function showUsersPage() {
  */
 function showTopicsPage() {
     hideAll();
-    info.showTopics();
-    document.getElementById("divInformationTopic").style.display = "none";
-    document.getElementById("headerTitleTopic").style.display = "none";
+    //info.showTopics();
+    document.getElementById("headerTitleTopic").style.display = "block";
+    document.getElementById("divInformationTopic").style.display = "block";
 }
 
 
