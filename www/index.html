@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
     <script src="https://kit.fontawesome.com/49317d49ad.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -23,7 +24,7 @@
 
             <ul class='nav'>
                 <li class='nav-item'>
-                    <a id='menuHome' href="#Missao" class='nav-link' href='#'><i class="fas fa-seedling"></i>A
+                    <a id='menuHome' href="#Missao" onclick="showMainPage()" class='nav-link' href='#'><i class="fas fa-seedling"></i>A
                         Nossa Missão</a>
                 </li>
                 <li class='nav-item dropdown'>
@@ -31,15 +32,15 @@
                         <i class="fab fa-envira"></i>Sustentabilidade
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a id='menuGoal1' href='#Sustentabilidade' class='nav-link'>O que é</a>
+                        <a id='menuGoal1' href='#Sustentabilidade' onclick="showMainPage()" class='nav-link'>O que é</a>
 
-                        <a id="menuGoal2" href='#Portugal' class='nav-link'> Portugal
+                        <a id="menuGoal2" href='#Portugal' onclick="showMainPage()" class='nav-link'> Portugal
                             sustentável</a>
-                        <a id="menuGoal2" href='#Universidades' class='nav-link'>
+                        <a id="menuGoal2" href='#Universidades' onclick="showMainPage()" class='nav-link'>
                             Intituições sustentável</a>
-                        <a id="menuGoal2" href='#Tecnologias' class='nav-link'>
+                        <a id="menuGoal2" href='#Tecnologias' onclick="showMainPage()" class='nav-link'>
                             Tecnologias sustentável</a>
-                        <a id="menuGoal2" href='#Mundo' class='nav-link'> Mundo
+                        <a id="menuGoal2" href='#Mundo' onclick="showMainPage()" class='nav-link'> Mundo
                             sustentável</a>
                     </div>
 
@@ -49,13 +50,12 @@
                                 class="fas fa-users"></i>Quem Somos</a></li>
 
                     <li class='nav-item'>
-                        <a id='menuGoal3' href='#' onclick="showRegisterPage()" class='nav-link'><i class="fas fa-tools"></i>Editar Conteudos</a></li>
+                        <a id='menuGoal3' href='#' onclick="showTopicsPage()" class='nav-link'><i class="fas fa-tools"></i>Editar Conteudos</a></li>
 
                     <li class='nav-item'>
-                        <a id='menuGoal3' href='#' onclick="showRegisterPage()" class='nav-link'><i class="fas fa-user-cog"></i>Editar Utilizadores</a></li>
+                        <a id='menuGoal3' href='#' onclick="showUsersPage()" class='nav-link'><i class="fas fa-user-cog"></i>Editar Utilizadores</a></li>
             </ul>
             <ul class='nav'>
-
                 <a onclick="showLoginPage()" href='#' class='nav-link'>Login</a></li>
                 <li class='nav-item'>
                     <a onclick="showMainPage()" href='#' class='nav-link'>Logout</a></li>
@@ -63,6 +63,7 @@
         </div>
 
     </nav>
+
     <div id="slideshowDiv">
         <!-- Slideshow container -->
 
@@ -92,9 +93,8 @@
                 <span class="sr-only">Next</span>
             </a>
         </div>
-
-
     </div>
+
     <main class='mt-5'>
         <!-- ================================================================================= -->
         <!--                                   LOGIN PAGE                                       -->
@@ -103,49 +103,79 @@
         <div id='LoginPage' class="container">
             <h1>Login</h1>
 
-            <form action=" /login " method=" POST ">
+            <form action="/login" method="POST" name=loginform>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Inserir email">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Inserir email">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
                 <button class="btn btn-success" type="submit">Login</button>
             </form>
         </div>
 
         <!-- ================================================================================= -->
-        <!--                               REGISTER PAGE                                       -->
+        <!--                               USER PAGE                                       -->
         <!-- ================================================================================= -->
-        <div id='CreateUserPage' class="container">
+
+        <div id='RegisterPage' class="container">
             <h1> Criar Utilizador </h1>
 
-            <form action=" /register " method="POST">
+            <form id="formPerson" action="/register" method="POST" name=formPerson>
+                <input id="id" type="hidden" />
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Nome</label>
-                    <input type="email" class="form-control" id="name" placeholder="Nome">
+                    <label for="name">Nome</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nome">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Inserir email">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Inserir email">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Password">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Confirmar Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirmar Password">
+                    <label for="confirmPassword">Confirmar Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Password">
                 </div>
                 <button class="btn btn-success" type="submit">Criar Utilizador</button>
             </form>
         </div>
 
+        <h1 id="headerTitleUser">Home</h1>
+        <div id="divInformationUser"></div>
+
+
+        <!-- ================================================================================= -->
+        <!--                               TOPICS PAGE                                       -->
+        <!-- ================================================================================= -->
+        <div id='TopicsPage' class="container">
+            <h1> Criar Tópico </h1>
+
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Titulo</label>
+                    <input type="email" class="form-control" id="title" placeholder="Titulo">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Conteudo</label>
+                    <textarea cols="12" rows="20" class="form-control" id="conteudo" placeholder="Inserir conteudo"></textarea>
+                </div>
+
+                <button class="btn btn-success" type="submit">Criar Tópico</button>
+            </form>
+        </div>
+
+        <h1 id="headerTitleTopic">Home</h1>
+        <div id="divInformationTopic"></div>
+
         <!-- ================================================================================= -->
         <!--                                   MAIN PAGE                                       -->
         <!-- ================================================================================= -->
+
         <div id='MainPage' class='container mt-5'>
             <!-- ------------------ MAIN CONTENT ------------------ -->
             <!-- A nossa missão -->
@@ -352,8 +382,11 @@
                 </div>
             </div>
         </div>
-        </div>
 
+        <!-- ================================================================================= -->
+        <!--                                 EXTRA TOPICS                                      -->
+        <!-- ================================================================================= -->
+        <div id="divExtraTopics"></div>
 
         <!-- ================================================================================= -->
         <!--                                   TEAM PAGE                                       -->
@@ -451,7 +484,6 @@
                 </div>
             </div>
         </div>
-
     </main>
 
     <button onclick="topFunction()" id='myBtn' title="Go to top" style="border-radius:35px 35px ;"><i
@@ -481,6 +513,7 @@
             </ul>
         </div>
     </footer>
+
     <!-- ================================================================================= -->
     <!--                                   SCRIPTS                                      -->
     <!-- ================================================================================= -->
@@ -505,15 +538,13 @@
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
     </script>
-    <script src="scripts/models/User.js"></script>
-    <script src="scripts/models/Topic.js"></script>
+    <script src="scripts/domManager.js"></script>
     <script src="scripts/infoManager.js"></script>
     <script src="scripts/pageContentManager.js"></script>
 
     <script src=" https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity=" sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin=" anonymous "></script>
     <script src=" https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity=" sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin=" anonymous "></script>
     <script src=" https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js " integrity=" sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI " crossorigin=" anonymous "></script>
-</body>
 </body>
 
 </html>

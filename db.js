@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const User = require('./www/scripts/models/User.js')
+const User = require('./scripts/models/User.js')
+const Topic = require('./scripts/models/Topic.js')
 const bcrypt = require('bcrypt')
 const options = require('./config/options.json')
 
@@ -11,7 +12,7 @@ function connect() {
         console.log('Creating the necessary base data...')
 
         try {
-            await Promise.all([createAdmin(), createEditor()])
+            await Promise.all([createAdmin(), createEditor(), createDefaultTopic()])
             console.log('Succesfully created the base data')
         } catch (err) {
             console.error('Something went wrong during the creation of the base data...')
@@ -33,7 +34,7 @@ function createAdmin() {
 
                 User.create({
                     email: 'admin@ips.pt',
-                    name: 'Admin',
+                    name: 'Sara Batista',
                     password: password,
                     emailConfirmation: true,
                     roles: ['admin']
@@ -61,10 +62,10 @@ function createEditor() {
 
                 User.create({
                     email: 'editor@ips.pt',
-                    name: 'publisher',
+                    name: 'Bruno Dias',
                     password: password,
                     emailConfirmation: true,
-                    roles: ['Editor']
+                    roles: ['editor']
                 }, function(err) {
                     if (err) {
                         console.error('Unable to create the editor account.')
@@ -77,6 +78,30 @@ function createEditor() {
             }
         })
 
+        resolve()
+    })
+}
+
+function createDefaultTopic() {
+    return new Promise((resolve, reject) => {
+        Topic.findOne({ title: 'Tópico Default' }).then((result) => {
+            if (!result) {
+
+                Topic.create({
+                    title: 'Tópico Default',
+                    text: 'Sara Batista',
+                    idUser: '1'
+                }, function(err) {
+                    if (err) {
+                        console.error('Unable to create the default topic.')
+                        console.error(err)
+                        reject(err)
+                    } else {
+                        console.log('Successfully created the default topic')
+                    }
+                })
+            }
+        })
         resolve()
     })
 }

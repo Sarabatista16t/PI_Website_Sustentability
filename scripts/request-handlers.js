@@ -9,8 +9,9 @@ const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth.js')
 const crypto = require('crypto')
 const express = require('express')
-const User = require('../www/scripts/models/User.js')
-const Topic = require('../www/scripts/models/Topic.js')
+console.log(__dirname)
+const User = require('../scripts/models/User.js')
+const Topic = require('../scripts/models/Topic.js')
 
 const SALT_WORK_FACTOR = 10
 const router = express.Router()
@@ -19,6 +20,10 @@ const authRouter = express.Router({ mergeParams: true })
 /*====================================================================================*/
 /*==================             AUTENTICATION               =========================*/
 /*====================================================================================*/
+
+router.use('/auth', authRouter)
+router.all(/^\/(?!auth).*/, auth.authRequired)
+authRouter.post('/login', login)
 
 /**
  * Funtion to do the login in the platform.
@@ -128,8 +133,8 @@ async function changePassword(req, res) {
  * @param {*} res 
  */
 function getAllUsers(req, res) {
-    User.find({}, function(err, users) {
-        res.send(users);
+    User.find({}).then((users) => {
+        res.json(users);
     });
 }
 
@@ -139,8 +144,8 @@ function getAllUsers(req, res) {
  * @param {*} res 
  */
 function getUser(req, res) {
-    User.findOne({ _id: req.params.id }, (err, user) => {
-        if (err) return res.status(500).json({ error: err })
+    User.findOne({ _id: req.params.id }), (user => {
+        //      if (err) return res.status(500).json({ error: err })
 
         if (req.user._id.toString() !== req.params.id) {
             const fieldsToDelete = {
@@ -164,12 +169,6 @@ function getUser(req, res) {
  * @param {*} res 
  */
 async function updateUser(req, res) {
-
-    // ROLES: verify if req.params.id matches token.user.id
-    if (req.user._id !== req.params.id) {
-        return res.status(403).json({ error: 'only the profile owner can modify it' })
-    }
-
     const user = req.body
     User.updateOne({ _id: req.params.id }, user, { runValidators: true }, function(err) {
         if (err) return res.status(400).json({ error: err.message })
@@ -187,23 +186,8 @@ async function updateUser(req, res) {
  * @param {*} res 
  */
 function deleteUser(req, res) {
-    // ROLES: verify if is admin or req.params.id matches token.user.id
-    const reqUser = new User(req.user)
-    if (reqUser._id !== req.params.id && !reqUser.hasRoles('admin')) {
-        return res.status(403).json({ error: 'only the profile owner can modify it' })
-    }
-    let userImage
-    User.findById(req.params.id, (err, user) => {
+    User.deleteOne({ _id: req.params._id }, function(err) {
         if (err) return res.status(500).json(err)
-        userImage = user.imageUrl
-    })
-    User.deleteOne({ _id: req.params.id }, function(err) {
-        if (err) return res.status(500).json(err)
-        fs.unlink(userImage, (err) => {
-            if (err) {
-                // console.error(err)
-            }
-        })
         res.sendStatus(200)
     })
 }

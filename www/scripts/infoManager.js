@@ -11,8 +11,8 @@
  */
 function InfoManager(id) {
     this.id = id;
-    this.users = [];
-    this.topics = [];
+    this.users = new Array();
+    this.topics = new Array();
 };
 
 /*====================================================================================*/
@@ -24,10 +24,12 @@ function InfoManager(id) {
  * Sends the login info to the server, for it to check from the database and display the page if successfully
  */
 InfoManager.prototype.login = function() {
-    let div = document.getElementById("LoginPage ").children;
+    let div = document.getElementById("LoginPage").children;
     let form = div.loginForm;
     let email = form.email.value;
+    console.log("EMAIL " + email)
     let password = form.password.value;
+    console.log("PASSWORD " + password)
     let user = {
         "email": email,
         "password": password
@@ -37,7 +39,7 @@ InfoManager.prototype.login = function() {
     req.setRequestHeader("Content-Type", "application/json");
     req.addEventListener("load", function() {
         console.log("Login realizado com sucesso");
-        //showProfile()
+        showMainPage()
     });
 
     const self = this;
@@ -46,14 +48,48 @@ InfoManager.prototype.login = function() {
     req.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             let user = this.response.user[0];
-            self.loggedUser = new User(user.Id, user.Name, user.Email, user.Password, user.roles);
+            console.log("USER " + user)
+            self.loggedUser = new User(user.Id, user.name, user.email, user.password, user.roles);
             self.loggedUser.logIn();
         }
     }
     req.send(JSON.stringify(user));
 }
 
+InfoManager.prototype.register = function() {
+    let div = document.getElementById("RegisterPage").children;
+    let form = div.registerForm;
+    let name = form.name.value;
+    let email = form.email.value;
+    let password = form.password.value;
+    let confirmPassword = form.confirmPassword.value;
+    let role = 'editor';
+    let user = {
+        "name": name,
+        "email": email,
+        "password": password,
+        "confirmPassword": confirmPassword,
+        "roles": role
+    }
+    let req = new XMLHttpRequest();
+    req.open("POST", "/register");
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function() {
+        console.log("Registo realizado com sucesso");
+        //showMainPage()
+    });
 
+    const self = this;
+    req.responseType = 'json';
+
+    req.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let user = this.response.user[0];
+            console.log("USER " + user)
+        }
+    }
+    req.send(JSON.stringify(user));
+}
 
 /*====================================================================================*/
 /*=======================             GETS AJAX              =========================*/
@@ -68,9 +104,10 @@ InfoManager.prototype.getUsers = function() {
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             let users = JSON.parse(xhr.responseText);
-            users.forEach(u => {
-                window.info.users.push(u);
-            });
+            users.forEach(e => {
+                window.info.users.push(e);
+            })
+            window.info.showUsers();
         }
     };
     xhr.send();
@@ -95,7 +132,7 @@ InfoManager.prototype.getTopics = function() {
 
 
 /*====================================================================================*/
-/*=======================                SHOW                =========================*/
+/*=======================              SHOW USER             =========================*/
 /*====================================================================================*/
 
 
@@ -103,13 +140,56 @@ InfoManager.prototype.getTopics = function() {
  * coloca a palavra "Utilizadores" no div titulo e cria dinamicamente uma tabela com a informação dos utilizadores
  */
 InfoManager.prototype.showUsers = function() {
-    document.getElementById("headerTitle").textContent = "Utilizadores";
+
+    document.getElementById("headerTitleUser").innerHTML = "Utilizadores";
     document.getElementById("formPerson").style.display = "none";
     let table = document.createElement("table");
-    table.appendChild(dom.tableLine(new User(), true));
+    table.className = "table .table-bordered";
+
     window.info.users.forEach(u => {
-        table.appendChild(tableLine(u, false));
+        console.log(u)
+        let userAux = {
+            "id": u._id,
+            "name": u.name,
+            "email": u.email,
+            "role": u.roles
+        }
+        table.appendChild(tableLine(userAux, false));
     });
+
+
+    //table.appendChild(tableLine(new User(), true));
+
+    // Create table head
+    let header = document.createElement("tr");
+
+    let th0 = document.createElement("th");
+    th0.scope = "col";
+    th0.textContent = "";
+    header.appendChild(th0);
+
+    let th1 = document.createElement("th");
+    th1.scope = "col";
+    th1.textContent = "ID";
+    header.appendChild(th1);
+
+    let th2 = document.createElement("th");
+    th2.scope = "col";
+    th2.textContent = "Nome";
+    header.appendChild(th2);
+
+    let th3 = document.createElement("th");
+    th3.scope = "col";
+    th3.textContent = "Email";
+    header.appendChild(th3);
+
+    let th4 = document.createElement("th");
+    th4.scope = "col";
+    th4.textContent = "Role";
+    header.appendChild(th4);
+
+    table.appendChild(header);
+    console.log("            IIIIIIIIIIIIIIIIIIIIIIIII ");
 
     let divTable = document.createElement("divTable");
     divTable.setAttribute("id", "divTable");
@@ -120,10 +200,11 @@ InfoManager.prototype.showUsers = function() {
             const checkBox = row.cells[0].firstChild;
             const idUser = row.cells[1].firstChild.nodeValue;
             if (checkBox && checkBox.checked) {
-                self.removeUser(idUser);
-                divTable.deleteRow(row.rowIndex);
+                info.removeUser(idUser);
+                table.deleteRow(row.rowIndex);
             }
         }
+
     }
 
     function newUserEventHandler() {
@@ -142,23 +223,22 @@ InfoManager.prototype.showUsers = function() {
                 break;
             }
         }
-
         if (idUser) {
             replaceChilds('divTable', document.createElement('div'));
             document.getElementById('formPerson').action = 'javascript:info.processingUser("update");';
             document.getElementById('formPerson').style.display = 'block';
             document.getElementById('formPerson').reset();
             document.getElementById('id').value = idUser;
-            const user = self.users.find(i => i.id === idUser);
+            const user = info.users.find(i => i._id === idUser);
             document.getElementById('name').value = user.name;
             document.getElementById('email').value = user.email;
-            document.getElementById('role').value = user.roles[0];
+            //document.getElementById('role').value = user.roles;
         }
     }
     createButton(divTable, newUserEventHandler, "Novo utilizador");
-    createButton(divTable, deleteUserEventHandler, "Eliminar");
     createButton(divTable, updateUserEventHandler, "Editar");
-    replaceChilds(this.id, divTable);
+    createButton(divTable, deleteUserEventHandler, "Eliminar");
+    replaceChilds("divInformationUser", divTable);
 };
 
 
@@ -213,11 +293,121 @@ InfoManager.prototype.processingUser = function(acao) {
     xhr.send(JSON.stringify(person));
 }
 
+
+/*====================================================================================*/
+/*=======================              SHOW TOPIC             =========================*/
+/*====================================================================================*/
+
+InfoManager.prototype.showTopics = function() {
+    document.getElementById("headerTitleTopic").textContent = "Tópicos";
+    document.getElementById("formPerson").style.display = "none";
+    let table = document.createElement("table");
+    table.className = "table .table-bordered";
+    //table.appendChild(tableLine(new User(), true));
+
+    // Create table head
+    let header = document.createElement("tr");
+
+    let th0 = document.createElement("th");
+    th0.scope = "col";
+    th0.textContent = "";
+    header.appendChild(th0);
+
+    let th1 = document.createElement("th");
+    th1.scope = "col";
+    th1.textContent = "ID";
+    header.appendChild(th1);
+
+    let th2 = document.createElement("th");
+    th2.scope = "col";
+    th2.textContent = "Título";
+    header.appendChild(th2);
+
+    let th3 = document.createElement("th");
+    th3.scope = "col";
+    th3.textContent = "Texto";
+    header.appendChild(th3);
+
+    table.appendChild(header);
+
+    window.info.topics.forEach(t => {
+        let topicAux = {
+            "id": t._id,
+            "title": t.title,
+            "text": t.text
+        }
+        table.appendChild(tableLine(topicAux, false));
+    });
+
+    let divTable = document.createElement("divTable");
+    divTable.setAttribute("id", "divTable");
+    divTable.appendChild(table);
+
+    function deleteTopicEventHandler() {
+        for (const row of table.rows) {
+            const checkBox = row.cells[0].firstChild;
+            const idTopic = row.cells[1].firstChild.nodeValue;
+            if (checkBox && checkBox.checked) {
+                info.removeTopic(idTopic);
+                table.deleteRow(row.rowIndex);
+            }
+        }
+    }
+
+    function newTopicEventHandler() {
+        replaceChilds('divTable', document.createElement('div'));
+        document.getElementById('formPerson').action = 'javascript:info.processingUser("create");';
+        document.getElementById('formPerson').style.display = 'block';
+        document.getElementById('formPerson').reset();
+    }
+
+    function updateTopicEventHandler() {
+        let idTopic = null;
+        for (const row of table.rows) {
+            const checkBox = row.cells[0].firstChild;
+            if (checkBox && checkBox.checked) {
+                idTopic = row.cells[1].firstChild.nodeValue;
+                break;
+            }
+        }
+        if (idTopic) {
+            replaceChilds('divTable', document.createElement('div'));
+            document.getElementById('formPerson').action = 'javascript:info.processingUser("update");';
+            document.getElementById('formPerson').style.display = 'block';
+            document.getElementById('formPerson').reset();
+            document.getElementById('id').value = idTopic;
+            const topic = info.topics.find(i => i._id === idTopic);
+            document.getElementById('title').value = topic.name;
+            document.getElementById('text').value = topic.email;
+        }
+    }
+    createButton(divTable, newTopicEventHandler, "Novo Tópico");
+    createButton(divTable, deleteTopicEventHandler, "Eliminar");
+    createButton(divTable, updateTopicEventHandler, "Editar");
+    replaceChilds("divInformationTopic", divTable);
+};
+
+InfoManager.prototype.showExtraTopics = function() {
+    if (window.info.topics.length > 0) {
+        let divTopics = document.getElementById("divExtraTopics");
+        window.info.topics.forEach(t => {
+            let topicAux = {
+                "id": t._id,
+                "title": t.title,
+                "text": t.text
+            }
+            let topic = createTopic(topicAux.title, topicAux.text);
+            divTopics.appendChild(topic);
+        });
+        divTopics.style.display = "block";
+    }
+}
+
+
 /**
  * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
  */
 InfoManager.prototype.removeTopic = function(id) {
-    /** @todo Completar */
     var xhr = new XMLHttpRequest();
     xhr.open("DELETE", "/topic/" + id, true);
     xhr.onreadystatechange = function() {
@@ -227,4 +417,39 @@ InfoManager.prototype.removeTopic = function(id) {
         }
     }
     xhr.send();
+}
+
+/**
+ * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+ * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ */
+InfoManager.prototype.processingTopic = function(acao) {
+    let id = document.getElementById("id").value;
+    let title = document.getElementById("title").value;
+    let text = document.getElementById("text").value;
+    let topic = { id: id, title: title, text: text };
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    if (acao === "create") {
+        xhr.open("POST", "/topic", true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        xhr.send();
+
+    } else if (acao === "update") {
+        xhr.open("PUT", "/topic/" + id, true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        xhr.send();
+    }
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(topic));
 }

@@ -6,6 +6,14 @@ window.info = info;
 info.getUsers();
 info.getTopics();
 
+let arr = info.users;
+console.log("TYPE OF ARRAY " + typeof arr);
+console.log("LENGTH ARRAY " + arr.length);
+console.log("CONTEÚDO DO ARRAY " + arr);
+
+//info.showUsers();
+//info.showTopics();
+//info.showExtraTopics();
 
 /**
  * Function to hide all the HTML elements in the page, using the CSS properties. 
@@ -22,7 +30,12 @@ function hideAll() {
 
     }*/
     document.getElementById("LoginPage").style.display = "none";
-    document.getElementById("CreateUserPage").style.display = "none";
+    document.getElementById("RegisterPage").style.display = "none";
+    document.getElementById("divInformationUser").style.display = "none";
+    document.getElementById("headerTitleUser").style.display = "none";
+    document.getElementById("divInformationTopic").style.display = "none";
+    document.getElementById("headerTitleTopic").style.display = "none";
+    document.getElementById("TopicsPage").style.display = "none";
     document.getElementById("MainPage").style.display = "none";
     document.getElementById("TeamPage").style.display = "none";
 }
@@ -32,15 +45,8 @@ function hideAll() {
  */
 function showMainPage() {
     hideAll();
+    //info.showExtraTopics();
     document.getElementById("MainPage").style.display = "block";
-}
-
-/**
- * Function to show only the main page.
- */
-function showManageContentsPage() {
-    hideAll();
-    document.getElementById("manageContents").style.display = "block";
 }
 
 /**
@@ -60,12 +66,41 @@ function showLoginPage() {
 }
 
 /**
+ * Function to show only the main page.
+ */
+function showRegisterFormPage() {
+    hideAll();
+    document.getElementById("RegisterPage").style.display = "block";
+}
+
+/**
  * Function to show only the register page.
  */
-function showCreateUserPage() {
+function showTopicsFormPage() {
     hideAll();
-    document.getElementById("CreateUserPage").style.display = "block";
+    document.getElementById("TopicsPage").style.display = "block";
 }
+
+/**
+ * Function to show only the register page.
+ */
+function showUsersPage() {
+    hideAll();
+    info.showUsers();
+    document.getElementById("headerTitleUser").style.display = "block";
+    document.getElementById("divInformationUser").style.display = "block";
+}
+
+/**
+ * Function to show only the register page.
+ */
+function showTopicsPage() {
+    hideAll();
+    info.showTopics();
+    document.getElementById("divInformationTopic").style.display = "none";
+    document.getElementById("headerTitleTopic").style.display = "none";
+}
+
 
 /**
  * Function to show the logOutPage. Sets the user to undefined and sends the user to the main page

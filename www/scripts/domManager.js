@@ -57,6 +57,7 @@ function createButton(fatherNode, eventHandler, value) {
     var button = document.createElement("input");
     button.type = "button";
     button.value = value;
+    button.className = "btn btn-success";
     button.addEventListener("click", eventHandler);
     fatherNode.appendChild(button);
 }

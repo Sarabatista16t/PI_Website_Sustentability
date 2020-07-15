@@ -26,8 +26,8 @@ app.post("/login", requestHandlers.login);
 /* OPERAÇÕES CRUD USER   */
 app.get("/users", requestHandlers.getAllUsers);
 app.post("/user", requestHandlers.getUser);
-app.put("/:id", requestHandlers.updateUser);
-/*app.delete("/:id", requestHandlers.deleteUser); */
+app.put("/user/:id", requestHandlers.updateUser);
+app.delete("/user/:id", requestHandlers.deleteUser);
 
 
 /* OPERAÇÕES CRUD TOPIC  */
