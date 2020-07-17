@@ -114,20 +114,7 @@ InfoManager.prototype.getUsers = function() {
     xhr.send();
 };
 
-InfoManager.prototype.getLoggedUser = function() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '/users');
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let users = JSON.parse(xhr.responseText);
-            users.forEach(e => {
-                window.info.users.push(e);
-            })
-            window.info.showUsers();
-        }
-    };
-    xhr.send();
-};
+
 /**
  * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
  */
@@ -315,7 +302,7 @@ InfoManager.prototype.processingUser = function(acao) {
 
 InfoManager.prototype.showTopics = function() {
     document.getElementById("headerTitleTopic").textContent = "Tópicos";
-    document.getElementById("formPerson").style.display = "none";
+    document.getElementById("formTopic").style.display = "none";
     let table = document.createElement("table");
     table.className = "table .table-bordered";
     //table.appendChild(tableLine(new User(), true));
@@ -371,9 +358,9 @@ InfoManager.prototype.showTopics = function() {
 
     function newTopicEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formPerson').action = 'javascript:info.processingUser("create");';
-        document.getElementById('formPerson').style.display = 'block';
-        document.getElementById('formPerson').reset();
+        document.getElementById('formTopic').action = 'javascript:info.processingTopic("create");';
+        document.getElementById('formTopic').style.display = 'block';
+        document.getElementById('formTopic').reset();
     }
 
     function updateTopicEventHandler() {
@@ -387,13 +374,16 @@ InfoManager.prototype.showTopics = function() {
         }
         if (idTopic) {
             replaceChilds('divTable', document.createElement('div'));
-            document.getElementById('formPerson').action = 'javascript:info.processingUser("update");';
-            document.getElementById('formPerson').style.display = 'block';
-            document.getElementById('formPerson').reset();
+            document.getElementById('formTopic').action = 'javascript:info.processingTopic("update");';
+            document.getElementById('formTopic').style.display = "block";
+            document.getElementById('formTopic').reset();
             document.getElementById('id').value = idTopic;
             const topic = info.topics.find(i => i._id === idTopic);
-            document.getElementById('title').value = topic.name;
-            document.getElementById('text').value = topic.email;
+            console.log("TOPICs " + topic);
+            document.getElementById('title').value = "Nome";
+            document.getElementById('text').value = "titulo";
+            //document.getElementById('title').value = topic.title;
+            //document.getElementById('text').value = topic.text;
         }
     }
     createButton(divTable, newTopicEventHandler, "Novo Tópico");

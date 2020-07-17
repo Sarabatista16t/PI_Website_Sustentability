@@ -124,7 +124,7 @@
         <div id='RegisterPage' class="container">
             <h1> Criar Utilizador </h1>
 
-            <form id="formPerson" action="/register" method="POST" name=formPerson>
+            <form id="formPerson" action="javascript: info.processingPerson('create');" name=formPerson>
                 <input id="id" type="hidden" />
                 <div class="form-group">
                     <label for="name">Nome</label>
@@ -156,17 +156,17 @@
         <div id='TopicsPage' class="container">
             <h1> Criar Tópico </h1>
 
-            <form action="/register" method="POST">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Titulo</label>
-                    <input type="email" class="form-control" id="title" placeholder="Titulo">
+            <form id="formTopic" action="javascript: info.processingTopic('create');" name=formTopic>
+                <input id="id" type="hidden" />
+                <div class="form-group ">
+                    <label for="title">Título</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Título">
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Conteudo</label>
-                    <textarea cols="12" rows="20" class="form-control" id="conteudo" placeholder="Inserir conteudo"></textarea>
+                <div class="form-group ">
+                    <label for="text">Texto</label>
+                    <input type="text" class="form-control" id="text" name="text" placeholder="Texto">
                 </div>
-
-                <button class="btn btn-success" type="submit">Criar Tópico</button>
+                <button class="btn btn-success" type="submit">Públicar Tópico</button>
             </form>
         </div>
 
@@ -180,22 +180,19 @@
         <div id='MainPage' class='container mt-5'>
             <!-- ------------------ MAIN CONTENT ------------------ -->
             <!-- A nossa missão -->
-            <div id="Missao" class='jumbotron'>
-                <h1 class="display-4">A nossa missão</h1>
+            <div id="Missao " class='jumbotron'>
+                <h1 class="display-4 ">A nossa missão</h1>
                 <div class="row align-items-center ">
-                    <p class="lead col">
+                    <p class="lead col ">
                         No âmbito da Unidade Curricular " Programação para a Internet " foi-nos proposto a criação de um Website que abordasse o tema da Sustentabilidade. Desta forma, a nossa missão é dar a conhecer este tema tão importante nos dias que correm, apresentando
                         explicações e bons exemplos.</p>
-                    <img id=" img_to_hide " src=" images/missao.jpg " style="width: 100%;" alt="
-                        sustentabilidade " class=" col " />
+                    <img id=" img_to_hide " src=" images/missao.jpg " style="width: 100%; " alt=" sustentabilidade " class=" col " />
                 </div>
                 <br>
                 <div class=" lead row justify-content-center ">
                     <p class=" row ">
                         Ficou curioso? Quer aprender mais sobre este tema? Veja o seguinte video:.</p>
-                    <iframe class=" row " id=" video_introdutorio " width=" 560 " height=" 315 " src="
-                        https://www.youtube.com/embed/Qky8NVaAfK8 " frameborder=" 0 " allow=" accelerometer; autoplay;
-                        encrypted-media; gyroscope; picture-in-picture " allowfullscreen></iframe>
+                    <iframe class=" row " id=" video_introdutorio " width=" 560 " height=" 315 " src=" https://www.youtube.com/embed/Qky8NVaAfK8 " frameborder=" 0 " allow=" accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture " allowfullscreen></iframe>
                 </div>
             </div>
 
@@ -242,10 +239,9 @@
 
                         </p>
                     </div>
-                    <img id=" img_to_hide " src=" images/missao.jpg " style="width: 100%;" alt="
-                        sustentabilidade " class=" col " />
+                    <img id=" img_to_hide " src=" images/missao.jpg " style="width: 100%; " alt=" sustentabilidade " class=" col " />
                 </div>
-                <div class=" row lead">
+                <div class=" row lead ">
                     <p>
                         Em 2015, Portugal aceitou alguns desafios abordados na Cimeira da Organização das Nações Unidas para a agenda 2030 de desenvolvimento sustentável, decidindo assim priorizar a “Educação de Qualidade, Igualdade de Género, Inovação e Infraestruturas, Reduzias
                         as Desigualdades, Ação Climática e Proteger a Vida Marinha”.
@@ -259,8 +255,7 @@
                 <div class=" row justify-content-end ">
                     <p class='lead' id=" special_sentences ">
                         Ficou curioso? Consulte
-                        <a href="
-                        https://sicnoticias.pt/pais/2019-09-12-Portugal-e-o-26.-pais-mais-sustentavel-do-mundo-2 ">aqui</a> o artigo completo!
+                        <a href=" https://sicnoticias.pt/pais/2019-09-12-Portugal-e-o-26.-pais-mais-sustentavel-do-mundo-2 ">aqui</a> o artigo completo!
                     </p>
                 </div>
             </div>
@@ -333,8 +328,7 @@
                             <img class='card-img-top' src=" images/projeto1.png " alt=" Norway " />
                             <div class='card-body lead'>
                                 <h5 class=" card-title ">Projeto " Cold Start "</h5>
-                                <p class=" card-text "> <a href="
-                        http://www.roca.pt/sustentabilidade/roca-loves-the-planet/tecnologias-sustentaveis ">Ver
+                                <p class=" card-text "> <a href=" http://www.roca.pt/sustentabilidade/roca-loves-the-planet/tecnologias-sustentaveis ">Ver
                                         mais</a></p>
                             </div>
                         </div>
@@ -369,8 +363,7 @@
                     Para um mundo mais sustentável não basta só ler sobre o que deve ser feito, ou apenas concordar com aquilo que vemos os outros a fazer, deve ser um gesto que parte de nós, indivíduos que nos preocupamos com o ambiente e o mundo, de maneira a podermos
                     incentivar outras pessoas a poder contribuir para este assunto.</p>
                 <div class=" d-flex justify-content-center ">
-                    <img class=" row " src=" images/mundo-sustentavel.jpg " style=" max-width:50%; " alt="
-                        sustentabilidade " />
+                    <img class=" row " src=" images/mundo-sustentavel.jpg " style=" max-width:50%; " alt=" sustentabilidade " />
                 </div>
                 <div class=" row lead ">
 
@@ -404,27 +397,27 @@
                 <div class='container'>
                     <h1 class='display-4'>Factos interessantes </h1>
                     <div class='row lead align-items-center text-center'>
-                        <div class=" col align-items-center p-2">
+                        <div class=" col align-items-center p-2 ">
 
                             <h5>Anos de Experiencia</h5>
-                            <i class="fas fa-graduation-cap fa-3x"></i>
-                            <div class="num"> 15</div>
+                            <i class="fas fa-graduation-cap fa-3x "></i>
+                            <div class="num "> 15</div>
                         </div>
-                        <div class="col align-items-center p-2">
+                        <div class="col align-items-center p-2 ">
 
                             <h5>Projetos</h5>
-                            <i class="fas fa-laptop-code fa-3x"></i>
-                            <div class="num"> 88 </div>
+                            <i class="fas fa-laptop-code fa-3x "></i>
+                            <div class="num "> 88 </div>
                         </div>
-                        <div class="col align-items-center p-2">
+                        <div class="col align-items-center p-2 ">
 
-                            <h5>Linhas de Codigo</h5><i class="fas fa-code fa-3x"></i>
-                            <div class="num">654684 </div>
+                            <h5>Linhas de Codigo</h5><i class="fas fa-code fa-3x "></i>
+                            <div class="num ">654684 </div>
                         </div>
-                        <div class="col align-items-center p-2">
-                            <h5>Cafés Bebidos</h5><i class="fas fa-mug-hot fa-3x"></i>
+                        <div class="col align-items-center p-2 ">
+                            <h5>Cafés Bebidos</h5><i class="fas fa-mug-hot fa-3x "></i>
 
-                            <div class="num"> 626482654 </div>
+                            <div class="num "> 626482654 </div>
 
                         </div>
                     </div>
@@ -436,15 +429,15 @@
                     <div class='row lead m-2 '>
                         <div class="col mr-2 p-2 ">
 
-                            <div class="text-center"><img style="border-radius: 50%; width: 50%; max-width: 300px;" src=" images/sara.png" alt=" Sara " /></div>
+                            <div class="text-center "><img style="border-radius: 50%; width: 50%; max-width: 300px; " src=" images/sara.png " alt=" Sara " /></div>
 
-                            <div class="row justify-content-center p-2">
+                            <div class="row justify-content-center p-2 ">
                                 <h2>Sara Batista</h2>
 
                             </div>
                             </h2>
 
-                            <h5 class="text-center"> Full-stack Developer & Designer</h5>
+                            <h5 class="text-center "> Full-stack Developer & Designer</h5>
 
                             <div>
                                 <p>Olá! Eu sou a Sara Batista e tenho 20 anos. Considero-me uma pessoa sonhadora, criativa e trabalhadora.
@@ -452,21 +445,21 @@
                                 <p>Sou estudante finalista da licenciatura em Engenharia Informática, no Instituto Politécnico de Setúbal.</p>
                                 <p> Experiências: Em 2019 tive a oportunidade de estudar durante um semestre em Wroclaw, Polónia, sob o programa Erasmus+ </p>
                             </div>
-                            <h2 class="text-center">
-                                <a href="   https://www.facebook.com/sara.batista.7106670"><i
-                                        class="fab fa-facebook-square"></i></a>
-                                <a href="https://www.linkedin.com/in/sarafilipabatista/"><i
-                                        class="fab fa-linkedin"></i></a>
+                            <h2 class="text-center ">
+                                <a href=" https://www.facebook.com/sara.batista.7106670 "><i
+                                        class="fab fa-facebook-square "></i></a>
+                                <a href="https://www.linkedin.com/in/sarafilipabatista/ "><i
+                                        class="fab fa-linkedin "></i></a>
                             </h2>
                         </div>
-                        <div class="col p-2">
+                        <div class="col p-2 ">
 
-                            <div class="text-center"> <img style=" border-radius: 50%; width: 50%;max-width: 300px;" src=" images/bruno.png " alt=" Bruno " /></div>
-                            <div class="row justify-content-center p-2">
+                            <div class="text-center "> <img style=" border-radius: 50%; width: 50%;max-width: 300px; " src=" images/bruno.png " alt=" Bruno " /></div>
+                            <div class="row justify-content-center p-2 ">
                                 <h2>Bruno Dias</h2>
 
                             </div>
-                            <h5 class="text-center"> Designer & Programmer </h5>
+                            <h5 class="text-center "> Designer & Programmer </h5>
                             <div>
                                 <p>Olá! Eu sou o Bruno e tenho 23 anos. Considero-me uma pessoa interessada, persistente e carismática. </p>
 
@@ -474,11 +467,11 @@
                                 </p>
                                 <p>Experiências: Frequentei um estagio profissional na empresa Fujitsu, onde tive a oportunidade de trabalhar na função/Área de Technical Services Agent / FrontOffice JM</p>
                             </div>
-                            <h2 class="text-center">
-                                <a href="  https://www.instagram.com/brunodias29/  "><i
-                                        class="fab fa-facebook-square"></i></a>
+                            <h2 class="text-center ">
+                                <a href=" https://www.instagram.com/brunodias29/ "><i
+                                        class="fab fa-facebook-square "></i></a>
                                 <a href="https://www.linkedin.com/in/bruno-dias-92ba4a9a/ "><i
-                                        class="fab fa-linkedin"></i></a>
+                                        class="fab fa-linkedin "></i></a>
                             </h2>
                         </div>
                     </div>
@@ -487,8 +480,8 @@
         </div>
     </main>
 
-    <button onclick="topFunction()" id='myBtn' title="Go to top" style="border-radius:35px 35px ;"><i
-            class="fas fa-chevron-circle-up fa-3x"></i></button>
+    <button onclick="topFunction()" id='myBtn' title="Go to top" style="border-radius:35px 35px;">
+			<i class="fas fa-chevron-circle-up fa-3x"></i></button>
 
     <!-- ------------------- FOOTER ------------------- -->
     <footer id="footer " class="mt-5 ">
@@ -539,9 +532,9 @@
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
     </script>
-    <script src="scripts/domManager.js"></script>
-    <script src="scripts/infoManager.js"></script>
-    <script src="scripts/pageContentManager.js"></script>
+    <script src="scripts/domManager.js "></script>
+    <script src="scripts/infoManager.js "></script>
+    <script src="scripts/pageContentManager.js "></script>
 
     <script src=" https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity=" sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj " crossorigin=" anonymous "></script>
     <script src=" https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity=" sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin=" anonymous "></script>

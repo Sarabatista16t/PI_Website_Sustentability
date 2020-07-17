@@ -25,7 +25,8 @@ app.post("/login", requestHandlers.login);
 
 /* OPERAÇÕES CRUD USER   */
 app.get("/users", requestHandlers.getAllUsers);
-app.post("/user", requestHandlers.getUser);
+app.get("/user/:id", requestHandlers.getUser);
+app.post("/user", requestHandlers.createUser);
 app.put("/user/:id", requestHandlers.updateUser);
 app.delete("/user/:id", requestHandlers.deleteUser);
 
@@ -33,7 +34,7 @@ app.delete("/user/:id", requestHandlers.deleteUser);
 /* OPERAÇÕES CRUD TOPIC  */
 app.get("/topics", requestHandlers.getAllTopics);
 app.get("/topic/:id", requestHandlers.getTopic);
-//app.post("/topic", requestHandlers.createTopic);
+app.post("/topic", requestHandlers.createTopic);
 app.delete("/topic/:id", requestHandlers.deleteTopic);
 app.put("/topic/:id", requestHandlers.updateTopic);
 

@@ -51,9 +51,7 @@ async function login(req, res) {
                 error: 'Invalid credentials'
             })
         }
-
-        const token = jwt.sign({ user }, options.secrectKey.SECRET_KEY, { expiresIn: '24h' })
-        return res.json({ msg: "smth", user: user.filter({ token }) })
+        return res.json({ msg: "smth", user: user })
     } catch (err) {
         console.log(err)
         return res.sendStatus(500)
@@ -66,27 +64,12 @@ async function login(req, res) {
  * @param {*} res 
  */
 async function createUser(req, res) {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() })
-    }
     const user = new User(req.body)
     user.roles = ['editor']
 
     try {
         // hashes the password
         user.password = await bcrypt.hash(user.password, SALT_WORK_FACTOR)
-
-        // creates the token
-        const token = crypto.randomBytes(20).toString('hex')
-
-        // create an expiration date (7 days)
-        const expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
-        user.confirmEmailToken = {
-            token,
-            expirationDate
-        }
 
         await user.save()
         res.sendStatus(200)
@@ -180,6 +163,7 @@ async function updateUser(req, res) {
     })
 }
 
+
 /**
  * Function to delete the user
  * @param {*} req 
@@ -238,6 +222,22 @@ async function updateTopic(req, res) {
 }
 
 /**
+ * Function to create a topic.
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function createTopic(req, res) {
+    const topic = new Topic(req.body)
+
+    try {
+        await topic.save()
+        res.sendStatus(200)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
+
+/**
  * Function to delete the Topic
  * @param {*} req 
  * @param {*} res 
@@ -266,3 +266,4 @@ module.exports.getAllTopics = getAllTopics;
 module.exports.getTopic = getTopic;
 module.exports.updateTopic = updateTopic;
 module.exports.deleteTopic = deleteTopic;
+module.exports.createTopic = createTopic;
