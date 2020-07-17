@@ -56,9 +56,10 @@
                         <a id='menuGoal3' href='#' onclick="showUsersPage()" class='nav-link'><i class="fas fa-user-cog"></i>Editar Utilizadores</a></li>
             </ul>
             <ul class='nav'>
-                <a onclick="showLoginPage()" href='#' class='nav-link'>Login</a></li>
                 <li class='nav-item'>
-                    <a onclick="showMainPage()" href='#' class='nav-link'>Logout</a></li>
+                    <a id="menuWithoutLogin" onclick="showLoginPage()" href='#' class='nav-link'>Login</a></li>
+                <li class='nav-item'>
+                    <a id="menuWithLogin" onclick="showMainPage()" href='#' class='nav-link'>Logout</a></li>
             </ul>
         </div>
 

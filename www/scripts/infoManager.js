@@ -13,6 +13,7 @@ function InfoManager(id) {
     this.id = id;
     this.users = new Array();
     this.topics = new Array();
+    this.loggedUser = undefined;
 };
 
 /*====================================================================================*/
@@ -50,7 +51,7 @@ InfoManager.prototype.login = function() {
             let user = this.response.user[0];
             console.log("USER " + user)
             self.loggedUser = new User(user.Id, user.name, user.email, user.password, user.roles);
-            self.loggedUser.logIn();
+            //self.loggedUser.logIn();
         }
     }
     req.send(JSON.stringify(user));
@@ -113,6 +114,20 @@ InfoManager.prototype.getUsers = function() {
     xhr.send();
 };
 
+InfoManager.prototype.getLoggedUser = function() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/users');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let users = JSON.parse(xhr.responseText);
+            users.forEach(e => {
+                window.info.users.push(e);
+            })
+            window.info.showUsers();
+        }
+    };
+    xhr.send();
+};
 /**
  * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
  */
@@ -126,6 +141,7 @@ InfoManager.prototype.getTopics = function() {
                 window.info.topics.push(t);
             });
             window.info.showTopics();
+            window.info.showExtraTopics();
         }
     };
     xhr.send();

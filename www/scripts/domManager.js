@@ -69,11 +69,11 @@ function createButton(fatherNode, eventHandler, value) {
  */
 function createTopic(topicTitle, topicText) {
     var title = document.createElement("h1");
-    title.textContent(topicTitle);
+    title.textContent = topicTitle;
     title.className = 'display-4';
 
     var text = document.createElement("p");
-    text.textContent(topicText);
+    text.textContent = topicText;
     text.className = 'lead';
 
     var divTopic = document.createElement("div");

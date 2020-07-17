@@ -6,6 +6,7 @@ window.info = info;
 info.getUsers();
 info.getTopics();
 
+
 let arr = info.users;
 console.log("TYPE OF ARRAY " + typeof arr);
 console.log("LENGTH ARRAY " + arr.length);
@@ -20,14 +21,11 @@ console.log("CONTEÚDO DO ARRAY " + arr);
  */
 function hideAll() {
     /*if (info.loggedUser) {
-        document.getElementById("unlogged").style.display = "none";
-        document.getElementById("menuManager").style.display = "block";
-        document.getElementById("logged").style.display = "block";
+        document.getElementById("menuWithoutLogin").style.display = "block";
+        document.getElementById("menuWithLogin").style.display = "none";
     } else {
-        document.getElementById("logged").style.display = "none";
-        document.getElementById("unlogged").style.display = "block";
-        document.getElementById("menuManager").style.display = "none";
-
+        document.getElementById("menuWithoutLogin").style.display = "none";
+        document.getElementById("menuWithLogin").style.display = "block";
     }*/
     document.getElementById("LoginPage").style.display = "none";
     document.getElementById("RegisterPage").style.display = "none";
