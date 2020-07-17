@@ -83,3 +83,71 @@ function createTopic(topicTitle, topicText) {
     divTopic.className = 'jumbotron';
     return divTopic;
 }
+
+/**
+ * Função que cria um elemento "topic" com base nos parâmetros.
+ * @param {*} topicTitle 
+ * @param {*} topicText 
+ */
+function createTopicWithCards(topicTitle, topicText) {
+    var title = document.createElement("h1");
+    title.textContent = topicTitle;
+    title.className = 'display-4';
+
+    var text = document.createElement("p");
+    text.textContent = topicText;
+    text.className = 'lead';
+
+    var divCards = document.createElement("div");
+    divCards.className = "row d-flex mt-3 flex-wrap justify-content-between";
+
+    var card1 = createCard("title", "text");
+    var card2 = createCard("title", "text");
+    var card3 = createCard("title", "text");
+
+    divCards.appendChild(card1);
+    divCards.appendChild(card2);
+    divCards.appendChild(card3);
+
+    var divTopic = document.createElement("div");
+    divTopic.setAttribute("id", "divTopic");
+    divTopic.appendChild(title);
+    divTopic.appendChild(text);
+    divTopic.appendChild(divCards);
+    divTopic.className = 'jumbotron';
+    return divTopic;
+}
+
+/**
+ * Function to create a card.
+ * @param {} title 
+ * @param {*} text 
+ */
+function createCard(title, text) {
+    var card = document.createElement("div");
+    card.className = 'card';
+
+    var cardImage = document.createElement("img");
+    cardImage.className = 'card-img-top';
+    cardImage.src = "images/ips.jpg";
+    cardImage.alt = "IPS";
+    cardImage.style = "width:100%;";
+
+    var cardBody = document.createElement("div");
+    cardBody.className = 'card-body lead';
+
+    var cardTitle = document.createElement("h5");
+    cardTitle.className = 'card-title';
+    cardTitle.textContent = title;
+
+    var cardText = document.createElement("p");
+    cardText.className = 'card-text';
+    cardText.textContent = text;
+
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
+    card.appendChild(cardImage);
+    card.appendChild(cardBody);
+
+    return card;
+}

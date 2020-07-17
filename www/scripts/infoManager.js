@@ -102,7 +102,6 @@ InfoManager.prototype.processingUser = function(acao) {
         "name": name,
         "email": email,
         "password": password,
-        "confirmPassword": confirmPassword,
         "roles": role
     }
 
@@ -110,27 +109,29 @@ InfoManager.prototype.processingUser = function(acao) {
     xhr.responseType = "json";
 
     if (acao === "create") {
-        xhr.open("POST", "/user", true);
+        xhr.open("POST", "/user");
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
                 var response = JSON.parse(xhr.responseText);
                 console.log(response);
             }
         }
-        xhr.send();
+        console.log(JSON.stringify(user));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(user));
 
     } else if (acao === "update") {
-        xhr.open("PUT", "/user/" + id, true);
+        xhr.open("PUT", "/user/" + id);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
                 var response = JSON.parse(xhr.responseText);
                 console.log(response);
             }
         }
-        xhr.send();
+        console.log(JSON.stringify(user));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(user));
     }
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(user));
 }
 
 
@@ -179,7 +180,9 @@ InfoManager.prototype.processingTopic = function(acao) {
     let text = form.text.value;
     let topic = {
         "title": title,
-        "text": text
+        "text": text,
+        "idUser": "1"
+            // "idUser": this.loggedUser.Id
     }
     let xhr = new XMLHttpRequest();
     xhr.responseType = "json";
@@ -192,7 +195,9 @@ InfoManager.prototype.processingTopic = function(acao) {
                 console.log(response);
             }
         }
-        xhr.send();
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
 
     } else if (acao === "update") {
         xhr.open("PUT", "/topic/" + id, true);
@@ -202,10 +207,10 @@ InfoManager.prototype.processingTopic = function(acao) {
                 console.log(response);
             }
         }
-        xhr.send();
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
     }
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(topic));
 }
 
 
@@ -308,6 +313,9 @@ InfoManager.prototype.showUsers = function() {
             replaceChilds('divTable', document.createElement('div'));
             document.getElementById('formPerson').action = 'javascript:info.processingUser("update");';
             document.getElementById('formPerson').style.display = 'block';
+            document.getElementById("RegisterPage").style.display = "block";
+            document.getElementById("divInformationUser").style.display = "none";
+            document.getElementById("headerTitleUser").style.display = "none";
             document.getElementById('formPerson').reset();
             document.getElementById('id').value = idUser;
             const user = info.users.find(i => i._id === idUser);
@@ -405,6 +413,9 @@ InfoManager.prototype.showTopics = function() {
             replaceChilds('divTable', document.createElement('div'));
             document.getElementById('formTopic').action = 'javascript:info.processingTopic("update");';
             document.getElementById('formTopic').style.display = "block";
+            document.getElementById("TopicsPage").style.display = "block";
+            document.getElementById("divInformationTopic").style.display = "none";
+            document.getElementById("headerTitleTopic").style.display = "none";
             document.getElementById('formTopic').reset();
             document.getElementById('id').value = idTopic;
             const topic = info.topics.find(i => i._id === idTopic);
@@ -433,7 +444,7 @@ InfoManager.prototype.showExtraTopics = function() {
                 "title": t.title,
                 "text": t.text
             }
-            let topic = createTopic(topicAux.title, topicAux.text);
+            let topic = createTopicWithCards(topicAux.title, topicAux.text);
             divTopics.appendChild(topic);
         });
     }
