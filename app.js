@@ -30,7 +30,6 @@ app.post("/user", requestHandlers.createUser);
 app.put("/user/:id", requestHandlers.updateUser);
 app.delete("/user/:id", requestHandlers.deleteUser);
 
-
 /* OPERAÇÕES CRUD TOPIC  */
 app.get("/topics", requestHandlers.getAllTopics);
 app.get("/topic/:id", requestHandlers.getTopic);
