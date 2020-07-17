@@ -414,7 +414,6 @@ InfoManager.prototype.showExtraTopics = function() {
             let topic = createTopic(topicAux.title, topicAux.text);
             divTopics.appendChild(topic);
         });
-        divTopics.style.display = "block";
     }
 }
 

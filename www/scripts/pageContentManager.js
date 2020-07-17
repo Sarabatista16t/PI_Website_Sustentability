@@ -36,6 +36,7 @@ function hideAll() {
     document.getElementById("TopicsPage").style.display = "none";
     document.getElementById("MainPage").style.display = "none";
     document.getElementById("TeamPage").style.display = "none";
+    document.getElementById("divExtraTopics").style.display = "none";
 }
 
 /**
@@ -45,6 +46,7 @@ function showMainPage() {
     hideAll();
     //info.showExtraTopics();
     document.getElementById("MainPage").style.display = "block";
+    document.getElementById("divExtraTopics").style.display = "block";
 }
 
 /**
