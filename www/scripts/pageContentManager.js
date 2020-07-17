@@ -20,7 +20,7 @@ console.log("CONTEÚDO DO ARRAY " + arr);
  * Function to hide all the HTML elements in the page, using the CSS properties. 
  */
 function hideAll() {
-    /*if (info.loggedUser) {
+    /*if (this.info.loggedUser) {
         document.getElementById("menuWithoutLogin").style.display = "block";
         document.getElementById("menuWithLogin").style.display = "none";
     } else {

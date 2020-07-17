@@ -84,12 +84,12 @@ function createEditor() {
 
 function createDefaultTopic() {
     return new Promise((resolve, reject) => {
-        Topic.findOne({ title: 'Tópico Default' }).then((result) => {
+        Topic.findOne({ title: 'Tópico Extra 1' }).then((result) => {
             if (!result) {
 
                 Topic.create({
-                    title: 'Tópico Default',
-                    text: 'Sara Batista',
+                    title: 'Tópico Extra 1',
+                    text: 'Tópico default para testar a inserção do DOM na main page.',
                     idUser: '1'
                 }, function(err) {
                     if (err) {
