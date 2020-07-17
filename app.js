@@ -32,10 +32,10 @@ app.delete("/user/:id", requestHandlers.deleteUser);
 
 /* OPERAÇÕES CRUD TOPIC  */
 app.get("/topics", requestHandlers.getAllTopics);
-/*app.get("/topic/:id", requestHandlers.getTopic);
-app.post("/topic", requestHandlers.createTopic);
+app.get("/topic/:id", requestHandlers.getTopic);
+//app.post("/topic", requestHandlers.createTopic);
 app.delete("/topic/:id", requestHandlers.deleteTopic);
-app.put("/topic/:id", requestHandlers.updateTopic); */
+app.put("/topic/:id", requestHandlers.updateTopic);
 
 app.listen(options.server.port, function() {
     console.log("Server running at port:" + options.server.port);
