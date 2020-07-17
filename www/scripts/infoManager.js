@@ -4,15 +4,14 @@
  * @class Gets all the necessary information from the database and displays it correctly in the HTML.
  * @constructs InfoManager
  * @param {string} id - id do elemento HTML que contém a informação.
- * 
- * @property {string} id - id do elemento HTML que contém a informação.
- * @property {country[]} countries - Array de objetos do tipo Country, para guardar todos os countries do nosso sistema
- * @property {person[]} people - Array de objetos do tipo person, para guardar todas as pessoas do nosso sistema
+ * @property {country[]} users - Array de objetos do tipo User, para guardar todos os utilizadores do nosso sistema
+ * @property {person[]} topics - Array de objetos do tipo Topic, para guardar todas os tópicos do nosso sistema
+ * @param {User} loggedUser - Utilizador que está logado no sistema.
  */
 function InfoManager(id) {
     this.id = id;
-    this.users = new Array();
-    this.topics = new Array();
+    this.users = [];
+    this.topics = [];
     this.loggedUser = undefined;
 };
 
@@ -22,7 +21,7 @@ function InfoManager(id) {
 
 
 /**
- * Sends the login info to the server, for it to check from the database and display the page if successfully
+ * Função que envia o login para o sevidor NODE.JS 
  */
 InfoManager.prototype.login = function() {
     let div = document.getElementById("LoginPage").children;
@@ -47,15 +46,14 @@ InfoManager.prototype.login = function() {
         if (this.readyState === 4 && this.status === 200) {
             let user = this.response.user[0];
             self.loggedUser = new User(user.Id, user.name, user.email, user.password, user.roles);
-            console.log("LOGIN COM SUCESSO");
+            showMainPage(); // ??
         }
     }
-    showMainPage();
     req.send(JSON.stringify(user));
 }
 
 /**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso utilizadores através do verbo GET, usando pedidos assincronos e JSON
  */
 InfoManager.prototype.getUsers = function() {
     let xhr = new XMLHttpRequest();
@@ -107,6 +105,7 @@ InfoManager.prototype.processingUser = function(acao) {
         "confirmPassword": confirmPassword,
         "roles": role
     }
+
     let xhr = new XMLHttpRequest();
     xhr.responseType = "json";
 
@@ -289,7 +288,11 @@ InfoManager.prototype.showUsers = function() {
         replaceChilds('divTable', document.createElement('div'));
         document.getElementById('formPerson').action = 'javascript:info.processingUser("create");';
         document.getElementById('formPerson').style.display = 'block';
+        document.getElementById("RegisterPage").style.display = "block";
+        document.getElementById("divInformationUser").style.display = "none";
+        document.getElementById("headerTitleUser").style.display = "none";
         document.getElementById('formPerson').reset();
+        console.log("CREATE USER ");
     }
 
     function updateUserEventHandler() {
@@ -310,7 +313,7 @@ InfoManager.prototype.showUsers = function() {
             const user = info.users.find(i => i._id === idUser);
             document.getElementById('name').value = user.name;
             document.getElementById('email').value = user.email;
-            //document.getElementById('role').value = user.roles;
+            console.log("USERS " + user.name);
         }
     }
     createButton(divTable, newUserEventHandler, "Novo utilizador");
@@ -319,7 +322,9 @@ InfoManager.prototype.showUsers = function() {
     replaceChilds("divInformationUser", divTable);
 };
 
-
+/**
+ * coloca a palavra "Tópicos" no div titulo e cria dinamicamente uma tabela com a informação dos tópicos.
+ */
 InfoManager.prototype.showTopics = function() {
     document.getElementById("headerTitleTopic").textContent = "Tópicos";
     document.getElementById("formTopic").style.display = "none";
@@ -379,8 +384,12 @@ InfoManager.prototype.showTopics = function() {
     function newTopicEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
         document.getElementById('formTopic').action = 'javascript:info.processingTopic("create");';
-        document.getElementById('formTopic').style.display = 'block';
+        document.getElementById('formTopic').style.display = "block";
+        document.getElementById("TopicsPage").style.display = "block";
+        document.getElementById("divInformationTopic").style.display = "none";
+        document.getElementById("headerTitleTopic").style.display = "none";
         document.getElementById('formTopic').reset();
+        console.log("CREATE TOPIC ");
     }
 
     function updateTopicEventHandler() {
@@ -399,19 +408,22 @@ InfoManager.prototype.showTopics = function() {
             document.getElementById('formTopic').reset();
             document.getElementById('id').value = idTopic;
             const topic = info.topics.find(i => i._id === idTopic);
-            console.log("TOPICs " + topic);
-            document.getElementById('title').value = "Nome";
-            document.getElementById('text').value = "titulo";
-            //document.getElementById('title').value = topic.title;
-            //document.getElementById('text').value = topic.text;
+            //document.getElementById('title').value = "Nome";
+            //document.getElementById('text').value = "titulo";
+            document.getElementById('title').value = topic.title;
+            document.getElementById('text').value = topic.text;
+            console.log("TOPICs " + topic.title);
         }
     }
     createButton(divTable, newTopicEventHandler, "Novo Tópico");
-    createButton(divTable, deleteTopicEventHandler, "Eliminar");
     createButton(divTable, updateTopicEventHandler, "Editar");
+    createButton(divTable, deleteTopicEventHandler, "Eliminar");
     replaceChilds("divInformationTopic", divTable);
 };
 
+/**
+ * Coloca dinamicamente os tópicos na main page.
+ */
 InfoManager.prototype.showExtraTopics = function() {
     if (window.info.topics.length > 0) {
         let divTopics = document.getElementById("divExtraTopics");

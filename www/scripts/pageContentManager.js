@@ -17,9 +17,11 @@ function hideAll() {
     /*if (info.loggedUser) {
         document.getElementById("menuWithoutLogin").style.display = "block";
         document.getElementById("menuWithLogin").style.display = "none";
+        document.getElementById("menuGoal4").style.display = "none";
     } else {
         document.getElementById("menuWithoutLogin").style.display = "none";
         document.getElementById("menuWithLogin").style.display = "block";
+        document.getElementById("menuGoal4").style.display = "block";
     }*/
     document.getElementById("LoginPage").style.display = "none";
     document.getElementById("RegisterPage").style.display = "none";
