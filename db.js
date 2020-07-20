@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const User = require('./scripts/models/User.js')
 const Topic = require('./scripts/models/Topic.js')
+const TopicWithCards = require('./scripts/models/TopicWithCards.js')
 const bcrypt = require('bcrypt')
 const options = require('./config/options.json')
 
@@ -12,7 +13,7 @@ function connect() {
         console.log('Creating the necessary base data...')
 
         try {
-            await Promise.all([createAdmin(), createEditor(), createDefaultTopic()])
+            await Promise.all([createAdmin(), createEditor(), createDefaultSimpleTopic(), createDefaultTopicWithImage(), createDefaultTopicWithCards()])
             console.log('Succesfully created the base data')
         } catch (err) {
             console.error('Something went wrong during the creation of the base data...')
@@ -82,14 +83,14 @@ function createEditor() {
     })
 }
 
-function createDefaultTopic() {
+function createDefaultSimpleTopic() {
     return new Promise((resolve, reject) => {
-        Topic.findOne({ title: 'Tópico Extra 1' }).then((result) => {
+        Topic.findOne({ title: 'Um pequeno artigo sobre sustentabilidade' }).then((result) => {
             if (!result) {
 
                 Topic.create({
-                    title: 'Tópico Extra 1',
-                    text: 'Tópico default para testar a inserção do DOM na main page.',
+                    title: 'Um pequeno artigo sobre sustentabilidade',
+                    text: 'Sustentabilidade é uma característica ou condição de um processo ou de um sistema que permite a sua permanência, em certo nível, por um determinado prazo. Ultimamente, este conceito tornou-se um princípio segundo o qual o uso dos recursos naturais para a satisfação de necessidades presentes não pode comprometer a satisfação das necessidades das gerações futuras. Este novo princípio foi ampliado para a expressão "sustentabilidade no longo prazo", um "longo prazo" de termo indefinido.',
                     idUser: '1'
                 }, function(err) {
                     if (err) {
@@ -98,6 +99,61 @@ function createDefaultTopic() {
                         reject(err)
                     } else {
                         console.log('Successfully created the default topic')
+                    }
+                })
+            }
+        })
+        resolve()
+    })
+}
+
+function createDefaultTopicWithImage() {
+    return new Promise((resolve, reject) => {
+        Topic.findOne({ title: 'Um grande artigo sobre sustentabilidade' }).then((result) => {
+            if (!result) {
+
+                Topic.create({
+                    title: 'Um grande artigo sobre sustentabilidade',
+                    text: 'Sustentabilidade é uma característica ou condição de um processo ou de um sistema que permite a sua permanência, em certo nível, por um determinado prazo. Ultimamente, este conceito tornou-se um princípio segundo o qual o uso dos recursos naturais para a satisfação de necessidades presentes não pode comprometer a satisfação das necessidades das gerações futuras. Este novo princípio foi ampliado para a expressão "sustentabilidade no longo prazo", um "longo prazo" de termo indefinido.',
+                    image: 'https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg',
+                    idUser: '1'
+                }, function(err) {
+                    if (err) {
+                        console.error('Unable to create the default topic.')
+                        console.error(err)
+                        reject(err)
+                    } else {
+                        console.log('Successfully created the default topic')
+                    }
+                })
+            }
+        })
+        resolve()
+    })
+}
+
+function createDefaultTopicWithCards() {
+    return new Promise((resolve, reject) => {
+        TopicWithCards.findOne({ title: 'Um grande artigo sobre sustentabilidade' }).then((result) => {
+            if (!result) {
+
+                TopicWithCards.create({
+                    title: 'Um grande artigo sobre sustentabilidade',
+                    text: 'Sustentabilidade é uma característica ou condição de um processo ou de um sistema que permite a sua permanência, em certo nível, por um determinado prazo.',
+                    card1_text: 'Card 1',
+                    card1_img: 'https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg',
+                    card2_text: 'Card 2',
+                    card2_img: 'https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg',
+                    card3_text: 'Card 3',
+                    card3_img: 'https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg',
+                    idUser: '1'
+                }, function(err) {
+                    if (err) {
+                        console.error('Unable to create the default topic with cards.')
+                        console.error(err)
+                        reject(err)
+                    } else {
+                        console.log('Successfully created the default topic with cards')
                     }
                 })
             }

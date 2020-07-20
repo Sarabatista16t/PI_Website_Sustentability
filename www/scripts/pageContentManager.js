@@ -4,6 +4,7 @@ showMainPage();
 var info = new InfoManager();
 window.info = info;
 info.getUsers();
+info.getTopicsWithCards();
 info.getTopics();
 
 //info.showUsers();

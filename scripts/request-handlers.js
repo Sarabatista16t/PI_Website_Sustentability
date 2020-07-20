@@ -12,6 +12,7 @@ const express = require('express')
 console.log(__dirname)
 const User = require('../scripts/models/User.js')
 const Topic = require('../scripts/models/Topic.js')
+const TopicWithCards = require('../scripts/models/TopicWithCards.js')
 
 const SALT_WORK_FACTOR = 10
 const router = express.Router()
@@ -191,6 +192,16 @@ function getAllTopics(req, res) {
     });
 }
 
+/**
+ * Function to get all the topics with cards
+ * @param {*} req 
+ * @param {*} res 
+ */
+function getAllTopicsWithCards(req, res) {
+    TopicWithCards.find({}, function(err, topics) {
+        res.send(topics);
+    });
+}
 
 /**
  * Function to get the topic
@@ -263,6 +274,7 @@ module.exports.createUser = createUser;
 
 /* ============== CRUD TOPICS  ================ */
 module.exports.getAllTopics = getAllTopics;
+module.exports.getAllTopicsWithCards = getAllTopicsWithCards;
 module.exports.getTopic = getTopic;
 module.exports.updateTopic = updateTopic;
 module.exports.deleteTopic = deleteTopic;

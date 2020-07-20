@@ -159,13 +159,20 @@
             <form id="formTopic" action="javascript: info.processingTopic('create');" name=formTopic>
                 <input id="id" type="hidden" />
                 <div class="form-group ">
-                    <label for="title">Título</label>
+                    <label for="title">Título *</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Título">
                 </div>
                 <div class="form-group ">
-                    <label for="text">Texto</label>
-                    <input type="text" class="form-control" id="text" name="text" placeholder="Texto">
+                    <label for="text">Texto *</label>
+                    <br/>
+                    <textarea id="text" name="text" class="form-control" placeholder="Escreva aqui o seu texto" rows="5"></textarea>
+                    <!-- <input type="text" class="form-control" id="text" name="text" placeholder="Texto"> -->
                 </div>
+                <div class="form-group ">
+                    <label for="image">Imagem</label>
+                    <input type="text" class="form-control" id="image" name="image" placeholder="URL da imagem">
+                </div>
+                <p style="color:red">Os campos assinalados com * são de preenchimento obrigatório</p>
                 <button class="btn btn-success" type="submit">Públicar Tópico</button>
             </form>
         </div>
@@ -366,7 +373,8 @@
                 </div>
                 <div class=" row lead ">
 
-                    <p> Podia-vos estar a falar de o quão importante é reciclar ou até mesmo a importância de reutilizar os materiais recicláveis, mas disso já devem todos saber, no entanto pergunto-vos o que contribuíram realmente para este mesmo tema?</p>
+                    <p> Podia-vos estar a falar de o quão importante é reciclar ou até mesmo a importância de reutilizar os materiais recicláveis, mas disso já devem todos saber, no entanto pergunto-vos o que contribuíram realmente para este mesmo tema?
+                    </p>
                     <p> Não basta dizer que reciclas quando em seguida colocas todo o lixo, tais como garrafas, no ecoponto azul ou até mesmo quando andas pela rua e atiras uma pastilha elástica para o chão.
                     </p>
                     <p> Devemos ter consciência sobre a diferencia de contribuir e a de saber, porque toda a gente pode saber o que se deve fazer para tornar o nosso mundo, um mundo mais sustentável, no entanto são poucas as pessoas que realmente contribuem

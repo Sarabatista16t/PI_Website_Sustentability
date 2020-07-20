@@ -32,6 +32,7 @@ app.delete("/user/:id", requestHandlers.deleteUser);
 
 /* OPERAÇÕES CRUD TOPIC  */
 app.get("/topics", requestHandlers.getAllTopics);
+app.get("/topicsWithCards", requestHandlers.getAllTopicsWithCards);
 app.get("/topic/:id", requestHandlers.getTopic);
 app.post("/topic", requestHandlers.createTopic);
 app.delete("/topic/:id", requestHandlers.deleteTopic);

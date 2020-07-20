@@ -12,6 +12,7 @@ function InfoManager(id) {
     this.id = id;
     this.users = [];
     this.topics = [];
+    this.topicsWithCards = [];
     this.loggedUser = undefined;
 };
 
@@ -148,7 +149,7 @@ InfoManager.prototype.getTopics = function() {
                 window.info.topics.push(t);
             });
             window.info.showTopics();
-            window.info.showExtraTopics();
+            window.info.showExtraSimpleTopics();
         }
     };
     xhr.send();
@@ -178,9 +179,90 @@ InfoManager.prototype.processingTopic = function(acao) {
     let form = div.formTopic;
     let title = form.title.value;
     let text = form.text.value;
+    let image = form.image.value;
     let topic = {
         "title": title,
         "text": text,
+        "image": image,
+        "idUser": "1"
+            // "idUser": this.loggedUser.Id
+    }
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+
+    if (acao === "create") {
+        xhr.open("POST", "/topic", true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
+
+    } else if (acao === "update") {
+        xhr.open("PUT", "/topic/" + id, true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
+    }
+}
+
+/**
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.getTopicsWithCards = function() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/topicsWithCards');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let topicsWithCards = JSON.parse(xhr.responseText);
+            topicsWithCards.forEach(t => {
+                window.info.topicsWithCards.push(t);
+            });
+            window.info.showExtraTopicsWithCards();
+        }
+    };
+    xhr.send();
+};
+
+/**
+ * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.removeTopicWithCards = function(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/topicWithCards/" + id, true);
+    xhr.onreadystatechange = function() {
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+    }
+    xhr.send();
+}
+
+/**
+ * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+ * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ */
+InfoManager.prototype.processingTopicWithCards = function(acao) {
+    let div = document.getElementById("TopicsPage").children;
+    let form = div.formTopic;
+    let title = form.title.value;
+    let text = form.text.value;
+    let image = form.image.value;
+    let topic = {
+        "title": title,
+        "text": text,
+        "image": image,
         "idUser": "1"
             // "idUser": this.loggedUser.Id
     }
@@ -391,7 +473,18 @@ InfoManager.prototype.showTopics = function() {
 
     function newTopicEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formTopic').action = 'javascript:info.processingTopic("create");';
+        document.getElementById('formTopic').action = 'javascript:info.processingTopic("createTopic");';
+        document.getElementById('formTopic').style.display = "block";
+        document.getElementById("TopicsPage").style.display = "block";
+        document.getElementById("divInformationTopic").style.display = "none";
+        document.getElementById("headerTitleTopic").style.display = "none";
+        document.getElementById('formTopic').reset();
+        console.log("CREATE TOPIC ");
+    }
+
+    function newTopicCardsEventHandler() {
+        replaceChilds('divTable', document.createElement('div'));
+        document.getElementById('formTopic').action = 'javascript:info.processingTopic("createTopicCard");';
         document.getElementById('formTopic').style.display = "block";
         document.getElementById("TopicsPage").style.display = "block";
         document.getElementById("divInformationTopic").style.display = "none";
@@ -419,14 +512,16 @@ InfoManager.prototype.showTopics = function() {
             document.getElementById('formTopic').reset();
             document.getElementById('id').value = idTopic;
             const topic = info.topics.find(i => i._id === idTopic);
-            //document.getElementById('title').value = "Nome";
-            //document.getElementById('text').value = "titulo";
             document.getElementById('title').value = topic.title;
             document.getElementById('text').value = topic.text;
             console.log("TOPICs " + topic.title);
         }
     }
-    createButton(divTable, newTopicEventHandler, "Novo Tópico");
+    createButton(divTable, newTopicCardsEventHandler, "Novo Tópico com cartões");
+    createButton(divTable, newTopicEventHandler, "Novo Tópico simples");
+    //createTopicsModal();
+    //let createBtn = createModalButton();
+    //divTable.appendChild(createBtn);
     createButton(divTable, updateTopicEventHandler, "Editar");
     createButton(divTable, deleteTopicEventHandler, "Eliminar");
     replaceChilds("divInformationTopic", divTable);
@@ -435,16 +530,43 @@ InfoManager.prototype.showTopics = function() {
 /**
  * Coloca dinamicamente os tópicos na main page.
  */
-InfoManager.prototype.showExtraTopics = function() {
+InfoManager.prototype.showExtraSimpleTopics = function() {
     if (window.info.topics.length > 0) {
         let divTopics = document.getElementById("divExtraTopics");
         window.info.topics.forEach(t => {
             let topicAux = {
                 "id": t._id,
                 "title": t.title,
-                "text": t.text
+                "text": t.text,
+                "image": t.image
             }
-            let topic = createTopicWithCards(topicAux.title, topicAux.text);
+            let topic = createTopic(topicAux.title, topicAux.text, topicAux.image);
+            divTopics.appendChild(topic);
+        });
+    }
+}
+
+/**
+ * Coloca dinamicamente os tópicos na main page.
+ */
+InfoManager.prototype.showExtraTopicsWithCards = function() {
+    if (window.info.topicsWithCards.length > 0) {
+        let divTopics = document.getElementById("divExtraTopics");
+        console.log("DENTRO DOS TOPICS WITH CARDS");
+        window.info.topicsWithCards.forEach(t => {
+            let topicAux = {
+                "id": t._id,
+                "title": t.title,
+                "text": t.text,
+                "card1_text": t.card1_text,
+                "card1_img": t.card1_img,
+                "card2_text": t.card2_text,
+                "card2_img": t.card2_img,
+                "card3_text": t.card3_text,
+                "card3_img": t.card3_img
+            }
+            console.log("DENTRO DOS TOPICS WITH CARDS");
+            let topic = createTopicWithCards(topicAux);
             divTopics.appendChild(topic);
         });
     }

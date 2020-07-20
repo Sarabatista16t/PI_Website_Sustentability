@@ -67,7 +67,7 @@ function createButton(fatherNode, eventHandler, value) {
  * @param {*} topicTitle 
  * @param {*} topicText 
  */
-function createTopic(topicTitle, topicText) {
+function createTopic(topicTitle, topicText, topicImg) {
     var title = document.createElement("h1");
     title.textContent = topicTitle;
     title.className = 'display-4';
@@ -80,6 +80,13 @@ function createTopic(topicTitle, topicText) {
     divTopic.setAttribute("id", "divTopic");
     divTopic.appendChild(title);
     divTopic.appendChild(text);
+    if (topicImg) {
+        var img = document.createElement("img");
+        img.src = topicImg;
+        img.style.display = "block";
+        img.style.margin = "auto";
+        divTopic.appendChild(img);
+    }
     divTopic.className = 'jumbotron';
     return divTopic;
 }
@@ -89,21 +96,21 @@ function createTopic(topicTitle, topicText) {
  * @param {*} topicTitle 
  * @param {*} topicText 
  */
-function createTopicWithCards(topicTitle, topicText) {
+function createTopicWithCards(topic) {
     var title = document.createElement("h1");
-    title.textContent = topicTitle;
+    title.textContent = topic.title;
     title.className = 'display-4';
 
     var text = document.createElement("p");
-    text.textContent = topicText;
+    text.textContent = topic.text;
     text.className = 'lead';
 
     var divCards = document.createElement("div");
     divCards.className = "row d-flex mt-3 flex-wrap justify-content-between";
 
-    var card1 = createCard("title", "text");
-    var card2 = createCard("title", "text");
-    var card3 = createCard("title", "text");
+    var card1 = createCard(topic.card1_title, topic.card1_text, topic.card1_img);
+    var card2 = createCard(topic.card2_title, topic.card2_text, topic.card2_img);
+    var card3 = createCard(topic.card3_title, topic.card3_text, topic.card3_img);
 
     divCards.appendChild(card1);
     divCards.appendChild(card2);
@@ -123,13 +130,13 @@ function createTopicWithCards(topicTitle, topicText) {
  * @param {} title 
  * @param {*} text 
  */
-function createCard(title, text) {
+function createCard(title, text, img) {
     var card = document.createElement("div");
     card.className = 'card';
 
     var cardImage = document.createElement("img");
     cardImage.className = 'card-img-top';
-    cardImage.src = "images/ips.jpg";
+    cardImage.src = img;
     cardImage.alt = "IPS";
     cardImage.style = "width:100%;";
 
@@ -150,4 +157,79 @@ function createCard(title, text) {
     card.appendChild(cardBody);
 
     return card;
+}
+
+/**
+ * Funtion to create a modal for choosing the type of topic the user wants to create.
+ * @param {*} actionBtn1 
+ * @param {*} actionBtn2 
+ */
+function createTopicsModal(actionBtn1, actionBtn2) {
+    var divModal = document.createElement("div");
+    divModal.className = "modal fade";
+    divModal.id = "topicsModal";
+    divModal.tabindex = "-1";
+    divModal.role = "dialog";
+    //divModal.aria.labelledby = "topicsModal";
+    //divModal.aria.hidden = "true";
+
+    var divModalDialog = document.createElement("div");
+    divModalDialog.className = "modal-dialog modal-dialog-centered";
+    divModalDialog.role = "document";
+
+    var divModalContent = document.createElement("div");
+    divModalContent.className = "modal-content";
+
+    var divModalHeader = document.createElement("div");
+    divModalHeader.className = "modal-content";
+    var title = document.createElement("h5");
+    title.textContent = "Publicação de conteúdos";
+    title.id = "topicsModalTitle";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "close";
+    //btn.data.dismiss = "modal";
+    //btn.arial.label = "Close";
+    var span = document.createElement("span");
+    //span.aria.hidden = "true";
+    span.textContent = "& times;";
+    btn.appendChild(span);
+    divModalHeader.appendChild(title);
+    divModalHeader.appendChild(btn);
+
+    var divModalBody = document.createElement("div");
+    divModalBody.className = "modal-body";
+    divModalBody.textContent = "Selecione o tipo de conteúdo que pretende publicar!";
+
+    var divModalFooter = document.createElement("div");
+    divModalFooter.className = "modal-footer";
+    // BUTTON TO CREATE TOPICS WITH CARDS
+    var btnTopicsWithCards = document.createElement("button");
+    btnTopicsWithCards.type = "button";
+    btnTopicsWithCards.className = "btn btn-secondary";
+    btnTopicsWithCards.onclick = actionBtn1;
+    // BUTTON TO CREATE SIMPLE TOPICS
+    var btnSimpleTopics = document.createElement("button");
+    btnSimpleTopics.type = "button";
+    btnSimpleTopics.className = "btn btn-secondary";
+    btnSimpleTopics.onclick = actionBtn2;
+    divModalFooter.appendChild(btnTopicsWithCards);
+    divModalFooter.appendChild(btnSimpleTopics);
+
+    divModalContent.appendChild(divModalHeader);
+    divModalContent.appendChild(divModalBody);
+    divModalContent.appendChild(divModalFooter);
+    divModalDialog.appendChild(divModalContent);
+    divModal.appendChild(divModalDialog);
+    return divModal;
+}
+
+function createModalButton() {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn btn-primary";
+    //btn.toggle = "modal";
+    btn.data = "#topicsModal";
+    btn.textContent = "Criar tópico";
+    return btn;
 }
