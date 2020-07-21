@@ -171,7 +171,9 @@ async function updateUser(req, res) {
  * @param {*} res 
  */
 function deleteUser(req, res) {
-    User.deleteOne({ _id: req.params._id }, function(err) {
+    User.deleteOne({ _id: req.params.id }, function(err) {
+        console.log("ID " + req.params.id);
+        console.log("ERR " + err);
         if (err) return res.status(500).json(err)
         res.sendStatus(200)
     })

@@ -236,7 +236,7 @@ InfoManager.prototype.showTopics = function() {
         }
         if (idTopic) {
             replaceChilds('divTable', document.createElement('div'));
-            document.getElementById('formTopic').action = 'javascript:info.processingTopic("update");';
+            document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("update");';
             document.getElementById('formTopic').style.display = "block";
             document.getElementById("TopicsPage").style.display = "block";
             document.getElementById("divInformationTopic").style.display = "none";
@@ -366,7 +366,7 @@ InfoManager.prototype.removeUser = function(id) {
     xhr.open("DELETE", "/user/" + id, true);
     xhr.onreadystatechange = function() {
         if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
+            var response = xhr.response;
             console.log(response);
         }
         // window.location.reload();
@@ -400,7 +400,7 @@ InfoManager.prototype.processingUser = function(acao) {
         xhr.open("POST", "/user");
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
+                var response = xhr.response;
                 console.log(response);
             }
         }
@@ -412,7 +412,7 @@ InfoManager.prototype.processingUser = function(acao) {
         xhr.open("PUT", "/user/" + id);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
+                var response = xhr.response;
                 console.log(response);
             }
         }
@@ -420,7 +420,7 @@ InfoManager.prototype.processingUser = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(user));
     }
-    window.location.reload();
+    // window.location.reload();
 }
 
 
@@ -469,7 +469,7 @@ InfoManager.prototype.removeTopic = function(id) {
     xhr.open("DELETE", "/topic/" + id, true);
     xhr.onreadystatechange = function() {
         if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
+            var response = xhr.response;
             console.log(response);
         }
         window.location.reload();
@@ -485,7 +485,7 @@ InfoManager.prototype.removeTopicWithCards = function(id) {
     xhr.open("DELETE", "/topicWithCards/" + id, true);
     xhr.onreadystatechange = function() {
         if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
+            var response = xhr.response;
             console.log(response);
         }
         window.location.reload();
@@ -500,6 +500,7 @@ InfoManager.prototype.removeTopicWithCards = function(id) {
 InfoManager.prototype.processingSimpleTopic = function(acao) {
     let div = document.getElementById("TopicsPage").children;
     let form = div.formTopic;
+    let id = document.getElementById('id').value;
     let title = form.title.value;
     let text = form.text.value;
     let image = form.image.value;
@@ -518,7 +519,7 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         xhr.open("POST", "/topic", true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
+                var response = xhr.response;
                 console.log(response);
             }
         }
@@ -527,10 +528,11 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         xhr.send(JSON.stringify(topic));
 
     } else if (acao === "update") {
+        console.log("ID UPDATE " + id);
         xhr.open("PUT", "/topic/" + id, true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
+                var response = xhr.response;
                 console.log(response);
             }
         }
@@ -538,7 +540,7 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
     }
-    window.location.reload();
+    //  window.location.reload();
 }
 
 
@@ -550,7 +552,7 @@ InfoManager.prototype.removeTopicWithCards = function(id) {
     xhr.open("DELETE", "/topicWithCards/" + id, true);
     xhr.onreadystatechange = function() {
         if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
+            var response = xhr.response;
             console.log(response);
         }
         window.location.reload();
@@ -574,7 +576,7 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
     let card2Text = form.textCard2.value;
     let card2Img = form.imageCard2.value;
     let card3Title = form.titleCard3.value;
-    let card3Text = form.textCard2.value;
+    let card3Text = form.textCard3.value;
     let card3Img = form.imageCard3.value;
 
     let topic = {
@@ -601,7 +603,7 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
         xhr.open("POST", "/topicWithCards", true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
+                var response = xhr.response;
                 console.log(response);
             }
         }
@@ -613,7 +615,7 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
         xhr.open("PUT", "/topicWithCards/" + id, true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
+                var response = xhr.response;
                 console.log(response);
             }
         }
