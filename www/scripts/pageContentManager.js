@@ -1,29 +1,28 @@
 "use strict";
 
-showMainPage();
+
 var info = new InfoManager();
 window.info = info;
 info.getUsers();
 info.getTopicsWithCards();
 info.getTopics();
-
-//info.showUsers();
-//info.showTopics();
-//info.showExtraTopics();
+showMainPage();
 
 /**
  * Function to hide all the HTML elements in the page, using the CSS properties. 
  */
 function hideAll() {
-    /*if (info.loggedUser) {
+    if (!window.info.loggedUser) {
         document.getElementById("menuWithoutLogin").style.display = "block";
         document.getElementById("menuWithLogin").style.display = "none";
         document.getElementById("menuGoal4").style.display = "none";
+        document.getElementById("menuGoal5").style.display = "none";
     } else {
         document.getElementById("menuWithoutLogin").style.display = "none";
         document.getElementById("menuWithLogin").style.display = "block";
         document.getElementById("menuGoal4").style.display = "block";
-    }*/
+        document.getElementById("menuGoal5").style.display = "block";
+    }
     document.getElementById("LoginPage").style.display = "none";
     document.getElementById("RegisterPage").style.display = "none";
     document.getElementById("divInformationUser").style.display = "none";
@@ -41,7 +40,6 @@ function hideAll() {
  */
 function showMainPage() {
     hideAll();
-    //info.showExtraTopics();
     document.getElementById("MainPage").style.display = "block";
     document.getElementById("divExtraTopics").style.display = "block";
 }
@@ -83,7 +81,6 @@ function showTopicsFormPage() {
  */
 function showUsersPage() {
     hideAll();
-    //info.showUsers();
     document.getElementById("headerTitleUser").style.display = "block";
     document.getElementById("divInformationUser").style.display = "block";
 }
@@ -93,7 +90,6 @@ function showUsersPage() {
  */
 function showTopicsPage() {
     hideAll();
-    //info.showTopics();
     document.getElementById("headerTitleTopic").style.display = "block";
     document.getElementById("divInformationTopic").style.display = "block";
 }
@@ -103,7 +99,7 @@ function showTopicsPage() {
  * Function to show the logOutPage. Sets the user to undefined and sends the user to the main page
  */
 function showLogOut() {
-    info.loggedPlayer.logOut();
-    info.loggedPlayer = undefined;
-    showMainPage()
+    info.logout();
+    window.location.reload();
+    //showMainPage();
 }

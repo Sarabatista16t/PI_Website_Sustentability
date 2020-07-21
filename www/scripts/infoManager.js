@@ -79,6 +79,7 @@ InfoManager.prototype.showUsers = function() {
 
     let divTableUser = document.createElement("divTable");
     divTableUser.setAttribute("id", "divTableUser");
+    divTableUser.className = "table-responsive";
     divTableUser.appendChild(table);
 
     function deleteUserEventHandler() {
@@ -188,6 +189,7 @@ InfoManager.prototype.showTopics = function() {
 
     let divTable = document.createElement("divTable");
     divTable.setAttribute("id", "divTable");
+    divTable.className = "table-responsive";
     divTable.appendChild(table);
 
     function deleteTopicEventHandler() {
@@ -231,7 +233,6 @@ InfoManager.prototype.showTopics = function() {
             }
         }
         if (idTopic) {
-            replaceChilds('divTable', document.createElement('div'));
             document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("update");';
             document.getElementById('formTopic').style.display = "block";
             document.getElementById("TopicsPage").style.display = "block";
@@ -244,11 +245,19 @@ InfoManager.prototype.showTopics = function() {
             document.getElementById('text').value = topic.text;
         }
     }
-    createButton(divTable, newTopicCardsEventHandler, "Novo Tópico com cartões");
-    createButton(divTable, newTopicEventHandler, "Novo Tópico simples");
-    createButton(divTable, updateTopicEventHandler, "Editar");
-    createButton(divTable, deleteTopicEventHandler, "Eliminar");
-    replaceChilds("divInformationTopic", divTable);
+    let divTopicBtn = document.createElement("div");
+    divTopicBtn.setAttribute("id", "divTopicBtn");
+    createButton(divTopicBtn, newTopicCardsEventHandler, "Novo Tópico com cartões");
+    createButton(divTopicBtn, newTopicEventHandler, "Novo Tópico simples");
+    createButton(divTopicBtn, updateTopicEventHandler, "Editar");
+    createButton(divTopicBtn, deleteTopicEventHandler, "Eliminar");
+
+    let topicMainDiv = document.createElement("div");
+    topicMainDiv.setAttribute("id", "topicMainDiv");
+    topicMainDiv.appendChild(divTable);
+    topicMainDiv.appendChild(divTopicBtn);
+
+    replaceChilds("divInformationTopic", topicMainDiv);
 };
 
 /**
@@ -327,12 +336,19 @@ InfoManager.prototype.login = function() {
 
     req.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            let user = this.response.user[0];
-            self.loggedUser = new User(user.Id, user.name, user.email, user.password, user.roles);
+            let user = this.response.user;
+            self.loggedUser = user;
             showMainPage(); // ??
         }
     }
     req.send(JSON.stringify(user));
+}
+
+/**
+ * Funtion to do the logout.
+ */
+InfoManager.prototype.logout = function() {
+    self.loggedUser = undefined;
 }
 
 /**
@@ -519,7 +535,6 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
                 console.log(response);
             }
         }
-        console.log(JSON.stringify(topic));
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
 
@@ -532,7 +547,6 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
                 console.log(response);
             }
         }
-        console.log(JSON.stringify(topic));
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
     }

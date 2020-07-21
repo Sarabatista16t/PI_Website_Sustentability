@@ -53,13 +53,13 @@
                         <a id='menuGoal4' href='#' onclick="showTopicsPage()" class='nav-link'><i class="fas fa-tools"></i>Editar Conteudos</a></li>
 
                     <li class='nav-item'>
-                        <a id='menuGoal4' href='#' onclick="showUsersPage()" class='nav-link'><i class="fas fa-user-cog"></i>Editar Utilizadores</a></li>
+                        <a id='menuGoal5' href='#' onclick="showUsersPage()" class='nav-link'><i class="fas fa-user-cog"></i>Editar Utilizadores</a></li>
             </ul>
             <ul class='nav'>
                 <li class='nav-item'>
                     <a id="menuWithoutLogin" onclick="showLoginPage()" href='#' class='nav-link'>Login</a></li>
                 <li class='nav-item'>
-                    <a id="menuWithLogin" onclick="showMainPage()" href='#' class='nav-link'>Logout</a></li>
+                    <a id="menuWithLogin" onclick="showLogOut()" href='#' class='nav-link'>Logout</a></li>
             </ul>
         </div>
 
@@ -104,13 +104,13 @@
         <div id='LoginPage' class="container">
             <h1>Login</h1>
 
-            <form action="/login" method="POST" name=loginform>
+            <form action="javascript: info.login();" name=loginForm>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email</label>
+                    <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Inserir email">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
+                    <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
                 <button class="btn btn-success" type="submit">Login</button>

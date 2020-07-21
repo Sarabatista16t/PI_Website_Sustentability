@@ -32,6 +32,7 @@ authRouter.post('/login', login)
  * @param {*} res 
  */
 async function login(req, res) {
+    console.log(req);
     if (!req.body.email || !req.body.password) {
         return res.status(400).json({
             error: 'Missing email or password'
