@@ -35,9 +35,11 @@ app.get("/topics", requestHandlers.getAllTopics);
 app.get("/topicsWithCards", requestHandlers.getAllTopicsWithCards);
 app.get("/topic/:id", requestHandlers.getTopic);
 app.post("/topic", requestHandlers.createTopic);
+app.post("/topicWithCards", requestHandlers.createTopicWithCards);
 app.delete("/topic/:id", requestHandlers.deleteTopic);
 app.delete("/topicWithCards/:id", requestHandlers.deleteTopicWithCards);
 app.put("/topic/:id", requestHandlers.updateTopic);
+app.put("/topicWithCards/:id", requestHandlers.updateTopicWithCards);
 
 app.listen(options.server.port, function() {
     console.log("Server running at port:" + options.server.port);

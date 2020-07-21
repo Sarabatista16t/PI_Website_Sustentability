@@ -16,320 +16,6 @@ function InfoManager(id) {
     this.loggedUser = undefined;
 };
 
-/*====================================================================================*/
-/*=======================          AJAX FUNCTIONS            =========================*/
-/*====================================================================================*/
-
-
-/**
- * Função que envia o login para o sevidor NODE.JS 
- */
-InfoManager.prototype.login = function() {
-    let div = document.getElementById("LoginPage").children;
-    let form = div.loginForm;
-    let email = form.email.value;
-    let password = form.password.value;
-    let user = {
-        "email": email,
-        "password": password
-    }
-    let req = new XMLHttpRequest();
-    req.open("POST", "/login");
-    req.setRequestHeader("Content-Type", "application/json");
-    req.addEventListener("load", function() {
-        console.log("Login realizado com sucesso");
-    });
-
-    const self = this;
-    req.responseType = 'json';
-
-    req.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let user = this.response.user[0];
-            self.loggedUser = new User(user.Id, user.name, user.email, user.password, user.roles);
-            showMainPage(); // ??
-        }
-    }
-    req.send(JSON.stringify(user));
-}
-
-/**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso utilizadores através do verbo GET, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.getUsers = function() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '/users');
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let users = JSON.parse(xhr.responseText);
-            users.forEach(e => {
-                window.info.users.push(e);
-            })
-            window.info.showUsers();
-        }
-    };
-    xhr.send();
-};
-
-
-/**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.removeUser = function(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/user/" + id, true);
-    xhr.onreadystatechange = function() {
-        if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
-            console.log(response);
-        }
-    }
-    xhr.send();
-}
-
-/**
- * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
- * @param {String} acao - controla qual a operação do CRUD queremos fazer
- */
-InfoManager.prototype.processingUser = function(acao) {
-    let div = document.getElementById("RegisterPage").children;
-    let form = div.formPerson;
-    let name = form.name.value;
-    let email = form.email.value;
-    let password = form.password.value;
-    let confirmPassword = form.confirmPassword.value;
-    let role = 'editor';
-    let user = {
-        "name": name,
-        "email": email,
-        "password": password,
-        "roles": role
-    }
-
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-
-    if (acao === "create") {
-        xhr.open("POST", "/user");
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-            }
-        }
-        console.log(JSON.stringify(user));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(user));
-
-    } else if (acao === "update") {
-        xhr.open("PUT", "/user/" + id);
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-            }
-        }
-        console.log(JSON.stringify(user));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(user));
-    }
-}
-
-
-/**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.getTopics = function() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '/topics');
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let topics = JSON.parse(xhr.responseText);
-            topics.forEach(t => {
-                window.info.topics.push(t);
-            });
-            window.info.showTopics();
-            window.info.showExtraSimpleTopics();
-        }
-    };
-    xhr.send();
-};
-
-/**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.getTopicsWithCards = function() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '/topicsWithCards');
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let topicsWithCards = JSON.parse(xhr.responseText);
-            topicsWithCards.forEach(t => {
-                window.info.topicsWithCards.push(t);
-            });
-            window.info.showExtraTopicsWithCards();
-        }
-    };
-    xhr.send();
-};
-
-/**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.removeTopic = function(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/topic/" + id, true);
-    xhr.onreadystatechange = function() {
-        if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
-            console.log(response);
-        }
-    }
-    xhr.send();
-}
-
-/**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.removeTopicWithCards = function(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/topicWithCards/" + id, true);
-    xhr.onreadystatechange = function() {
-        if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
-            console.log(response);
-        }
-    }
-    xhr.send();
-}
-
-/**
- * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
- * @param {String} acao - controla qual a operação do CRUD queremos fazer
- */
-InfoManager.prototype.processingSimpleTopic = function(acao) {
-    let div = document.getElementById("TopicsPage").children;
-    let form = div.formTopic;
-    let title = form.title.value;
-    let text = form.text.value;
-    let image = form.image.value;
-    let topic = {
-        "title": title,
-        "text": text,
-        "image": image,
-        "idUser": "1",
-        "date": Date.now()
-            // "idUser": this.loggedUser.Id
-    }
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-
-    if (acao === "create") {
-        xhr.open("POST", "/topic", true);
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-            }
-        }
-        console.log(JSON.stringify(topic));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(topic));
-
-    } else if (acao === "update") {
-        xhr.open("PUT", "/topic/" + id, true);
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-            }
-        }
-        console.log(JSON.stringify(topic));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(topic));
-    }
-}
-
-
-/**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.removeTopicWithCards = function(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/topicWithCards/" + id, true);
-    xhr.onreadystatechange = function() {
-        if ((this.readyState === 4) && (this.status === 200)) {
-            var response = JSON.parse(xhr.responseText);
-            console.log(response);
-        }
-    }
-    xhr.send();
-}
-
-/**
- * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
- * @param {String} acao - controla qual a operação do CRUD queremos fazer
- */
-InfoManager.prototype.processingTopicWithCards = function(acao) {
-    let div = document.getElementById("TopicsPage").children;
-    let form = div.formTopicCards;
-    let title = form.title.value;
-    let text = form.text.value;
-    let card1Title = form.card1_title.value;
-    let card1Text = form.card1_text.value;
-    let card1Img = form.card1_img.value;
-    let card2Title = form.card2_title.value;
-    let card2Text = form.card2_text.value;
-    let card2Img = form.card2_img.value;
-    let card3Title = form.card3_title.value;
-    let card3Text = form.card3_text.value;
-    let card3Img = form.card3_img.value;
-
-    let topic = {
-        "title": title,
-        "text": text,
-        "card1_title": card1Title,
-        "card1_text": card1Text,
-        "card1_img": card1Img,
-        "card2_title": card2Title,
-        "card2_text": card2Text,
-        "card2_img": card2Img,
-        "card3_title": card3Title,
-        "card3_text": card3Text,
-        "card3_img": card3Img,
-        "idUser": "1",
-        "date": Date.now()
-            // "idUser": this.loggedUser.Id
-    }
-
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-
-    if (acao === "create") {
-        xhr.open("POST", "/topic", true);
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-            }
-        }
-        console.log(JSON.stringify(topic));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(topic));
-
-    } else if (acao === "update") {
-        xhr.open("PUT", "/topic/" + id, true);
-        xhr.onreadystatechange = function() {
-            if ((this.readyState === 4) && (this.status === 200)) {
-                var response = JSON.parse(xhr.responseText);
-                console.log(response);
-            }
-        }
-        console.log(JSON.stringify(topic));
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(topic));
-    }
-}
 
 
 
@@ -519,26 +205,24 @@ InfoManager.prototype.showTopics = function() {
 
     function newTopicEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("createTopic");';
+        document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("create");';
         document.getElementById('formTopic').style.display = "block";
         document.getElementById("formTopicCards").style.display = "none";
         document.getElementById("TopicsPage").style.display = "block";
         document.getElementById("divInformationTopic").style.display = "none";
         document.getElementById("headerTitleTopic").style.display = "none";
         document.getElementById('formTopic').reset();
-        console.log("CREATE TOPIC ");
     }
 
     function newTopicCardsEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formTopicCards').action = 'javascript:info.processingSimpleTopic("createTopicCard");';
+        document.getElementById('formTopicCards').action = 'javascript:info.processingTopicWithCards("create");';
         document.getElementById('formTopicCards').style.display = "block";
         document.getElementById("formTopic").style.display = "none";
         document.getElementById("TopicsPage").style.display = "block";
         document.getElementById("divInformationTopic").style.display = "none";
         document.getElementById("headerTitleTopic").style.display = "none";
         document.getElementById('formTopicCards').reset();
-        console.log("CREATE TOPIC ");
     }
 
     function updateTopicEventHandler() {
@@ -562,14 +246,10 @@ InfoManager.prototype.showTopics = function() {
             const topic = info.topics.find(i => i._id === idTopic);
             document.getElementById('title').value = topic.title;
             document.getElementById('text').value = topic.text;
-            console.log("TOPICs " + topic.title);
         }
     }
     createButton(divTable, newTopicCardsEventHandler, "Novo Tópico com cartões");
     createButton(divTable, newTopicEventHandler, "Novo Tópico simples");
-    //createTopicsModal();
-    //let createBtn = createModalButton();
-    //divTable.appendChild(createBtn);
     createButton(divTable, updateTopicEventHandler, "Editar");
     createButton(divTable, deleteTopicEventHandler, "Eliminar");
     replaceChilds("divInformationTopic", divTable);
@@ -620,4 +300,326 @@ InfoManager.prototype.showExtraTopicsWithCards = function() {
             divTopics.appendChild(topic);
         });
     }
+}
+
+/*====================================================================================*/
+/*=======================          AJAX FUNCTIONS            =========================*/
+/*====================================================================================*/
+
+
+/**
+ * Função que envia o login para o sevidor NODE.JS 
+ */
+InfoManager.prototype.login = function() {
+    let div = document.getElementById("LoginPage").children;
+    let form = div.loginForm;
+    let email = form.email.value;
+    let password = form.password.value;
+    let user = {
+        "email": email,
+        "password": password
+    }
+    let req = new XMLHttpRequest();
+    req.open("POST", "/login");
+    req.setRequestHeader("Content-Type", "application/json");
+    req.addEventListener("load", function() {
+        console.log("Login realizado com sucesso");
+    });
+
+    const self = this;
+    req.responseType = 'json';
+
+    req.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let user = this.response.user[0];
+            self.loggedUser = new User(user.Id, user.name, user.email, user.password, user.roles);
+            showMainPage(); // ??
+        }
+    }
+    req.send(JSON.stringify(user));
+}
+
+/**
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso utilizadores através do verbo GET, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.getUsers = function() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/users');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let users = JSON.parse(xhr.responseText);
+            users.forEach(e => {
+                window.info.users.push(e);
+            })
+            window.info.showUsers();
+        }
+    };
+    xhr.send();
+};
+
+
+/**
+ * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.removeUser = function(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/user/" + id, true);
+    xhr.onreadystatechange = function() {
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+        // window.location.reload();
+    }
+    xhr.send();
+}
+
+/**
+ * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+ * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ */
+InfoManager.prototype.processingUser = function(acao) {
+    let div = document.getElementById("RegisterPage").children;
+    let form = div.formPerson;
+    let name = form.name.value;
+    let email = form.email.value;
+    let password = form.password.value;
+    let confirmPassword = form.confirmPassword.value;
+    let role = 'editor';
+    let user = {
+        "name": name,
+        "email": email,
+        "password": password,
+        "roles": role
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+
+    if (acao === "create") {
+        xhr.open("POST", "/user");
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(user));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(user));
+
+    } else if (acao === "update") {
+        xhr.open("PUT", "/user/" + id);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(user));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(user));
+    }
+    window.location.reload();
+}
+
+
+/**
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.getTopics = function() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/topics');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let topics = JSON.parse(xhr.responseText);
+            topics.forEach(t => {
+                window.info.topics.push(t);
+            });
+            window.info.showTopics();
+            window.info.showExtraSimpleTopics();
+        }
+    };
+    xhr.send();
+};
+
+/**
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.getTopicsWithCards = function() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/topicsWithCards');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let topicsWithCards = JSON.parse(xhr.responseText);
+            topicsWithCards.forEach(t => {
+                window.info.topicsWithCards.push(t);
+            });
+            window.info.showExtraTopicsWithCards();
+        }
+    };
+    xhr.send();
+};
+
+/**
+ * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.removeTopic = function(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/topic/" + id, true);
+    xhr.onreadystatechange = function() {
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+        window.location.reload();
+    }
+    xhr.send();
+}
+
+/**
+ * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.removeTopicWithCards = function(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/topicWithCards/" + id, true);
+    xhr.onreadystatechange = function() {
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+        window.location.reload();
+    }
+    xhr.send();
+}
+
+/**
+ * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+ * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ */
+InfoManager.prototype.processingSimpleTopic = function(acao) {
+    let div = document.getElementById("TopicsPage").children;
+    let form = div.formTopic;
+    let title = form.title.value;
+    let text = form.text.value;
+    let image = form.image.value;
+    let topic = {
+        "title": title,
+        "text": text,
+        "image": image,
+        "idUser": "1",
+        "date": Date.now()
+            // "idUser": this.loggedUser.Id
+    }
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+
+    if (acao === "create") {
+        xhr.open("POST", "/topic", true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
+
+    } else if (acao === "update") {
+        xhr.open("PUT", "/topic/" + id, true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
+    }
+    window.location.reload();
+}
+
+
+/**
+ * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.removeTopicWithCards = function(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/topicWithCards/" + id, true);
+    xhr.onreadystatechange = function() {
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+        window.location.reload();
+    }
+    xhr.send();
+}
+
+/**
+ * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+ * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ */
+InfoManager.prototype.processingTopicWithCards = function(acao) {
+    let div = document.getElementById("TopicsPage").children;
+    let form = div.formTopicCards;
+    let title = form.title.value;
+    let text = form.text.value;
+    let card1Title = form.titleCard1.value;
+    let card1Text = form.textCard1.value;
+    let card1Img = form.imageCard1.value;
+    let card2Title = form.titleCard2.value;
+    let card2Text = form.textCard2.value;
+    let card2Img = form.imageCard2.value;
+    let card3Title = form.titleCard3.value;
+    let card3Text = form.textCard2.value;
+    let card3Img = form.imageCard3.value;
+
+    let topic = {
+        "title": title,
+        "text": text,
+        "card1_title": card1Title,
+        "card1_text": card1Text,
+        "card1_img": card1Img,
+        "card2_title": card2Title,
+        "card2_text": card2Text,
+        "card2_img": card2Img,
+        "card3_title": card3Title,
+        "card3_text": card3Text,
+        "card3_img": card3Img,
+        "idUser": "1",
+        "date": Date.now()
+            // "idUser": this.loggedUser.Id
+    }
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+
+    if (acao === "create") {
+        xhr.open("POST", "/topicWithCards", true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
+
+    } else if (acao === "update") {
+        xhr.open("PUT", "/topicWithCards/" + id, true);
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status === 200)) {
+                var response = JSON.parse(xhr.responseText);
+                console.log(response);
+            }
+        }
+        console.log(JSON.stringify(topic));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(topic));
+    }
+    window.location.reload();
 }

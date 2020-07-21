@@ -231,6 +231,22 @@ async function updateTopic(req, res) {
         })
     })
 }
+/**
+ * Function to update the topic
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function updateTopicWithCards(req, res) {
+    const topic = req.body
+    TopicWithCards.updateOne({ _id: req.params.id }, topic, { runValidators: true }, function(err) {
+        if (err) return res.status(400).json({ error: err.message })
+
+        TopicWithCards.findById({ _id: req.params.id }, function(err, topic) {
+            if (err) return res.sendStatus(500)
+            res.json(topic)
+        })
+    })
+}
 
 /**
  * Function to create a topic.
@@ -248,6 +264,21 @@ async function createTopic(req, res) {
     }
 }
 
+/**
+ * Function to create a topic.
+ * @param {*} req 
+ * @param {*} res 
+ */
+async function createTopicWithCards(req, res) {
+    const topic = new TopicWithCards(req.body)
+
+    try {
+        await topic.save()
+        res.sendStatus(200)
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+}
 /**
  * Function to delete the Topic
  * @param {*} req 
@@ -289,6 +320,8 @@ module.exports.getAllTopics = getAllTopics;
 module.exports.getAllTopicsWithCards = getAllTopicsWithCards;
 module.exports.getTopic = getTopic;
 module.exports.updateTopic = updateTopic;
+module.exports.updateTopicWithCards = updateTopicWithCards;
 module.exports.deleteTopic = deleteTopic;
 module.exports.deleteTopicWithCards = deleteTopicWithCards;
 module.exports.createTopic = createTopic;
+module.exports.createTopicWithCards = createTopicWithCards;
