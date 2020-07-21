@@ -77,9 +77,9 @@ InfoManager.prototype.showUsers = function() {
         table.appendChild(tableLine(userAux, false));
     });
 
-    let divTable = document.createElement("divTable");
-    divTable.setAttribute("id", "divTable");
-    divTable.appendChild(table);
+    let divTableUser = document.createElement("divTable");
+    divTableUser.setAttribute("id", "divTableUser");
+    divTableUser.appendChild(table);
 
     function deleteUserEventHandler() {
         for (const row of table.rows) {
@@ -94,7 +94,6 @@ InfoManager.prototype.showUsers = function() {
     }
 
     function newUserEventHandler() {
-        replaceChilds('divTable', document.createElement('div'));
         document.getElementById('formPerson').action = 'javascript:info.processingUser("create");';
         document.getElementById('formPerson').style.display = 'block';
         document.getElementById("RegisterPage").style.display = "block";
@@ -114,7 +113,6 @@ InfoManager.prototype.showUsers = function() {
             }
         }
         if (idUser) {
-            replaceChilds('divTable', document.createElement('div'));
             document.getElementById('formPerson').action = 'javascript:info.processingUser("update");';
             document.getElementById('formPerson').style.display = 'block';
             document.getElementById("RegisterPage").style.display = "block";
@@ -128,10 +126,10 @@ InfoManager.prototype.showUsers = function() {
             console.log("USERS " + user.name);
         }
     }
-    createButton(divTable, newUserEventHandler, "Novo utilizador");
-    createButton(divTable, updateUserEventHandler, "Editar");
-    createButton(divTable, deleteUserEventHandler, "Eliminar");
-    replaceChilds("divInformationUser", divTable);
+    createButton(divTableUser, newUserEventHandler, "Novo utilizador");
+    createButton(divTableUser, updateUserEventHandler, "Editar");
+    createButton(divTableUser, deleteUserEventHandler, "Eliminar");
+    replaceChilds("divInformationUser", divTableUser);
 };
 
 /**
@@ -204,7 +202,6 @@ InfoManager.prototype.showTopics = function() {
     }
 
     function newTopicEventHandler() {
-        replaceChilds('divTable', document.createElement('div'));
         document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("create");';
         document.getElementById('formTopic').style.display = "block";
         document.getElementById("formTopicCards").style.display = "none";
@@ -215,7 +212,6 @@ InfoManager.prototype.showTopics = function() {
     }
 
     function newTopicCardsEventHandler() {
-        replaceChilds('divTable', document.createElement('div'));
         document.getElementById('formTopicCards').action = 'javascript:info.processingTopicWithCards("create");';
         document.getElementById('formTopicCards').style.display = "block";
         document.getElementById("formTopic").style.display = "none";
