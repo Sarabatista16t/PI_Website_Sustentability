@@ -91,7 +91,8 @@ function createDefaultSimpleTopic() {
                 Topic.create({
                     title: 'Um pequeno artigo sobre sustentabilidade',
                     text: 'Sustentabilidade é uma característica ou condição de um processo ou de um sistema que permite a sua permanência, em certo nível, por um determinado prazo. Ultimamente, este conceito tornou-se um princípio segundo o qual o uso dos recursos naturais para a satisfação de necessidades presentes não pode comprometer a satisfação das necessidades das gerações futuras. Este novo princípio foi ampliado para a expressão "sustentabilidade no longo prazo", um "longo prazo" de termo indefinido.',
-                    idUser: '1'
+                    idUser: '1',
+                    date: Date.now()
                 }, function(err) {
                     if (err) {
                         console.error('Unable to create the default topic.')
@@ -116,7 +117,8 @@ function createDefaultTopicWithImage() {
                     title: 'Um grande artigo sobre sustentabilidade',
                     text: 'Sustentabilidade é uma característica ou condição de um processo ou de um sistema que permite a sua permanência, em certo nível, por um determinado prazo. Ultimamente, este conceito tornou-se um princípio segundo o qual o uso dos recursos naturais para a satisfação de necessidades presentes não pode comprometer a satisfação das necessidades das gerações futuras. Este novo princípio foi ampliado para a expressão "sustentabilidade no longo prazo", um "longo prazo" de termo indefinido.',
                     image: 'https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg',
-                    idUser: '1'
+                    idUser: '1',
+                    date: Date.now()
                 }, function(err) {
                     if (err) {
                         console.error('Unable to create the default topic.')
@@ -146,7 +148,8 @@ function createDefaultTopicWithCards() {
                     card2_img: 'https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg',
                     card3_text: 'Card 3',
                     card3_img: 'https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg',
-                    idUser: '1'
+                    idUser: '1',
+                    date: Date.now()
                 }, function(err) {
                     if (err) {
                         console.error('Unable to create the default topic with cards.')

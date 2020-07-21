@@ -67,7 +67,7 @@ function createButton(fatherNode, eventHandler, value) {
  * @param {*} topicTitle 
  * @param {*} topicText 
  */
-function createTopic(topicTitle, topicText, topicImg) {
+function createTopic(topicTitle, topicText, topicImg, topicDate) {
     var title = document.createElement("h1");
     title.textContent = topicTitle;
     title.className = 'display-4';
@@ -80,6 +80,7 @@ function createTopic(topicTitle, topicText, topicImg) {
     divTopic.setAttribute("id", "divTopic");
     divTopic.appendChild(title);
     divTopic.appendChild(text);
+
     if (topicImg) {
         var img = document.createElement("img");
         img.src = topicImg;
@@ -87,6 +88,13 @@ function createTopic(topicTitle, topicText, topicImg) {
         img.style.margin = "auto";
         divTopic.appendChild(img);
     }
+
+    var date = document.createElement("p");
+    date.textContent = "Publicado em " + topicDate;
+    date.style.fontStyle = "oblique";
+    date.className = 'lead';
+
+    divTopic.appendChild(date);
     divTopic.className = 'jumbotron';
     return divTopic;
 }
@@ -116,11 +124,17 @@ function createTopicWithCards(topic) {
     divCards.appendChild(card2);
     divCards.appendChild(card3);
 
+    var date = document.createElement("p");
+    date.textContent = "Publicado em " + topic.date;
+    date.style.fontStyle = "oblique";
+    date.className = 'lead';
+
     var divTopic = document.createElement("div");
     divTopic.setAttribute("id", "divTopic");
     divTopic.appendChild(title);
     divTopic.appendChild(text);
     divTopic.appendChild(divCards);
+    divTopic.appendChild(date);
     divTopic.className = 'jumbotron';
     return divTopic;
 }

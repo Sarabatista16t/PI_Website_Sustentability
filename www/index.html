@@ -156,6 +156,7 @@
         <div id='TopicsPage' class="container">
             <h1> Criar Tópico </h1>
 
+            <!-- FORM TO CREATE SIMPLE TOPICS, WITH OR WITHOUT AN IMAGE-->
             <form id="formTopic" action="javascript: info.processingTopic('create');" name=formTopic>
                 <input id="id" type="hidden" />
                 <div class="form-group ">
@@ -171,6 +172,62 @@
                 <div class="form-group ">
                     <label for="image">Imagem</label>
                     <input type="text" class="form-control" id="image" name="image" placeholder="URL da imagem">
+                </div>
+                <p style="color:red">Os campos assinalados com * são de preenchimento obrigatório</p>
+                <button class="btn btn-success" type="submit">Públicar Tópico</button>
+            </form>
+
+            <!-- FORM TO CREATE TOPICS WITH CARDS -->
+            <form id="formTopicCards" action="javascript: info.processingTopic('create');" name=formTopicCards>
+                <input id="id" type="hidden" />
+                <div class="form-group ">
+                    <label for="title">Título *</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Título">
+                </div>
+                <div class="form-group ">
+                    <label for="text">Texto *</label>
+                    <br/>
+                    <textarea id="text" name="text" class="form-control" placeholder="Escreva aqui o seu texto" rows="5"></textarea>
+                    <!-- <input type="text" class="form-control" id="text" name="text" placeholder="Texto"> -->
+                </div>
+                <!-- Card 1 -->
+                <div class="form-group ">
+                    <label for="titleCard1">Título do cartão 1 *</label>
+                    <input type="text" class="form-control" id="titleCard1" name="titleCard1" placeholder="Título">
+                </div>
+                <div class="form-group ">
+                    <label for="textCard1">Texto do cartão 1 *</label>
+                    <input type="text" class="form-control" id="textCard1" name="textCard1" placeholder="Escreva aqui o seu texto">
+                </div>
+                <div class="form-group ">
+                    <label for="imageCard1">Imagem do cartão 1</label>
+                    <input type="text" class="form-control" id="imageCard1" name="imageCard1" placeholder="URL da imagem">
+                </div>
+                <!-- Card 2 -->
+                <div class="form-group ">
+                    <label for="titleCard2">Título do cartão 2 *</label>
+                    <input type="text" class="form-control" id="titleCard2" name="titleCard2" placeholder="Título">
+                </div>
+                <div class="form-group ">
+                    <label for="textCard2">Texto do cartão 2 *</label>
+                    <input type="text" class="form-control" id="textCard2" name="textCard2" placeholder="Escreva aqui o seu texto">
+                </div>
+                <div class="form-group ">
+                    <label for="imageCard2">Imagem do cartão 2</label>
+                    <input type="text" class="form-control" id="imageCard2" name="imageCard2" placeholder="URL da imagem">
+                </div>
+                <!-- Card 3 -->
+                <div class="form-group ">
+                    <label for="titleCard3">Título do cartão 3 *</label>
+                    <input type="text" class="form-control" id="titleCard3" name="titleCard3" placeholder="Título">
+                </div>
+                <div class="form-group ">
+                    <label for="textCard3">Texto do cartão 3 *</label>
+                    <input type="text" class="form-control" id="textCard3" name="textCard3" placeholder="Escreva aqui o seu texto">
+                </div>
+                <div class="form-group ">
+                    <label for="imageCard3">Imagem do cartão 3</label>
+                    <input type="text" class="form-control" id="imageCard3" name="imageCard3" placeholder="URL da imagem">
                 </div>
                 <p style="color:red">Os campos assinalados com * são de preenchimento obrigatório</p>
                 <button class="btn btn-success" type="submit">Públicar Tópico</button>

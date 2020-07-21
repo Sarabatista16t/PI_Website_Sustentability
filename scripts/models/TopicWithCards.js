@@ -12,7 +12,8 @@ var TopicWithCardsSchema = new mongoose.Schema({
     card3_title: { type: String, required: false },
     card3_text: { type: String, required: false },
     card3_img: { type: String, required: false },
-    idUser: { type: String, required: true }
+    idUser: { type: String, required: true },
+    date: { type: Date, required: false }
 });
 
 module.exports = mongoose.model('TopicWithCards', TopicWithCardsSchema);

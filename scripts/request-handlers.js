@@ -260,6 +260,18 @@ function deleteTopic(req, res) {
     })
 }
 
+/**
+ * Function to delete the Topic with cards
+ * @param {*} req 
+ * @param {*} res 
+ */
+function deleteTopicWithCards(req, res) {
+    TopicWithCards.deleteOne({ _id: req.params.id }, function(err) {
+        if (err) return res.status(500).json(err)
+        res.sendStatus(200)
+    })
+}
+
 /* ==============  AUTENTICATION  ================ */
 module.exports.login = login;
 module.exports.changePassword = changePassword;
@@ -278,4 +290,5 @@ module.exports.getAllTopicsWithCards = getAllTopicsWithCards;
 module.exports.getTopic = getTopic;
 module.exports.updateTopic = updateTopic;
 module.exports.deleteTopic = deleteTopic;
+module.exports.deleteTopicWithCards = deleteTopicWithCards;
 module.exports.createTopic = createTopic;

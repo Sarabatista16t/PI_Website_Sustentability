@@ -156,6 +156,24 @@ InfoManager.prototype.getTopics = function() {
 };
 
 /**
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.getTopicsWithCards = function() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', '/topicsWithCards');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            let topicsWithCards = JSON.parse(xhr.responseText);
+            topicsWithCards.forEach(t => {
+                window.info.topicsWithCards.push(t);
+            });
+            window.info.showExtraTopicsWithCards();
+        }
+    };
+    xhr.send();
+};
+
+/**
  * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
  */
 InfoManager.prototype.removeTopic = function(id) {
@@ -171,10 +189,25 @@ InfoManager.prototype.removeTopic = function(id) {
 }
 
 /**
+ * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.removeTopicWithCards = function(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", "/topicWithCards/" + id, true);
+    xhr.onreadystatechange = function() {
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = JSON.parse(xhr.responseText);
+            console.log(response);
+        }
+    }
+    xhr.send();
+}
+
+/**
  * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
  * @param {String} acao - controla qual a operação do CRUD queremos fazer
  */
-InfoManager.prototype.processingTopic = function(acao) {
+InfoManager.prototype.processingSimpleTopic = function(acao) {
     let div = document.getElementById("TopicsPage").children;
     let form = div.formTopic;
     let title = form.title.value;
@@ -184,7 +217,8 @@ InfoManager.prototype.processingTopic = function(acao) {
         "title": title,
         "text": text,
         "image": image,
-        "idUser": "1"
+        "idUser": "1",
+        "date": Date.now()
             // "idUser": this.loggedUser.Id
     }
     let xhr = new XMLHttpRequest();
@@ -216,23 +250,6 @@ InfoManager.prototype.processingTopic = function(acao) {
     }
 }
 
-/**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.getTopicsWithCards = function() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', '/topicsWithCards');
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            let topicsWithCards = JSON.parse(xhr.responseText);
-            topicsWithCards.forEach(t => {
-                window.info.topicsWithCards.push(t);
-            });
-            window.info.showExtraTopicsWithCards();
-        }
-    };
-    xhr.send();
-};
 
 /**
  * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
@@ -255,17 +272,36 @@ InfoManager.prototype.removeTopicWithCards = function(id) {
  */
 InfoManager.prototype.processingTopicWithCards = function(acao) {
     let div = document.getElementById("TopicsPage").children;
-    let form = div.formTopic;
+    let form = div.formTopicCards;
     let title = form.title.value;
     let text = form.text.value;
-    let image = form.image.value;
+    let card1Title = form.card1_title.value;
+    let card1Text = form.card1_text.value;
+    let card1Img = form.card1_img.value;
+    let card2Title = form.card2_title.value;
+    let card2Text = form.card2_text.value;
+    let card2Img = form.card2_img.value;
+    let card3Title = form.card3_title.value;
+    let card3Text = form.card3_text.value;
+    let card3Img = form.card3_img.value;
+
     let topic = {
         "title": title,
         "text": text,
-        "image": image,
-        "idUser": "1"
+        "card1_title": card1Title,
+        "card1_text": card1Text,
+        "card1_img": card1Img,
+        "card2_title": card2Title,
+        "card2_text": card2Text,
+        "card2_img": card2Img,
+        "card3_title": card3Title,
+        "card3_text": card3Text,
+        "card3_img": card3Img,
+        "idUser": "1",
+        "date": Date.now()
             // "idUser": this.loggedUser.Id
     }
+
     let xhr = new XMLHttpRequest();
     xhr.responseType = "json";
 
@@ -418,6 +454,7 @@ InfoManager.prototype.showUsers = function() {
 InfoManager.prototype.showTopics = function() {
     document.getElementById("headerTitleTopic").textContent = "Tópicos";
     document.getElementById("formTopic").style.display = "none";
+    document.getElementById("formTopicCards").style.display = "none";
     let table = document.createElement("table");
     table.className = "table .table-bordered";
     //table.appendChild(tableLine(new User(), true));
@@ -456,6 +493,15 @@ InfoManager.prototype.showTopics = function() {
         table.appendChild(tableLine(topicAux, false));
     });
 
+    window.info.topicsWithCards.forEach(t => {
+        let topicAux = {
+            "id": t._id,
+            "title": t.title,
+            "text": t.text
+        }
+        table.appendChild(tableLine(topicAux, false));
+    });
+
     let divTable = document.createElement("divTable");
     divTable.setAttribute("id", "divTable");
     divTable.appendChild(table);
@@ -473,8 +519,9 @@ InfoManager.prototype.showTopics = function() {
 
     function newTopicEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formTopic').action = 'javascript:info.processingTopic("createTopic");';
+        document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("createTopic");';
         document.getElementById('formTopic').style.display = "block";
+        document.getElementById("formTopicCards").style.display = "none";
         document.getElementById("TopicsPage").style.display = "block";
         document.getElementById("divInformationTopic").style.display = "none";
         document.getElementById("headerTitleTopic").style.display = "none";
@@ -484,12 +531,13 @@ InfoManager.prototype.showTopics = function() {
 
     function newTopicCardsEventHandler() {
         replaceChilds('divTable', document.createElement('div'));
-        document.getElementById('formTopic').action = 'javascript:info.processingTopic("createTopicCard");';
-        document.getElementById('formTopic').style.display = "block";
+        document.getElementById('formTopicCards').action = 'javascript:info.processingSimpleTopic("createTopicCard");';
+        document.getElementById('formTopicCards').style.display = "block";
+        document.getElementById("formTopic").style.display = "none";
         document.getElementById("TopicsPage").style.display = "block";
         document.getElementById("divInformationTopic").style.display = "none";
         document.getElementById("headerTitleTopic").style.display = "none";
-        document.getElementById('formTopic').reset();
+        document.getElementById('formTopicCards').reset();
         console.log("CREATE TOPIC ");
     }
 
@@ -534,13 +582,15 @@ InfoManager.prototype.showExtraSimpleTopics = function() {
     if (window.info.topics.length > 0) {
         let divTopics = document.getElementById("divExtraTopics");
         window.info.topics.forEach(t => {
+            let date = "" + t.date;
             let topicAux = {
                 "id": t._id,
                 "title": t.title,
                 "text": t.text,
-                "image": t.image
+                "image": t.image,
+                "date": date.split('T')[0]
             }
-            let topic = createTopic(topicAux.title, topicAux.text, topicAux.image);
+            let topic = createTopic(topicAux.title, topicAux.text, topicAux.image, topicAux.date);
             divTopics.appendChild(topic);
         });
     }
@@ -552,8 +602,8 @@ InfoManager.prototype.showExtraSimpleTopics = function() {
 InfoManager.prototype.showExtraTopicsWithCards = function() {
     if (window.info.topicsWithCards.length > 0) {
         let divTopics = document.getElementById("divExtraTopics");
-        console.log("DENTRO DOS TOPICS WITH CARDS");
         window.info.topicsWithCards.forEach(t => {
+            let date = "" + t.date;
             let topicAux = {
                 "id": t._id,
                 "title": t.title,
@@ -563,9 +613,9 @@ InfoManager.prototype.showExtraTopicsWithCards = function() {
                 "card2_text": t.card2_text,
                 "card2_img": t.card2_img,
                 "card3_text": t.card3_text,
-                "card3_img": t.card3_img
+                "card3_img": t.card3_img,
+                "date": date.split('T')[0]
             }
-            console.log("DENTRO DOS TOPICS WITH CARDS");
             let topic = createTopicWithCards(topicAux);
             divTopics.appendChild(topic);
         });

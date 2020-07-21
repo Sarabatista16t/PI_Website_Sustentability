@@ -30,12 +30,13 @@ app.post("/user", requestHandlers.createUser);
 app.put("/user/:id", requestHandlers.updateUser);
 app.delete("/user/:id", requestHandlers.deleteUser);
 
-/* OPERAÇÕES CRUD TOPIC  */
+/* OPERAÇÕES CRUD TOPICS  */
 app.get("/topics", requestHandlers.getAllTopics);
 app.get("/topicsWithCards", requestHandlers.getAllTopicsWithCards);
 app.get("/topic/:id", requestHandlers.getTopic);
 app.post("/topic", requestHandlers.createTopic);
 app.delete("/topic/:id", requestHandlers.deleteTopic);
+app.delete("/topicWithCards/:id", requestHandlers.deleteTopicWithCards);
 app.put("/topic/:id", requestHandlers.updateTopic);
 
 app.listen(options.server.port, function() {
