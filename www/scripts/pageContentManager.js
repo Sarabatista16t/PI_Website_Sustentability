@@ -1,6 +1,5 @@
 "use strict";
 
-
 var info = new InfoManager();
 window.info = info;
 info.getUsers();
@@ -21,7 +20,10 @@ function hideAll() {
         document.getElementById("menuWithoutLogin").style.display = "none";
         document.getElementById("menuWithLogin").style.display = "block";
         document.getElementById("menuGoal4").style.display = "block";
-        document.getElementById("menuGoal5").style.display = "block";
+        console.log("ROLES " + window.info.loggedUser.roles);
+        if (window.info.loggedUser.roles[0] === "admin") {
+            document.getElementById("menuGoal5").style.display = "block";
+        }
     }
     document.getElementById("LoginPage").style.display = "none";
     document.getElementById("RegisterPage").style.display = "none";
