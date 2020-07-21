@@ -76,17 +76,17 @@ function createTopic(topicTitle, topicText, topicImg, topicDate) {
     text.textContent = topicText;
     text.className = 'lead';
 
-    var divTopic = document.createElement("div");
-    divTopic.setAttribute("id", "divTopic");
-    divTopic.appendChild(title);
-    divTopic.appendChild(text);
+    var articleTopic = document.createElement("article");
+    articleTopic.setAttribute("id", "divTopic");
+    articleTopic.appendChild(title);
+    articleTopic.appendChild(text);
 
     if (topicImg) {
         var img = document.createElement("img");
         img.src = topicImg;
         img.style.display = "block";
         img.style.margin = "auto";
-        divTopic.appendChild(img);
+        articleTopic.appendChild(img);
     }
 
     var date = document.createElement("p");
@@ -94,9 +94,9 @@ function createTopic(topicTitle, topicText, topicImg, topicDate) {
     date.style.fontStyle = "oblique";
     date.className = 'lead';
 
-    divTopic.appendChild(date);
-    divTopic.className = 'jumbotron';
-    return divTopic;
+    articleTopic.appendChild(date);
+    articleTopic.className = 'jumbotron';
+    return articleTopic;
 }
 
 /**
@@ -129,14 +129,14 @@ function createTopicWithCards(topic) {
     date.style.fontStyle = "oblique";
     date.className = 'lead';
 
-    var divTopic = document.createElement("div");
-    divTopic.setAttribute("id", "divTopic");
-    divTopic.appendChild(title);
-    divTopic.appendChild(text);
-    divTopic.appendChild(divCards);
-    divTopic.appendChild(date);
-    divTopic.className = 'jumbotron';
-    return divTopic;
+    var articleTopic = document.createElement("article");
+    articleTopic.setAttribute("id", "divTopic");
+    articleTopic.appendChild(title);
+    articleTopic.appendChild(text);
+    articleTopic.appendChild(divCards);
+    articleTopic.appendChild(date);
+    articleTopic.className = 'jumbotron';
+    return articleTopic;
 }
 
 /**

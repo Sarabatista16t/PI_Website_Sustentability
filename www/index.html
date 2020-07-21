@@ -14,6 +14,9 @@
 
 <body>
 
+    <!-- ================================================================================= -->
+    <!--                                      MENU                                         -->
+    <!-- ================================================================================= -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a href='#' onclick="showMainPage()" src="images/logo.png" class="navbar-brand" href='#'>BeAware</a>
 
@@ -65,6 +68,9 @@
 
     </nav>
 
+    <!-- ================================================================================= -->
+    <!--                                    SLIDESHOW                                      -->
+    <!-- ================================================================================= -->
     <div id="slideshowDiv">
         <!-- Slideshow container -->
 
@@ -98,10 +104,10 @@
 
     <main class='mt-5'>
         <!-- ================================================================================= -->
-        <!--                                   LOGIN PAGE                                       -->
+        <!--                                   LOGIN PAGE                                      -->
         <!-- ================================================================================= -->
 
-        <div id='LoginPage' class="container">
+        <article id='LoginPage' class="container">
             <h1>Login</h1>
 
             <form action="javascript: info.login();" name=loginForm>
@@ -115,13 +121,13 @@
                 </div>
                 <button class="btn btn-success" type="submit">Login</button>
             </form>
-        </div>
+        </article>
 
         <!-- ================================================================================= -->
         <!--                               USER PAGE                                       -->
         <!-- ================================================================================= -->
 
-        <div id='RegisterPage' class="container">
+        <article id='RegisterPage' class="container">
             <h1> Criar Utilizador </h1>
 
             <form id="formPerson" action="javascript: info.processingUser('create');" name=formPerson>
@@ -144,16 +150,16 @@
                 </div>
                 <button class="btn btn-success" type="submit">Criar Utilizador</button>
             </form>
-        </div>
+        </article>
 
         <h1 id="headerTitleUser"></h1>
-        <div id="divInformationUser"></div>
+        <article id="divInformationUser"></article>
 
 
         <!-- ================================================================================= -->
         <!--                               TOPICS PAGE                                       -->
         <!-- ================================================================================= -->
-        <div id='TopicsPage' class="container">
+        <article id='TopicsPage' class="container">
             <h1> Criar Tópico </h1>
 
             <!-- FORM TO CREATE SIMPLE TOPICS, WITH OR WITHOUT AN IMAGE-->
@@ -232,16 +238,16 @@
                 <p style="color:red">Os campos assinalados com * são de preenchimento obrigatório</p>
                 <button class="btn btn-success" type="submit">Públicar Tópico</button>
             </form>
-        </div>
+        </article>
 
         <h1 id="headerTitleTopic"></h1>
-        <div id="divInformationTopic"></div>
+        <article id="divInformationTopic"></article>
 
         <!-- ================================================================================= -->
         <!--                                   MAIN PAGE                                       -->
         <!-- ================================================================================= -->
 
-        <div id='MainPage' class='container mt-5'>
+        <article id='MainPage' class='container mt-5'>
             <!-- ------------------ MAIN CONTENT ------------------ -->
             <!-- A nossa missão -->
             <div id="Missao " class='jumbotron'>
@@ -439,17 +445,17 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </article>
 
         <!-- ================================================================================= -->
         <!--                                 EXTRA TOPICS                                      -->
         <!-- ================================================================================= -->
-        <div id="divExtraTopics"></div>
+        <article id="divExtraTopics"></article>
 
         <!-- ================================================================================= -->
         <!--                                   TEAM PAGE                                       -->
         <!-- ================================================================================= -->
-        <div id='TeamPage'>
+        <article id='TeamPage'>
             <div class='jumbotron jumbotron-fluid'>
                 <div class='container'>
                     <h1 class='display-4'>Quem somos?</h1>
@@ -541,13 +547,16 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
     </main>
 
     <button onclick="topFunction()" id='myBtn' title="Go to top" style="border-radius:35px 35px;">
 			<i class="fas fa-chevron-circle-up fa-3x"></i></button>
 
-    <!-- ------------------- FOOTER ------------------- -->
+    <!-- ================================================================================= -->
+    <!--                                    FOOTER                                         -->
+    <!-- ================================================================================= -->
+
     <footer id="footer " class="mt-5 ">
         <div class="navbar navbar-light bg-light justify-content-around ">
 

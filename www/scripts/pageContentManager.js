@@ -20,7 +20,6 @@ function hideAll() {
         document.getElementById("menuWithoutLogin").style.display = "none";
         document.getElementById("menuWithLogin").style.display = "block";
         document.getElementById("menuGoal4").style.display = "block";
-        console.log("ROLES " + window.info.loggedUser.roles);
         if (window.info.loggedUser.roles[0] === "admin") {
             document.getElementById("menuGoal5").style.display = "block";
         }
@@ -103,5 +102,4 @@ function showTopicsPage() {
 function showLogOut() {
     info.logout();
     window.location.reload();
-    //showMainPage();
 }
