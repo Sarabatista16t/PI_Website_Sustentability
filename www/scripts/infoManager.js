@@ -383,6 +383,10 @@ InfoManager.prototype.removeUser = function(id) {
         }
         // window.location.reload();
     }
+    let divUsers = document.getElementById("divInformationUser");
+    var br = document.createElement("br");
+    divUsers.appendChild(br);
+    divUsers.appendChild(createSuccessAlert("Utilizador removido com sucesso!"));
     xhr.send();
 }
 
@@ -420,6 +424,11 @@ InfoManager.prototype.processingUser = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(user));
 
+        let divUsers = document.getElementById("RegisterPage");
+        var br = document.createElement("br");
+        divUsers.appendChild(br);
+        divUsers.appendChild(createSuccessAlert("Utilizador criado com sucesso!"));
+
     } else if (acao === "update") {
         xhr.open("PUT", "/user/" + id);
         xhr.onreadystatechange = function() {
@@ -431,6 +440,11 @@ InfoManager.prototype.processingUser = function(acao) {
         console.log(JSON.stringify(user));
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(user));
+
+        let divUsers = document.getElementById("RegisterPage");
+        var br = document.createElement("br");
+        divUsers.appendChild(br);
+        divUsers.appendChild(createSuccessAlert("Dados do utilizador atualizados com sucesso!"));
     }
     // window.location.reload();
 }

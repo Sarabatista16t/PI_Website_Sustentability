@@ -247,3 +247,31 @@ function createModalButton() {
     btn.textContent = "Criar tópico";
     return btn;
 }
+
+/**
+ * Funtion to create an alert
+ */
+function createSuccessAlert(msg) {
+    var alertDiv = document.createElement("div");
+    alertDiv.className = "alert alert-success alert-dismissible fade show";
+    alertDiv.role = "alert";
+    alertDiv.textContent = "Sucesso! :) " + msg;
+
+    /*btn.type = "button";
+    btn.className = "close";
+    btn.dataDismiss = "alert";
+    btn.ariaLabel = "Close";
+
+    var span = document.createElement("span");
+    span.ariaHidden = "true";
+    span.textContent = "&times;";
+
+		btn.appendChild(span);*/
+
+    var btn = document.createElement("node");
+    btn.innerHTML = '<button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden ="true"> &times; </span> </button>';
+
+    alertDiv.appendChild(btn);
+
+    return alertDiv;
+}

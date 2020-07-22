@@ -24,6 +24,7 @@ function hideAll() {
             document.getElementById("menuGoal5").style.display = "block";
         }
     }
+    hideAlerts();
     document.getElementById("LoginPage").style.display = "none";
     document.getElementById("RegisterPage").style.display = "none";
     document.getElementById("divInformationUser").style.display = "none";
@@ -36,6 +37,15 @@ function hideAll() {
     document.getElementById("divExtraTopics").style.display = "none";
 }
 
+/**
+ * Funtion to hide all the alerts.
+ */
+function hideAlerts() {
+    document.getElementById("alertSuccessDeleteUser").style.display = "none";
+    document.getElementById("alertSuccessCreateUser").style.display = "none";
+    document.getElementById("alertSuccessUpdateUser").style.display = "none";
+    document.getElementById("alertDangerCreateUser").style.display = "none";
+}
 /**
  * Function to show only the main page.
  */
