@@ -224,7 +224,12 @@ InfoManager.prototype.showTopics = function() {
             const checkBox = row.cells[0].firstChild;
             const idTopic = row.cells[1].firstChild.nodeValue;
             if (checkBox && checkBox.checked) {
-                info.removeTopic(idTopic);
+                const topic = info.topics.find(i => i._id === idTopic);
+                if (topic) {
+                    info.removeTopic(idTopic);
+                } else {
+                    info.removeTopicWithCards(idTopic);
+                }
                 table.deleteRow(row.rowIndex);
             }
         }
@@ -273,7 +278,7 @@ InfoManager.prototype.showTopics = function() {
                 document.getElementById('formTopic').reset();
                 document.getElementById('titleFormTopic').value = topic.title;
                 document.getElementById('textFormTopic').value = topic.text;
-                document.getElementById('timgFormTopic').value = topic.image;
+                document.getElementById('imgFormTopic').value = topic.image;
                 // Change the texts from the title and button
                 document.getElementById("topicsFormTitle").textContent = "Alterações";
                 document.getElementById("btnFormSimpleTopic").textContent = "Guardar alterações";
@@ -600,12 +605,12 @@ InfoManager.prototype.removeTopicWithCards = function(id) {
             console.log(response);
         }
         // window.location.reload();
-        let divUsers = document.getElementById("divInformationTopic");
-        var br = document.createElement("br");
-        divUsers.appendChild(br);
-        divUsers.appendChild(createSuccessAlert("Tópico eliminado com sucesso!"));
     }
     xhr.send();
+    let divUsers = document.getElementById("divInformationTopic");
+    var br = document.createElement("br");
+    divUsers.appendChild(br);
+    divUsers.appendChild(createSuccessAlert("Tópico eliminado com sucesso!"));
 }
 
 /**
