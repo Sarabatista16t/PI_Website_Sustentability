@@ -1,5 +1,6 @@
 "use strict";
 
+// Initialize the page, by loading all the content.
 var info = new InfoManager();
 window.info = info;
 info.getUsers();
@@ -24,7 +25,6 @@ function hideAll() {
             document.getElementById("menuGoal5").style.display = "block";
         }
     }
-    hideAlerts();
     document.getElementById("LoginPage").style.display = "none";
     document.getElementById("RegisterPage").style.display = "none";
     document.getElementById("divInformationUser").style.display = "none";
@@ -37,15 +37,6 @@ function hideAll() {
     document.getElementById("divExtraTopics").style.display = "none";
 }
 
-/**
- * Funtion to hide all the alerts.
- */
-function hideAlerts() {
-    document.getElementById("alertSuccessDeleteUser").style.display = "none";
-    document.getElementById("alertSuccessCreateUser").style.display = "none";
-    document.getElementById("alertSuccessUpdateUser").style.display = "none";
-    document.getElementById("alertDangerCreateUser").style.display = "none";
-}
 /**
  * Function to show only the main page.
  */
@@ -72,7 +63,7 @@ function showLoginPage() {
 }
 
 /**
- * Function to show only the main page.
+ * Function to show only the register page.
  */
 function showRegisterFormPage() {
     hideAll();
@@ -80,7 +71,7 @@ function showRegisterFormPage() {
 }
 
 /**
- * Function to show only the register page.
+ * Function to show only the topics form page.
  */
 function showTopicsFormPage() {
     hideAll();
@@ -88,7 +79,7 @@ function showTopicsFormPage() {
 }
 
 /**
- * Function to show only the register page.
+ * Function to show only the users page.
  */
 function showUsersPage() {
     hideAll();
@@ -97,7 +88,7 @@ function showUsersPage() {
 }
 
 /**
- * Function to show only the register page.
+ * Function to show only the topics page.
  */
 function showTopicsPage() {
     hideAll();
@@ -107,7 +98,7 @@ function showTopicsPage() {
 
 
 /**
- * Function to show the logOutPage. Sets the user to undefined and sends the user to the main page
+ * Function to do the logout. Sets the user to undefined and sends the user to the main page
  */
 function showLogOut() {
     info.logout();

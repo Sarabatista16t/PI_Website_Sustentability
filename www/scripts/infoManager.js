@@ -3,10 +3,11 @@
 /** 
  * @class Gets all the necessary information from the database and displays it correctly in the HTML.
  * @constructs InfoManager
- * @param {string} id - id do elemento HTML que contém a informação.
- * @property {country[]} users - Array de objetos do tipo User, para guardar todos os utilizadores do nosso sistema
- * @property {person[]} topics - Array de objetos do tipo Topic, para guardar todas os tópicos do nosso sistema
- * @param {User} loggedUser - Utilizador que está logado no sistema.
+ * @param {string} id - id of the HTML element that contains the information.
+ * @property {users[]} users - Array of User type objects, to store all users of our system.
+ * @property {topics[]} topics - Array of Topic type objects, to store all topics in our system
+ * @property {topicsWithCards[]} topicsWithCards - Array of topics with cards type objects, to store all topics with cards in our system
+ * @param {User} loggedUser - User who is logged into the system.
  */
 function InfoManager(id) {
     this.id = id;
@@ -17,15 +18,14 @@ function InfoManager(id) {
 };
 
 
-
-
 /*====================================================================================*/
 /*=======================            SHOW FUNCTIONS          =========================*/
 /*====================================================================================*/
 
 
 /**
- * coloca a palavra "Utilizadores" no div titulo e cria dinamicamente uma tabela com a informação dos utilizadores
+ * Function to show the details of users, by creating dynamically a table with users information.
+ * It also creates the buttons to create, update and delete a user.
  */
 InfoManager.prototype.showUsers = function() {
 
@@ -33,8 +33,6 @@ InfoManager.prototype.showUsers = function() {
     document.getElementById("formPerson").style.display = "none";
     let table = document.createElement("table");
     table.className = "table .table-bordered";
-
-    //table.appendChild(tableLine(new User(), true));
 
     // Create table head
     let header = document.createElement("tr");
@@ -87,6 +85,7 @@ InfoManager.prototype.showUsers = function() {
     divTableUser.className = "table-responsive";
     divTableUser.appendChild(table);
 
+    // Delete user event for the button
     function deleteUserEventHandler() {
         for (const row of table.rows) {
             const checkBox = row.cells[0].firstChild;
@@ -99,6 +98,7 @@ InfoManager.prototype.showUsers = function() {
 
     }
 
+    // Create user event for the button
     function newUserEventHandler() {
         document.getElementById('formPerson').action = 'javascript:info.processingUser("create");';
         document.getElementById('formPerson').style.display = 'block';
@@ -111,6 +111,7 @@ InfoManager.prototype.showUsers = function() {
         document.getElementById("btnFormUser").textContent = "Criar";
     }
 
+    // Change user's password event for the button
     /*function changeUserPasswordEventHandler(id) {
         document.getElementById('formPerson').action = 'javascript:info.processingUser("changePassword");';
         document.getElementById('formPerson').style.display = 'block';
@@ -130,6 +131,7 @@ InfoManager.prototype.showUsers = function() {
         document.getElementById("btnFormUser").textContent = "Guardar";
     }*/
 
+    // Update user event for the button
     function updateUserEventHandler() {
         let idUser = null;
         for (const row of table.rows) {
@@ -168,7 +170,9 @@ InfoManager.prototype.showUsers = function() {
 };
 
 /**
- * coloca a palavra "Tópicos" no div titulo e cria dinamicamente uma tabela com a informação dos tópicos.
+ * Function to show the details of the topics, by creating dynamically a table with topics information, 
+ * both simple and with cards.
+ * It also creates the buttons to create, update and delete a topic.
  */
 InfoManager.prototype.showTopics = function() {
     document.getElementById("headerTitleTopic").textContent = "Tópicos";
@@ -176,7 +180,6 @@ InfoManager.prototype.showTopics = function() {
     document.getElementById("formTopicCards").style.display = "none";
     let table = document.createElement("table");
     table.className = "table .table-bordered";
-    //table.appendChild(tableLine(new User(), true));
 
     // Create table head
     let header = document.createElement("tr");
@@ -238,6 +241,7 @@ InfoManager.prototype.showTopics = function() {
     divTable.className = "table-responsive";
     divTable.appendChild(table);
 
+    // Delete topic event for the button
     function deleteTopicEventHandler() {
         for (const row of table.rows) {
             const checkBox = row.cells[0].firstChild;
@@ -254,6 +258,7 @@ InfoManager.prototype.showTopics = function() {
         }
     }
 
+    // Create a simple topic event for the button
     function newTopicEventHandler() {
         document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("create");';
         document.getElementById('formTopic').style.display = "block";
@@ -267,6 +272,7 @@ InfoManager.prototype.showTopics = function() {
         document.getElementById("btnFormSimpleTopic").textContent = "Criar";
     }
 
+    // Create a topic with cards event for the button
     function newTopicCardsEventHandler() {
         document.getElementById('formTopicCards').action = 'javascript:info.processingTopicWithCards("create");';
         document.getElementById('formTopicCards').style.display = "block";
@@ -280,6 +286,7 @@ InfoManager.prototype.showTopics = function() {
         document.getElementById("btnFormTopicCards").textContent = "Criar";
     }
 
+    // Update a simple topic event for the button
     function updateTopicEventHandler() {
         let idTopic = null;
         for (const row of table.rows) {
@@ -349,7 +356,7 @@ InfoManager.prototype.showTopics = function() {
 };
 
 /**
- * Coloca dinamicamente os tópicos na main page.
+ * Function to show all the simple topics, by placing them dynamically in the main page.
  */
 InfoManager.prototype.showExtraSimpleTopics = function() {
     if (window.info.topics.length > 0) {
@@ -370,7 +377,7 @@ InfoManager.prototype.showExtraSimpleTopics = function() {
 }
 
 /**
- * Coloca dinamicamente os tópicos na main page.
+ * Function to show all the topics with cards, by placing them dynamically in the main page.
  */
 InfoManager.prototype.showExtraTopicsWithCards = function() {
     if (window.info.topicsWithCards.length > 0) {
@@ -395,13 +402,14 @@ InfoManager.prototype.showExtraTopicsWithCards = function() {
     }
 }
 
+
 /*====================================================================================*/
 /*=======================          AJAX FUNCTIONS            =========================*/
 /*====================================================================================*/
 
 
 /**
- * Função que envia o login para o sevidor NODE.JS 
+ * Ajax function that sends the login to the NODE.JS server.
  */
 InfoManager.prototype.login = function() {
     let div = document.getElementById("LoginPage").children;
@@ -426,21 +434,21 @@ InfoManager.prototype.login = function() {
         if (this.readyState === 4 && this.status === 200) {
             let user = this.response.user;
             self.loggedUser = user;
-            showMainPage(); // ??
+            showMainPage();
         }
     }
     req.send(JSON.stringify(user));
 }
 
 /**
- * Funtion to do the logout.
+ * Function to do the logout.
  */
 InfoManager.prototype.logout = function() {
     self.loggedUser = undefined;
 }
 
 /**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso utilizadores através do verbo GET, usando pedidos assincronos e JSON
+ * Funtion to send a feedback email.
  */
 InfoManager.prototype.sendEmail = function() {
     let msg = document.getElementById('ContactComment').value;
@@ -457,7 +465,8 @@ InfoManager.prototype.sendEmail = function() {
 };
 
 /**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso utilizadores através do verbo GET, usando pedidos assincronos e JSON
+ * Ajax function that request the NODE.JS server the users resource through the verb GET, 
+ * using asynchronous and JSON requests
  */
 InfoManager.prototype.getUsers = function() {
     let xhr = new XMLHttpRequest();
@@ -476,7 +485,9 @@ InfoManager.prototype.getUsers = function() {
 
 
 /**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ * Ajax function that request the NODE.JS server to remove a user through the verb DELETE, 
+ * using asynchronous and JSON requests
+ * @param {String} id - user's id
  */
 InfoManager.prototype.removeUser = function(id) {
     var xhr = new XMLHttpRequest();
@@ -486,6 +497,7 @@ InfoManager.prototype.removeUser = function(id) {
             var response = xhr.response;
             console.log(response);
         }
+        showUsersPage();
         // window.location.reload();
     }
     let divUsers = document.getElementById("divInformationUser");
@@ -495,6 +507,11 @@ InfoManager.prototype.removeUser = function(id) {
     xhr.send();
 }
 
+/**
+ * Ajax function that request the NODE.JS server to change a users password through the verb PUT, 
+ * using asynchronous and JSON requests
+ *  @param {String} id - user's id
+ */
 InfoManager.prototype.changePassword = function(id) {
     let user = {
         "password": form.password.value
@@ -519,8 +536,9 @@ InfoManager.prototype.changePassword = function(id) {
 }
 
 /**
- * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
- * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ * Function that inserts or updates the user resource with a request to the NODE.JS server 
+ * using the POST or PUT verb, using asynchronous requests and JSON
+ * @param {String} acao - specifies which CRUD operation we want to do
  */
 InfoManager.prototype.processingUser = function(acao) {
     let div = document.getElementById("RegisterPage").children;
@@ -554,7 +572,7 @@ InfoManager.prototype.processingUser = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(user));
 
-        let divUsers = document.getElementById("RegisterPage");
+        let divUsers = document.getElementById("divInformationUser");
         var br = document.createElement("br");
         divUsers.appendChild(br);
         divUsers.appendChild(createSuccessAlert("Utilizador criado com sucesso!"));
@@ -571,17 +589,19 @@ InfoManager.prototype.processingUser = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(user));
 
-        let divUsers = document.getElementById("RegisterPage");
+        let divUsers = document.getElementById("divInformationUser");
         var br = document.createElement("br");
         divUsers.appendChild(br);
         divUsers.appendChild(createSuccessAlert("Dados do utilizador atualizados com sucesso!"));
     }
+    showUsersPage();
     // window.location.reload();
 }
 
 
 /**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ * Function that requests the NODE.JS server the simple topics resource through the verb GET, 
+ * using asynchronous and JSON requests
  */
 InfoManager.prototype.getTopics = function() {
     let xhr = new XMLHttpRequest();
@@ -600,7 +620,8 @@ InfoManager.prototype.getTopics = function() {
 };
 
 /**
- * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+ * Function that requests the NODE.JS server the topics with cards resource through the verb GET, 
+ * using asynchronous and JSON requests
  */
 InfoManager.prototype.getTopicsWithCards = function() {
     let xhr = new XMLHttpRequest();
@@ -618,7 +639,9 @@ InfoManager.prototype.getTopicsWithCards = function() {
 };
 
 /**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ * Function that deletes a simple topic resource with a request to NODE.JS through the DELETE verb,
+ * using asynchronous requests and JSON
+ * @param {String} id - topics's id
  */
 InfoManager.prototype.removeTopic = function(id) {
     var xhr = new XMLHttpRequest();
@@ -638,7 +661,9 @@ InfoManager.prototype.removeTopic = function(id) {
 }
 
 /**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+ * Function that deletes a topic with cards resource with a request to NODE.JS through the DELETE verb,
+ * using asynchronous requests and JSON
+ *  * @param {String} id - topics's id
  */
 InfoManager.prototype.removeTopicWithCards = function(id) {
     var xhr = new XMLHttpRequest();
@@ -658,8 +683,9 @@ InfoManager.prototype.removeTopicWithCards = function(id) {
 }
 
 /**
- * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
- * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ * Function that inserts or updates the simple topic resource with a request to the NODE.JS server 
+ * using the POST or PUT verb, using asynchronous requests and JSON
+ * @param {String} acao - specifies which CRUD operation we want to do
  */
 InfoManager.prototype.processingSimpleTopic = function(acao) {
     let div = document.getElementById("TopicsPage").children;
@@ -689,7 +715,7 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
 
-        let divUsers = document.getElementById("TopicsPage");
+        let divUsers = document.getElementById("divInformationTopic");
         var br = document.createElement("br");
         divUsers.appendChild(br);
         divUsers.appendChild(createSuccessAlert("Tópico criado com sucesso!"));
@@ -706,17 +732,19 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
 
-        let divUsers = document.getElementById("TopicsPage");
+        let divUsers = document.getElementById("divInformationTopic");
         var br = document.createElement("br");
         divUsers.appendChild(br);
         divUsers.appendChild(createSuccessAlert("Tópico alterado com sucesso!"));
     }
     //  window.location.reload();
+    showTopicsPage();
 }
 
 /**
- * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
- * @param {String} acao - controla qual a operação do CRUD queremos fazer
+ * Function that inserts or updates the topic with cards resource with a request to the NODE.JS server 
+ * using the POST or PUT verb, using asynchronous requests and JSON
+ * @param {String} acao - specifies which CRUD operation we want to do
  */
 InfoManager.prototype.processingTopicWithCards = function(acao) {
     let div = document.getElementById("TopicsPage").children;
@@ -765,7 +793,7 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
 
-        let divUsers = document.getElementById("TopicsPage");
+        let divUsers = document.getElementById("divInformationTopic");
         var br = document.createElement("br");
         divUsers.appendChild(br);
         divUsers.appendChild(createSuccessAlert("Tópico criado com sucesso!"));
@@ -782,10 +810,11 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
 
-        let divUsers = document.getElementById("TopicsPage");
+        let divUsers = document.getElementById("divInformationTopic");
         var br = document.createElement("br");
         divUsers.appendChild(br);
         divUsers.appendChild(createSuccessAlert("Tópico atualizado com sucesso!"));
     }
     //window.location.reload();
+    showTopicsPage();
 }

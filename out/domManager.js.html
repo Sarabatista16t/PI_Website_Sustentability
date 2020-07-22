@@ -27,9 +27,9 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Função que substitui todos os elementos filhos de um elemento HTML por um novo elemento HTML (facilitador de DOM)
- * @param {string} id - id do elemento HTML para o qual se pretende substituir os filhos.
- * @param {HTMLElement} newSon - elemento HTML que será o novo filho.
+ * Function that replaces all child elements of an HTML element with a new HTML element.
+ * @param {string} id - id of the HTML element for which you want to replace the children.
+ * @param {HTMLElement} newSon - HTML element that will be the new child.
  */
 function replaceChilds(id, newSon) {
     var no = document.getElementById(id);
@@ -40,9 +40,9 @@ function replaceChilds(id, newSon) {
 };
 
 /**
- * Função que recebe um qualquer objeto e retorna dinamicamente uma linha de tabela HTML com informação relativa ao estado das suas propriedades
- * @param {Object} object - objecto do qual vamos transformar o conteudo dos seus atributos em linhas
- * @param {boolean} headerFormat - controla de o formato é cabeçalho ou linha normal
+ * Function that receives any object and dynamically returns an HTML table line with information regarding the status of its properties.
+ * @param {Object} object - object from which we will transform the contents of its attributes into lines.
+ * @param {boolean} headerFormat - controls whether the format is normal header or line.
  */
 function tableLine(object, headerFormat) {
     var tr = document.createElement("tr");
@@ -65,7 +65,7 @@ function tableLine(object, headerFormat) {
 };
 
 /**
- * Função genérica que tem como objetivo a criação de uma coluna com checkbox
+ * Generic function to create a column with checkbox.
  */
 function createCellCheckbox() {
     var td = document.createElement("td");
@@ -76,10 +76,10 @@ function createCellCheckbox() {
 }
 
 /**
- * Função genérica que cria um botão HTML, dá-lhe um evento e coloca-o na árvore de nós
- * @param {HTMLElement} fatherNode - nó pai do botão
- * @param {function} eventHandler - evento do botão.
- * @param {String} value - texto do botão.
+ * Generic function that creates an HTML button, gives it an event and places it in the node tree.
+ * @param {HTMLElement} fatherNode - button parent node
+ * @param {function} eventHandler - button event
+ * @param {String} value - button text.
  */
 function createButton(fatherNode, eventHandler, value) {
     var button = document.createElement("input");
@@ -91,11 +91,13 @@ function createButton(fatherNode, eventHandler, value) {
 }
 
 /**
- * Função que cria um elemento "topic" com base nos parâmetros.
- * @param {*} topicTitle 
- * @param {*} topicText 
+ * Function that creates a simple Topic element based on the parameters.
+ * @param {String} topicTitle - topic's title
+ * @param {String} topicText - topic's text
+ * @param {String} topicImg - topic's image URL
+ * @param {Date} topicDate - topic's publishing date
  */
-function createTopic(topicTitle, topicText) {
+function createTopic(topicTitle, topicText, topicImg, topicDate) {
     var title = document.createElement("h1");
     title.textContent = topicTitle;
     title.className = 'display-4';
@@ -104,12 +106,211 @@ function createTopic(topicTitle, topicText) {
     text.textContent = topicText;
     text.className = 'lead';
 
-    var divTopic = document.createElement("div");
-    divTopic.setAttribute("id", "divTopic");
-    divTopic.appendChild(title);
-    divTopic.appendChild(text);
-    divTopic.className = 'jumbotron';
-    return divTopic;
+    var articleTopic = document.createElement("article");
+    articleTopic.setAttribute("id", "divTopic");
+    articleTopic.appendChild(title);
+    articleTopic.appendChild(text);
+
+    if (topicImg) {
+        var img = document.createElement("img");
+        img.src = topicImg;
+        img.style.display = "block";
+        img.style.margin = "auto";
+        articleTopic.appendChild(img);
+    }
+
+    var date = document.createElement("p");
+    date.textContent = "Publicado em " + topicDate;
+    date.style.fontStyle = "oblique";
+    date.className = 'lead';
+
+    articleTopic.appendChild(date);
+    articleTopic.className = 'jumbotron';
+    return articleTopic;
+}
+
+/**
+ * Function that creates a Topic with cards, based on the parameter.
+ * @param {Topic} topic - topic's object
+ */
+function createTopicWithCards(topic) {
+    var title = document.createElement("h1");
+    title.textContent = topic.title;
+    title.className = 'display-4';
+
+    var text = document.createElement("p");
+    text.textContent = topic.text;
+    text.className = 'lead';
+
+    var divCards = document.createElement("div");
+    divCards.className = "row d-flex mt-3 flex-wrap justify-content-between";
+
+    var card1 = createCard(topic.card1_title, topic.card1_text, topic.card1_img);
+    var card2 = createCard(topic.card2_title, topic.card2_text, topic.card2_img);
+    var card3 = createCard(topic.card3_title, topic.card3_text, topic.card3_img);
+
+    divCards.appendChild(card1);
+    divCards.appendChild(card2);
+    divCards.appendChild(card3);
+
+    var date = document.createElement("p");
+    date.textContent = "Publicado em " + topic.date;
+    date.style.fontStyle = "oblique";
+    date.className = 'lead';
+
+    var articleTopic = document.createElement("article");
+    articleTopic.setAttribute("id", "divTopic");
+    articleTopic.appendChild(title);
+    articleTopic.appendChild(text);
+    articleTopic.appendChild(divCards);
+    articleTopic.appendChild(date);
+    articleTopic.className = 'jumbotron';
+    return articleTopic;
+}
+
+/**
+ * Function to create a card, based on the parameters.
+ * @param {String} title - card's title
+ * @param {String} text - card's text
+ * @param {String} img - card's image URL
+ */
+function createCard(title, text, img) {
+    var card = document.createElement("div");
+    card.className = 'card';
+
+    var cardImage = document.createElement("img");
+    cardImage.className = 'card-img-top';
+    cardImage.alt = "IPS";
+    cardImage.style = "width:100%;";
+    if (img) {
+        cardImage.src = img;
+    } else {
+        cardImage.src = "https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg";
+    }
+
+    var cardBody = document.createElement("div");
+    cardBody.className = 'card-body lead';
+
+    var cardTitle = document.createElement("h5");
+    cardTitle.className = 'card-title';
+    cardTitle.textContent = title;
+
+    var cardText = document.createElement("p");
+    cardText.className = 'card-text';
+    cardText.textContent = text;
+
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
+    card.appendChild(cardImage);
+    card.appendChild(cardBody);
+
+    return card;
+}
+
+/**
+ * Function to create a modal for choosing the type of topic the user wants to create.
+ * @param {*} actionBtn1 - action of button 1 
+ * @param {*} actionBtn2 - action of button 2 
+ */
+function createTopicsModal(actionBtn1, actionBtn2) {
+    var divModal = document.createElement("div");
+    divModal.className = "modal fade";
+    divModal.id = "topicsModal";
+    divModal.tabindex = "-1";
+    divModal.role = "dialog";
+    //divModal.aria.labelledby = "topicsModal";
+    //divModal.aria.hidden = "true";
+
+    var divModalDialog = document.createElement("div");
+    divModalDialog.className = "modal-dialog modal-dialog-centered";
+    divModalDialog.role = "document";
+
+    var divModalContent = document.createElement("div");
+    divModalContent.className = "modal-content";
+
+    var divModalHeader = document.createElement("div");
+    divModalHeader.className = "modal-content";
+    var title = document.createElement("h5");
+    title.textContent = "Publicação de conteúdos";
+    title.id = "topicsModalTitle";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "close";
+    //btn.data.dismiss = "modal";
+    //btn.arial.label = "Close";
+    var span = document.createElement("span");
+    //span.aria.hidden = "true";
+    span.textContent = "&amp; times;";
+    btn.appendChild(span);
+    divModalHeader.appendChild(title);
+    divModalHeader.appendChild(btn);
+
+    var divModalBody = document.createElement("div");
+    divModalBody.className = "modal-body";
+    divModalBody.textContent = "Selecione o tipo de conteúdo que pretende publicar!";
+
+    var divModalFooter = document.createElement("div");
+    divModalFooter.className = "modal-footer";
+    // BUTTON TO CREATE TOPICS WITH CARDS
+    var btnTopicsWithCards = document.createElement("button");
+    btnTopicsWithCards.type = "button";
+    btnTopicsWithCards.className = "btn btn-secondary";
+    btnTopicsWithCards.onclick = actionBtn1;
+    // BUTTON TO CREATE SIMPLE TOPICS
+    var btnSimpleTopics = document.createElement("button");
+    btnSimpleTopics.type = "button";
+    btnSimpleTopics.className = "btn btn-secondary";
+    btnSimpleTopics.onclick = actionBtn2;
+    divModalFooter.appendChild(btnTopicsWithCards);
+    divModalFooter.appendChild(btnSimpleTopics);
+
+    divModalContent.appendChild(divModalHeader);
+    divModalContent.appendChild(divModalBody);
+    divModalContent.appendChild(divModalFooter);
+    divModalDialog.appendChild(divModalContent);
+    divModal.appendChild(divModalDialog);
+    return divModal;
+}
+
+/**
+ * Function to create the modal's button.
+ */
+function createModalButton() {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn btn-primary";
+    //btn.toggle = "modal";
+    btn.data = "#topicsModal";
+    btn.textContent = "Criar tópico";
+    return btn;
+}
+
+/**
+ * Funtion to create a success alert.
+ */
+function createSuccessAlert(msg) {
+    var alertDiv = document.createElement("div");
+    alertDiv.className = "alert alert-success alert-dismissible fade show";
+    alertDiv.role = "alert";
+    alertDiv.textContent = "Sucesso! :) " + msg;
+
+    /*btn.type = "button";
+    btn.className = "close";
+    btn.dataDismiss = "alert";
+    btn.ariaLabel = "Close";
+
+    var span = document.createElement("span");
+    span.ariaHidden = "true";
+    span.textContent = "&amp;times;";
+
+		btn.appendChild(span);*/
+
+    var btn = document.createElement("node");
+    btn.innerHTML = '&lt;button type="button" class="close" data-dismiss="alert" aria-label="Close"> &lt;span aria-hidden ="true"> &amp;times; &lt;/span> &lt;/button>';
+
+    alertDiv.appendChild(btn);
+
+    return alertDiv;
 }</code></pre>
         </article>
     </section>
@@ -120,13 +321,13 @@ function createTopic(topicTitle, topicText) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createButton">createButton</a></li><li><a href="global.html#createCellCheckbox">createCellCheckbox</a></li><li><a href="global.html#createTopic">createTopic</a></li><li><a href="global.html#replaceChilds">replaceChilds</a></li><li><a href="global.html#tableLine">tableLine</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createButton">createButton</a></li><li><a href="global.html#createCard">createCard</a></li><li><a href="global.html#createCellCheckbox">createCellCheckbox</a></li><li><a href="global.html#createModalButton">createModalButton</a></li><li><a href="global.html#createSuccessAlert">createSuccessAlert</a></li><li><a href="global.html#createTopic">createTopic</a></li><li><a href="global.html#createTopicsModal">createTopicsModal</a></li><li><a href="global.html#createTopicWithCards">createTopicWithCards</a></li><li><a href="global.html#replaceChilds">replaceChilds</a></li><li><a href="global.html#tableLine">tableLine</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Fri Jul 17 2020 16:11:38 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 22 2020 23:08:03 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

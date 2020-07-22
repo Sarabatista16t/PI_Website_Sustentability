@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>InfoManager<span class="signature">(id)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>InfoManager<span class="signature">(id, loggedUser)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Gets all the necessary information from the database and displays it correctly in the HTML.</div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="InfoManager"><span class="type-signature"></span>new InfoManager<span class="signature">(id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="InfoManager"><span class="type-signature"></span>new InfoManager<span class="signature">(id, loggedUser)</span><span class="type-signature"></span></h4>
     
 
     
@@ -101,7 +101,30 @@
 
             
 
-            <td class="description last">id do elemento HTML que contém a informação.</td>
+            <td class="description last">id of the HTML element that contains the information.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>loggedUser</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">User</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User who is logged into the system.</td>
         </tr>
 
     
@@ -139,13 +162,13 @@
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>users</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Array.&lt;users></span>
 
 
             
@@ -155,20 +178,20 @@
 
             
 
-            <td class="description last">id do elemento HTML que contém a informação.</td>
+            <td class="description last">Array of User type objects, to store all users of our system.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>countries</code></td>
+                <td class="name"><code>topics</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;country></span>
+<span class="param-type">Array.&lt;topics></span>
 
 
             
@@ -178,20 +201,20 @@
 
             
 
-            <td class="description last">Array de objetos do tipo Country, para guardar todos os countries do nosso sistema</td>
+            <td class="description last">Array of Topic type objects, to store all topics in our system</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>people</code></td>
+                <td class="name"><code>topicsWithCards</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;person></span>
+<span class="param-type">Array.&lt;topicsWithCards></span>
 
 
             
@@ -201,7 +224,7 @@
 
             
 
-            <td class="description last">Array de objetos do tipo person, para guardar todas as pessoas do nosso sistema</td>
+            <td class="description last">Array of topics with cards type objects, to store all topics with cards in our system</td>
         </tr>
 
     
@@ -296,6 +319,143 @@
     
 
     
+    <h4 class="name" id="changePassword"><span class="type-signature"></span>changePassword<span class="signature">(id)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Ajax function that request the NODE.JS server to change a users password through the verb PUT, using asynchronous and JSON requests
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">user's id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line515">line 515</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getTopics"><span class="type-signature"></span>getTopics<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -304,7 +464,7 @@
 
 
 <div class="description">
-    Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+    Function that requests the NODE.JS server the simple topics resource through the verb GET, using asynchronous and JSON requests
 </div>
 
 
@@ -348,7 +508,95 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line119">line 119</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line606">line 606</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getTopicsWithCards"><span class="type-signature"></span>getTopicsWithCards<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function that requests the NODE.JS server the topics with cards resource through the verb GET, using asynchronous and JSON requests
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line626">line 626</a>
     </li></ul></dd>
     
 
@@ -392,7 +640,7 @@
 
 
 <div class="description">
-    Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso topics através do verbo GET, usando pedidos assincronos e JSON
+    Ajax function that request the NODE.JS server the users resource through the verb GET, using asynchronous and JSON requests
 </div>
 
 
@@ -436,7 +684,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line101">line 101</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line471">line 471</a>
     </li></ul></dd>
     
 
@@ -480,7 +728,7 @@
 
 
 <div class="description">
-    Sends the login info to the server, for it to check from the database and display the page if successfully
+    Ajax function that sends the login to the NODE.JS server.
 </div>
 
 
@@ -524,7 +772,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line26">line 26</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line414">line 414</a>
     </li></ul></dd>
     
 
@@ -560,7 +808,7 @@
     
 
     
-    <h4 class="name" id="processingTopic"><span class="type-signature"></span>processingTopic<span class="signature">(acao)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="logout"><span class="type-signature"></span>logout<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -568,7 +816,95 @@
 
 
 <div class="description">
-    Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+    Function to do the logout.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line446">line 446</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="processingSimpleTopic"><span class="type-signature"></span>processingSimpleTopic<span class="signature">(acao)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function that inserts or updates the simple topic resource with a request to the NODE.JS server using the POST or PUT verb, using asynchronous requests and JSON
 </div>
 
 
@@ -620,7 +956,7 @@
 
             
 
-            <td class="description last">controla qual a operação do CRUD queremos fazer</td>
+            <td class="description last">specifies which CRUD operation we want to do</td>
         </tr>
 
     
@@ -661,7 +997,144 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line425">line 425</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line690">line 690</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="processingTopicWithCards"><span class="type-signature"></span>processingTopicWithCards<span class="signature">(acao)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function that inserts or updates the topic with cards resource with a request to the NODE.JS server using the POST or PUT verb, using asynchronous requests and JSON
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>acao</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">specifies which CRUD operation we want to do</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line749">line 749</a>
     </li></ul></dd>
     
 
@@ -705,7 +1178,7 @@
 
 
 <div class="description">
-    Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
+    Function that inserts or updates the user resource with a request to the NODE.JS server using the POST or PUT verb, using asynchronous requests and JSON
 </div>
 
 
@@ -757,7 +1230,7 @@
 
             
 
-            <td class="description last">controla qual a operação do CRUD queremos fazer</td>
+            <td class="description last">specifies which CRUD operation we want to do</td>
         </tr>
 
     
@@ -798,7 +1271,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line264">line 264</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line543">line 543</a>
     </li></ul></dd>
     
 
@@ -834,7 +1307,7 @@
     
 
     
-    <h4 class="name" id="removeTopic"><span class="type-signature"></span>removeTopic<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="removeTopic"><span class="type-signature"></span>removeTopic<span class="signature">(id)</span><span class="type-signature"></span></h4>
     
 
     
@@ -842,7 +1315,144 @@
 
 
 <div class="description">
-    Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+    Function that deletes a simple topic resource with a request to NODE.JS through the DELETE verb,using asynchronous requests and JSON
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">topics's id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line646">line 646</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="removeTopicWithCards"><span class="type-signature"></span>removeTopicWithCards<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function that deletes a topic with cards resource with a request to NODE.JS through the DELETE verb,using asynchronous requests and JSON * @param {String} id - topics's id
 </div>
 
 
@@ -886,7 +1496,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line409">line 409</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line668">line 668</a>
     </li></ul></dd>
     
 
@@ -922,7 +1532,7 @@
     
 
     
-    <h4 class="name" id="removeUser"><span class="type-signature"></span>removeUser<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="removeUser"><span class="type-signature"></span>removeUser<span class="signature">(id)</span><span class="type-signature"></span></h4>
     
 
     
@@ -930,7 +1540,144 @@
 
 
 <div class="description">
-    Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
+    Ajax function that request the NODE.JS server to remove a user through the verb DELETE, using asynchronous and JSON requests
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">user's id</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line492">line 492</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="sendEmail"><span class="type-signature"></span>sendEmail<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Funtion to send a feedback email.
 </div>
 
 
@@ -974,7 +1721,271 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line247">line 247</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line453">line 453</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="showExtraSimpleTopics"><span class="type-signature"></span>showExtraSimpleTopics<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function to show all the simple topics, by placing them dynamically in the main page.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line361">line 361</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="showExtraTopicsWithCards"><span class="type-signature"></span>showExtraTopicsWithCards<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function to show all the topics with cards, by placing them dynamically in the main page.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line382">line 382</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="showTopics"><span class="type-signature"></span>showTopics<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Function to show the details of the topics, by creating dynamically a table with topics information, both simple and with cards.It also creates the buttons to create, update and delete a topic.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -1018,7 +2029,7 @@
 
 
 <div class="description">
-    coloca a palavra "Utilizadores" no div titulo e cria dinamicamente uma tabela com a informação dos utilizadores
+    Function to show the details of users, by creating dynamically a table with users information.It also creates the buttons to create, update and delete a user.
 </div>
 
 
@@ -1062,7 +2073,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line143">line 143</a>
+        <a href="infoManager.js.html">infoManager.js</a>, <a href="infoManager.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -1114,7 +2125,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 15 2020 16:38:46 GMT+0100 (GMT+01:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 22 2020 23:41:50 GMT+0100 (GMT+01:00)
 </footer>
 
 <script> prettyPrint(); </script>

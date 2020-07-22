@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 
+/**
+ * Model to represent a simple topic schema.
+ */
 var TopicSchema = new mongoose.Schema({
     title: { type: String, required: true },
     text: { type: String, required: true },

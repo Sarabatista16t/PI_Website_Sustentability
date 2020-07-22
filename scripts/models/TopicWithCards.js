@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+/**
+ * Model to represent a complex topic schema, with 3 cards.
+ */
 var TopicWithCardsSchema = new mongoose.Schema({
     title: { type: String, required: true },
     text: { type: String, required: true },

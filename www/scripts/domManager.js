@@ -1,7 +1,7 @@
 /**
- * Função que substitui todos os elementos filhos de um elemento HTML por um novo elemento HTML (facilitador de DOM)
- * @param {string} id - id do elemento HTML para o qual se pretende substituir os filhos.
- * @param {HTMLElement} newSon - elemento HTML que será o novo filho.
+ * Function that replaces all child elements of an HTML element with a new HTML element.
+ * @param {string} id - id of the HTML element for which you want to replace the children.
+ * @param {HTMLElement} newSon - HTML element that will be the new child.
  */
 function replaceChilds(id, newSon) {
     var no = document.getElementById(id);
@@ -12,9 +12,9 @@ function replaceChilds(id, newSon) {
 };
 
 /**
- * Função que recebe um qualquer objeto e retorna dinamicamente uma linha de tabela HTML com informação relativa ao estado das suas propriedades
- * @param {Object} object - objecto do qual vamos transformar o conteudo dos seus atributos em linhas
- * @param {boolean} headerFormat - controla de o formato é cabeçalho ou linha normal
+ * Function that receives any object and dynamically returns an HTML table line with information regarding the status of its properties.
+ * @param {Object} object - object from which we will transform the contents of its attributes into lines.
+ * @param {boolean} headerFormat - controls whether the format is normal header or line.
  */
 function tableLine(object, headerFormat) {
     var tr = document.createElement("tr");
@@ -37,7 +37,7 @@ function tableLine(object, headerFormat) {
 };
 
 /**
- * Função genérica que tem como objetivo a criação de uma coluna com checkbox
+ * Generic function to create a column with checkbox.
  */
 function createCellCheckbox() {
     var td = document.createElement("td");
@@ -48,10 +48,10 @@ function createCellCheckbox() {
 }
 
 /**
- * Função genérica que cria um botão HTML, dá-lhe um evento e coloca-o na árvore de nós
- * @param {HTMLElement} fatherNode - nó pai do botão
- * @param {function} eventHandler - evento do botão.
- * @param {String} value - texto do botão.
+ * Generic function that creates an HTML button, gives it an event and places it in the node tree.
+ * @param {HTMLElement} fatherNode - button parent node
+ * @param {function} eventHandler - button event
+ * @param {String} value - button text.
  */
 function createButton(fatherNode, eventHandler, value) {
     var button = document.createElement("input");
@@ -63,9 +63,11 @@ function createButton(fatherNode, eventHandler, value) {
 }
 
 /**
- * Função que cria um elemento "topic" com base nos parâmetros.
- * @param {*} topicTitle 
- * @param {*} topicText 
+ * Function that creates a simple Topic element based on the parameters.
+ * @param {String} topicTitle - topic's title
+ * @param {String} topicText - topic's text
+ * @param {String} topicImg - topic's image URL
+ * @param {Date} topicDate - topic's publishing date
  */
 function createTopic(topicTitle, topicText, topicImg, topicDate) {
     var title = document.createElement("h1");
@@ -100,9 +102,8 @@ function createTopic(topicTitle, topicText, topicImg, topicDate) {
 }
 
 /**
- * Função que cria um elemento "topic" com base nos parâmetros.
- * @param {*} topicTitle 
- * @param {*} topicText 
+ * Function that creates a Topic with cards, based on the parameter.
+ * @param {Topic} topic - topic's object
  */
 function createTopicWithCards(topic) {
     var title = document.createElement("h1");
@@ -140,9 +141,10 @@ function createTopicWithCards(topic) {
 }
 
 /**
- * Function to create a card.
- * @param {} title 
- * @param {*} text 
+ * Function to create a card, based on the parameters.
+ * @param {String} title - card's title
+ * @param {String} text - card's text
+ * @param {String} img - card's image URL
  */
 function createCard(title, text, img) {
     var card = document.createElement("div");
@@ -178,9 +180,9 @@ function createCard(title, text, img) {
 }
 
 /**
- * Funtion to create a modal for choosing the type of topic the user wants to create.
- * @param {*} actionBtn1 
- * @param {*} actionBtn2 
+ * Function to create a modal for choosing the type of topic the user wants to create.
+ * @param {*} actionBtn1 - action of button 1 
+ * @param {*} actionBtn2 - action of button 2 
  */
 function createTopicsModal(actionBtn1, actionBtn2) {
     var divModal = document.createElement("div");
@@ -242,6 +244,9 @@ function createTopicsModal(actionBtn1, actionBtn2) {
     return divModal;
 }
 
+/**
+ * Function to create the modal's button.
+ */
 function createModalButton() {
     var btn = document.createElement("button");
     btn.type = "button";
@@ -253,7 +258,7 @@ function createModalButton() {
 }
 
 /**
- * Funtion to create an alert
+ * Funtion to create a success alert.
  */
 function createSuccessAlert(msg) {
     var alertDiv = document.createElement("div");
