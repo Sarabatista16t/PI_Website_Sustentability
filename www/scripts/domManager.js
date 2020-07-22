@@ -150,9 +150,13 @@ function createCard(title, text, img) {
 
     var cardImage = document.createElement("img");
     cardImage.className = 'card-img-top';
-    cardImage.src = img;
     cardImage.alt = "IPS";
     cardImage.style = "width:100%;";
+    if (img) {
+        cardImage.src = img;
+    } else {
+        cardImage.src = "https://cdn4.ecycle.com.br/cache/images/2020-07/50-650-sustentabilidade.jpg";
+    }
 
     var cardBody = document.createElement("div");
     cardBody.className = 'card-body lead';

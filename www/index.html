@@ -156,27 +156,27 @@
         </div>
 
         <article id='RegisterPage' class="container">
-            <h1> Criar Utilizador </h1>
+            <h1 id="titleFormUsers"> Criar Utilizador </h1>
 
             <form id="formPerson" action="javascript: info.processingUser('create');" name=formPerson>
                 <input id="id" type="hidden" />
-                <div class="form-group">
+                <div id="divUserName" class="form-group">
                     <label for="name">Nome</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Nome">
                 </div>
-                <div class="form-group">
+                <div id="divUserEmail" class="form-group">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Inserir email">
                 </div>
-                <div class="form-group">
+                <div id="divUserPassword" class="form-group">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                 </div>
-                <div class="form-group">
+                <div id="divUserConfirmPassword" class="form-group">
                     <label for="confirmPassword">Confirmar Password</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Password">
                 </div>
-                <button class="btn btn-success" type="submit">Criar Utilizador</button>
+                <button id="btnFormUser" class="btn btn-success" type="submit">Criar Utilizador</button>
             </form>
         </article>
 
@@ -188,83 +188,83 @@
         <!--                               TOPICS PAGE                                       -->
         <!-- ================================================================================= -->
         <article id='TopicsPage' class="container">
-            <h1> Criar Tópico </h1>
+            <h1 id="topicsFormTitle"> Criar Tópico </h1>
 
             <!-- FORM TO CREATE SIMPLE TOPICS, WITH OR WITHOUT AN IMAGE-->
             <form id="formTopic" action="javascript: info.processingTopic('create');" name=formTopic>
-                <input id="id" name="id" type="hidden" />
+                <input id="idSimpleTopic" name="id" type="hidden" />
                 <div class="form-group ">
                     <label for="title">Título *</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Título">
+                    <input type="text" class="form-control" id="titleFormTopic" name="title" placeholder="Título">
                 </div>
                 <div class="form-group ">
                     <label for="text">Texto *</label>
                     <br/>
-                    <textarea id="text" name="text" class="form-control" placeholder="Escreva aqui o seu texto" rows="5"></textarea>
+                    <textarea id="textFormTopic" name="text" class="form-control" placeholder="Escreva aqui o seu texto" rows="5"></textarea>
                     <!-- <input type="text" class="form-control" id="text" name="text" placeholder="Texto"> -->
                 </div>
                 <div class="form-group ">
                     <label for="image">Imagem</label>
-                    <input type="text" class="form-control" id="image" name="image" placeholder="URL da imagem">
+                    <input id="imgFormTopic" type="text" class="form-control" name="image" placeholder="URL da imagem">
                 </div>
                 <p style="color:red">Os campos assinalados com * são de preenchimento obrigatório</p>
-                <button class="btn btn-success" type="submit">Públicar Tópico</button>
+                <button id="btnFormSimpleTopic" class="btn btn-success" type="submit">Públicar Tópico</button>
             </form>
 
             <!-- FORM TO CREATE TOPICS WITH CARDS -->
             <form id="formTopicCards" action="javascript: info.processingTopic('create');" name=formTopicCards>
-                <input id="id" type="hidden" />
+                <input id="idTopicCards" type="hidden" />
                 <div class="form-group ">
                     <label for="title">Título *</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Título">
+                    <input type="text" class="form-control" id="titleFormTopicCards" name="title" placeholder="Título">
                 </div>
                 <div class="form-group ">
                     <label for="text">Texto *</label>
                     <br/>
-                    <textarea id="text" name="text" class="form-control" placeholder="Escreva aqui o seu texto" rows="5"></textarea>
+                    <textarea id="textFormTopicCards" name="text" class="form-control" placeholder="Escreva aqui o seu texto" rows="5"></textarea>
                     <!-- <input type="text" class="form-control" id="text" name="text" placeholder="Texto"> -->
                 </div>
                 <!-- Card 1 -->
                 <div class="form-group ">
-                    <label for="titleCard1">Título do cartão 1 *</label>
-                    <input type="text" class="form-control" id="titleCard1" name="titleCard1" placeholder="Título">
+                    <label for="titleCard1">Título do cartão 1</label>
+                    <input type="text" class="form-control" id="Card1TitleFormTopicCards" name="titleCard1" placeholder="Título">
                 </div>
                 <div class="form-group ">
-                    <label for="textCard1">Texto do cartão 1 *</label>
-                    <input type="text" class="form-control" id="textCard1" name="textCard1" placeholder="Escreva aqui o seu texto">
+                    <label for="textCard1">Texto do cartão 1 </label>
+                    <input type="text" class="form-control" id="Card1TextFormTopicCards" name="textCard1" placeholder="Escreva aqui o seu texto">
                 </div>
                 <div class="form-group ">
-                    <label for="imageCard1">Imagem do cartão 1</label>
-                    <input type="text" class="form-control" id="imageCard1" name="imageCard1" placeholder="URL da imagem">
+                    <label for="imageCard1">Imagem do cartão </label>
+                    <input type="text" class="form-control" id="Card1ImageFormTopicCards" name="imageCard1" placeholder="URL da imagem">
                 </div>
                 <!-- Card 2 -->
                 <div class="form-group ">
-                    <label for="titleCard2">Título do cartão 2 *</label>
-                    <input type="text" class="form-control" id="titleCard2" name="titleCard2" placeholder="Título">
+                    <label for="titleCard2">Título do cartão 2 </label>
+                    <input type="text" class="form-control" id="Card2TitleFormTopicCards" name="titleCard2" placeholder="Título">
                 </div>
                 <div class="form-group ">
-                    <label for="textCard2">Texto do cartão 2 *</label>
-                    <input type="text" class="form-control" id="textCard2" name="textCard2" placeholder="Escreva aqui o seu texto">
+                    <label for="textCard2">Texto do cartão 2 </label>
+                    <input type="text" class="form-control" id="Card2TextFormTopicCards" name="textCard2" placeholder="Escreva aqui o seu texto">
                 </div>
                 <div class="form-group ">
                     <label for="imageCard2">Imagem do cartão 2</label>
-                    <input type="text" class="form-control" id="imageCard2" name="imageCard2" placeholder="URL da imagem">
+                    <input type="text" class="form-control" id="Card2ImageFormTopicCards" name="imageCard2" placeholder="URL da imagem">
                 </div>
                 <!-- Card 3 -->
                 <div class="form-group ">
-                    <label for="titleCard3">Título do cartão 3 *</label>
-                    <input type="text" class="form-control" id="titleCard3" name="titleCard3" placeholder="Título">
+                    <label for="titleCard3">Título do cartão 3 </label>
+                    <input type="text" class="form-control" id="Card3TitleFormTopicCards" name="titleCard3" placeholder="Título">
                 </div>
                 <div class="form-group ">
-                    <label for="textCard3">Texto do cartão 3 *</label>
-                    <input type="text" class="form-control" id="textCard3" name="textCard3" placeholder="Escreva aqui o seu texto">
+                    <label for="textCard3">Texto do cartão 3 </label>
+                    <input type="text" class="form-control" id="Card3TextFormTopicCards" name="textCard3" placeholder="Escreva aqui o seu texto">
                 </div>
                 <div class="form-group ">
                     <label for="imageCard3">Imagem do cartão 3</label>
-                    <input type="text" class="form-control" id="imageCard3" name="imageCard3" placeholder="URL da imagem">
+                    <input type="text" class="form-control" id="Card3ImageFormTopicCards" name="imageCard3" placeholder="URL da imagem">
                 </div>
                 <p style="color:red">Os campos assinalados com * são de preenchimento obrigatório</p>
-                <button class="btn btn-success" type="submit">Públicar Tópico</button>
+                <button id="btnFormTopicCards" class="btn btn-success" type="submit">Públicar Tópico</button>
             </form>
         </article>
 

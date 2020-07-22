@@ -3,28 +3,17 @@ const options = require("../config/options.json");
 
 const mongoose = require('mongoose');
 mongoose.connect(options.mongoDB.connectionString, { useNewUrlParser: true });
-const fs = require('fs')
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const auth = require('../middleware/auth.js')
-const crypto = require('crypto')
-const express = require('express')
 console.log(__dirname)
 const User = require('../scripts/models/User.js')
 const Topic = require('../scripts/models/Topic.js')
 const TopicWithCards = require('../scripts/models/TopicWithCards.js')
 
 const SALT_WORK_FACTOR = 10
-const router = express.Router()
-const authRouter = express.Router({ mergeParams: true })
 
 /*====================================================================================*/
 /*==================             AUTENTICATION               =========================*/
 /*====================================================================================*/
-
-router.use('/auth', authRouter)
-router.all(/^\/(?!auth).*/, auth.authRequired)
-authRouter.post('/login', login)
 
 /**
  * Funtion to do the login in the platform.

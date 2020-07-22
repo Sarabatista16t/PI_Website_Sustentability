@@ -104,6 +104,26 @@ InfoManager.prototype.showUsers = function() {
         console.log("CREATE USER ");
     }
 
+    function changeUserPasswordEventHandler(id) {
+        /*document.getElementById('formPerson').action = 'javascript:info.processingUser("changePassword");';
+        document.getElementById('formPerson').style.display = 'block';
+        document.getElementById("RegisterPage").style.display = "block";
+        document.getElementById("divInformationUser").style.display = "none";
+        document.getElementById("headerTitleUser").style.display = "none";
+        document.getElementById('formPerson').reset();
+        //document.getElementById('id').value = idUser;
+        const user = info.users.find(i => i._id === id);
+
+        document.getElementById("divUserPassword").style.display = "block";
+        document.getElementById("divUserConfirmPassword").style.display = "block";
+        // Hide the name and email fields
+        document.getElementById("divUserName").style.display = "none";
+        document.getElementById("divUserEmail").style.display = "none";
+        // Change the texts from the title and button
+        document.getElementById("titleFormUsers").textContent = "Alterar palavra-passe";
+        document.getElementById("btnFormUser").textContent = "Guardar";*/
+    }
+
     function updateUserEventHandler() {
         let idUser = null;
         for (const row of table.rows) {
@@ -122,9 +142,16 @@ InfoManager.prototype.showUsers = function() {
             document.getElementById('formPerson').reset();
             document.getElementById('id').value = idUser;
             const user = info.users.find(i => i._id === idUser);
+            //Get the values
             document.getElementById('name').value = user.name;
             document.getElementById('email').value = user.email;
-            console.log("USERS " + user.name);
+            // Hide the password and confirm password fields
+            document.getElementById("divUserPassword").style.display = "none";
+            document.getElementById("divUserConfirmPassword").style.display = "none";
+            // Change the texts from the title and button
+            document.getElementById("titleFormUsers").textContent = "Alterações";
+            document.getElementById("btnFormUser").textContent = "Guardar alterações";
+            createButton(document.getElementById('formPerson'), changeUserPasswordEventHandler(idUser), "Alterar palavra-passe");
         }
     }
     createButton(divTableUser, newUserEventHandler, "Novo utilizador");
@@ -233,16 +260,47 @@ InfoManager.prototype.showTopics = function() {
             }
         }
         if (idTopic) {
-            document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("update");';
-            document.getElementById('formTopic').style.display = "block";
-            document.getElementById("TopicsPage").style.display = "block";
-            document.getElementById("divInformationTopic").style.display = "none";
-            document.getElementById("headerTitleTopic").style.display = "none";
-            document.getElementById('formTopic').reset();
             document.getElementById('id').value = idTopic;
             const topic = info.topics.find(i => i._id === idTopic);
-            document.getElementById('title').value = topic.title;
-            document.getElementById('text').value = topic.text;
+
+            if (topic) {
+                document.getElementById('formTopic').action = 'javascript:info.processingSimpleTopic("update");';
+                document.getElementById('formTopic').style.display = "block";
+                document.getElementById("TopicsPage").style.display = "block";
+                document.getElementById('formTopicCards').style.display = "none";
+                document.getElementById("divInformationTopic").style.display = "none";
+                document.getElementById("headerTitleTopic").style.display = "none";
+                document.getElementById('formTopic').reset();
+                document.getElementById('titleFormTopic').value = topic.title;
+                document.getElementById('textFormTopic').value = topic.text;
+                document.getElementById('timgFormTopic').value = topic.image;
+                // Change the texts from the title and button
+                document.getElementById("topicsFormTitle").textContent = "Alterações";
+                document.getElementById("btnFormSimpleTopic").textContent = "Guardar alterações";
+            } else {
+                const topicWithCards = info.topicsWithCards.find(i => i._id === idTopic);
+                document.getElementById('formTopicCards').action = 'javascript:info.processingTopicWithCards("update");';
+                document.getElementById('formTopicCards').style.display = "block";
+                document.getElementById("TopicsPage").style.display = "block";
+                document.getElementById('formTopic').style.display = "none";
+                document.getElementById("divInformationTopic").style.display = "none";
+                document.getElementById("headerTitleTopic").style.display = "none";
+                document.getElementById('formTopicCards').reset();
+                document.getElementById('titleFormTopicCards').value = topicWithCards.title;
+                document.getElementById('textFormTopicCards').value = topicWithCards.text;
+                document.getElementById('Card1TitleFormTopicCards').value = topicWithCards.card1_title;
+                document.getElementById('Card1TextFormTopicCards').value = topicWithCards.card1_text;
+                document.getElementById('Card1ImageFormTopicCards').value = topicWithCards.card1_img;
+                document.getElementById('Card2TitleFormTopicCards').value = topicWithCards.card2_title;
+                document.getElementById('Card2TextFormTopicCards').value = topicWithCards.card2_text;
+                document.getElementById('Card2ImageFormTopicCards').value = topicWithCards.card2_img;
+                document.getElementById('Card3TitleFormTopicCards').value = topicWithCards.card3_title;
+                document.getElementById('Card3TextFormTopicCards').value = topicWithCards.card2_text;
+                document.getElementById('Card3ImageFormTopicCards').value = topicWithCards.card2_img;
+                // Change the texts from the title and button
+                document.getElementById("topicsFormTitle").textContent = "Alterações";
+                document.getElementById("btnFormTopicCards").textContent = "Guardar alterações";
+            }
         }
     }
     let divTopicBtn = document.createElement("div");
@@ -390,6 +448,29 @@ InfoManager.prototype.removeUser = function(id) {
     xhr.send();
 }
 
+InfoManager.prototype.changePassword = function(id) {
+    let user = {
+        "password": form.password.value
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", "/user/" + id, true);
+    xhr.onreadystatechange = function() {
+        if ((this.readyState === 4) && (this.status === 200)) {
+            var response = xhr.response;
+            console.log(response);
+        }
+        // window.location.reload();
+    }
+    let divUsers = document.getElementById("divInformationUser");
+    var br = document.createElement("br");
+    divUsers.appendChild(br);
+    divUsers.appendChild(createSuccessAlert("Palavra-passe atualizada com sucesso!"));
+
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(user));
+}
+
 /**
  * Função que insere ou atualiza o recurso pessoa com um pedido ao servidor NODE.JS através do verbo POST ou PUT, usando pedidos assincronos e JSON
  * @param {String} acao - controla qual a operação do CRUD queremos fazer
@@ -498,9 +579,13 @@ InfoManager.prototype.removeTopic = function(id) {
             var response = xhr.response;
             console.log(response);
         }
-        window.location.reload();
+        //window.location.reload();
     }
     xhr.send();
+    let divUsers = document.getElementById("divInformationTopic");
+    var br = document.createElement("br");
+    divUsers.appendChild(br);
+    divUsers.appendChild(createSuccessAlert("Tópico eliminado com sucesso!"));
 }
 
 /**
@@ -508,13 +593,17 @@ InfoManager.prototype.removeTopic = function(id) {
  */
 InfoManager.prototype.removeTopicWithCards = function(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/topicWithCards/" + id, true);
+    xhr.open("DELETE", "/topicsWithCards/" + id, true);
     xhr.onreadystatechange = function() {
         if ((this.readyState === 4) && (this.status === 200)) {
             var response = xhr.response;
             console.log(response);
         }
-        window.location.reload();
+        // window.location.reload();
+        let divUsers = document.getElementById("divInformationTopic");
+        var br = document.createElement("br");
+        divUsers.appendChild(br);
+        divUsers.appendChild(createSuccessAlert("Tópico eliminado com sucesso!"));
     }
     xhr.send();
 }
@@ -552,6 +641,11 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
 
+        let divUsers = document.getElementById("TopicsPage");
+        var br = document.createElement("br");
+        divUsers.appendChild(br);
+        divUsers.appendChild(createSuccessAlert("Tópico criado com sucesso!"));
+
     } else if (acao === "update") {
         console.log("ID UPDATE " + id);
         xhr.open("PUT", "/topic/" + id, true);
@@ -563,25 +657,13 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         }
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
+
+        let divUsers = document.getElementById("TopicsPage");
+        var br = document.createElement("br");
+        divUsers.appendChild(br);
+        divUsers.appendChild(createSuccessAlert("Tópico alterado com sucesso!"));
     }
     //  window.location.reload();
-}
-
-
-/**
- * Função que apaga o recurso pessoa com um pedido ao NODE.JS através do verbo DELETE, usando pedidos assincronos e JSON
- */
-InfoManager.prototype.removeTopicWithCards = function(id) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/topicWithCards/" + id, true);
-    xhr.onreadystatechange = function() {
-        if ((this.readyState === 4) && (this.status === 200)) {
-            var response = xhr.response;
-            console.log(response);
-        }
-        window.location.reload();
-    }
-    xhr.send();
 }
 
 /**
@@ -590,6 +672,7 @@ InfoManager.prototype.removeTopicWithCards = function(id) {
  */
 InfoManager.prototype.processingTopicWithCards = function(acao) {
     let div = document.getElementById("TopicsPage").children;
+    let id = document.getElementById('id').value;
     let form = div.formTopicCards;
     let title = form.title.value;
     let text = form.text.value;
@@ -624,7 +707,7 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
     xhr.responseType = "json";
 
     if (acao === "create") {
-        xhr.open("POST", "/topicWithCards", true);
+        xhr.open("POST", "/topicsWithCards", true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
                 var response = xhr.response;
@@ -635,8 +718,13 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
 
+        let divUsers = document.getElementById("TopicsPage");
+        var br = document.createElement("br");
+        divUsers.appendChild(br);
+        divUsers.appendChild(createSuccessAlert("Tópico criado com sucesso!"));
+
     } else if (acao === "update") {
-        xhr.open("PUT", "/topicWithCards/" + id, true);
+        xhr.open("PUT", "/topicsWithCards/" + id, true);
         xhr.onreadystatechange = function() {
             if ((this.readyState === 4) && (this.status === 200)) {
                 var response = xhr.response;
@@ -646,6 +734,11 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
         console.log(JSON.stringify(topic));
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(topic));
+
+        let divUsers = document.getElementById("TopicsPage");
+        var br = document.createElement("br");
+        divUsers.appendChild(br);
+        divUsers.appendChild(createSuccessAlert("Tópico atualizado com sucesso!"));
     }
-    window.location.reload();
+    //window.location.reload();
 }
