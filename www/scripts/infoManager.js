@@ -77,6 +77,11 @@ InfoManager.prototype.showUsers = function() {
         table.appendChild(tableLine(userAux, false));
     });
 
+    // Hide the ID field
+    for (const row of table.rows) {
+        row.cells[1].style.display = 'none';
+    }
+
     let divTableUser = document.createElement("divTable");
     divTableUser.setAttribute("id", "divTableUser");
     divTableUser.className = "table-responsive";
@@ -213,6 +218,11 @@ InfoManager.prototype.showTopics = function() {
         }
         table.appendChild(tableLine(topicAux, false));
     });
+
+    // Hide the ID field
+    for (const row of table.rows) {
+        row.cells[1].style.display = 'none';
+    }
 
     let divTable = document.createElement("divTable");
     divTable.setAttribute("id", "divTable");
