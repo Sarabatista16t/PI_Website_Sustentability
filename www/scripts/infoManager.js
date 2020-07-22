@@ -199,13 +199,19 @@ InfoManager.prototype.showTopics = function() {
     th3.textContent = "Texto";
     header.appendChild(th3);
 
+    let th4 = document.createElement("th");
+    th4.scope = "col";
+    th4.textContent = "Data de publicação";
+    header.appendChild(th4);
+
     table.appendChild(header);
 
     window.info.topics.forEach(t => {
         let topicAux = {
             "id": t._id,
             "title": t.title,
-            "text": t.text
+            "text": t.text,
+            "date": t.date.split('T')[0]
         }
         table.appendChild(tableLine(topicAux, false));
     });
@@ -214,7 +220,8 @@ InfoManager.prototype.showTopics = function() {
         let topicAux = {
             "id": t._id,
             "title": t.title,
-            "text": t.text
+            "text": t.text,
+            "date": t.date.split('T')[0]
         }
         table.appendChild(tableLine(topicAux, false));
     });
