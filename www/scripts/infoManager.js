@@ -148,8 +148,9 @@ InfoManager.prototype.showUsers = function() {
             document.getElementById('id').value = idUser;
             const user = info.users.find(i => i._id === idUser);
             //Get the values
-            document.getElementById('name').value = user.name;
-            document.getElementById('email').value = user.email;
+            document.getElementById('nameUserForm').value = user.name;
+            document.getElementById('emailUserForm').value = user.email;
+            document.getElementById('passwordUserForm').value = user.password;
             // Hide the password and confirm password fields
             document.getElementById("divUserPassword").style.display = "none";
             document.getElementById("divUserConfirmPassword").style.display = "none";
@@ -504,6 +505,8 @@ InfoManager.prototype.processingUser = function(acao) {
     let email = form.email.value;
     let password = form.password.value;
     let confirmPassword = form.confirmPassword.value;
+    let id = document.getElementById('id').value;
+    console.log("ID USER " + id);
     let role = 'editor';
     let user = {
         "name": name,

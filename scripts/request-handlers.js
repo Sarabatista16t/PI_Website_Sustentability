@@ -144,7 +144,7 @@ function getUser(req, res) {
  */
 async function updateUser(req, res) {
     const user = req.body
-    User.updateOne({ _id: req.params.id }, user, { runValidators: true }, function(err) {
+    User.updateOne({ _id: req.params.id }, user, { runValidators: false }, function(err) {
         if (err) return res.status(400).json({ error: err.message })
 
         User.findById({ _id: req.params.id }, function(err, updatedUser) {
