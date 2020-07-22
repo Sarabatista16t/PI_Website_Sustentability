@@ -12,21 +12,20 @@ sgMail.setApiKey(options.email.SENDGRID_API_KEY)
  */
 function Email(from, type, data) {
     this.to = options.email.email_to;
-    this.from = from;
+    this.from = options.email.email_from;
     this.type = type;
     this.data = data;
 };
 
-Email.prototype.send = function() {
-    const msg = {
+Email.prototype.send = function(msg) {
+    const message = {
         to: this.to,
         from: this.from,
         subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+        text: msg
     }
 
-    sgMail.send(msg);
+    sgMail.send(message);
 };
 
 module.exports = Email

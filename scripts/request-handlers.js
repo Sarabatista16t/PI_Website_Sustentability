@@ -8,6 +8,7 @@ console.log(__dirname)
 const User = require('../scripts/models/User.js')
 const Topic = require('../scripts/models/Topic.js')
 const TopicWithCards = require('../scripts/models/TopicWithCards.js')
+const Email = require('../email/Email.js')
 
 const SALT_WORK_FACTOR = 10
 
@@ -21,7 +22,6 @@ const SALT_WORK_FACTOR = 10
  * @param {*} res 
  */
 async function login(req, res) {
-    console.log(req);
     if (!req.body.email || !req.body.password) {
         return res.status(400).json({
             error: 'Missing email or password'
@@ -295,6 +295,21 @@ function deleteTopicWithCards(req, res) {
     })
 }
 
+/**
+ * Funtion to send a feedback email
+ */
+function sendEmail(req, res) {
+    try {
+        const email = new Email(req.params);
+        email.send();
+
+        return res.sendStatus(200)
+    } catch (err) {
+        console.log(err)
+        return res.sendStatus(500)
+    }
+}
+
 /* ==============  AUTENTICATION  ================ */
 module.exports.login = login;
 module.exports.changePassword = changePassword;
@@ -317,3 +332,6 @@ module.exports.deleteTopic = deleteTopic;
 module.exports.deleteTopicWithCards = deleteTopicWithCards;
 module.exports.createTopic = createTopic;
 module.exports.createTopicWithCards = createTopicWithCards;
+
+/* ============== SEND EMAIL  ================ */
+module.exports.sendEmail = sendEmail;

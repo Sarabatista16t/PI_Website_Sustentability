@@ -41,6 +41,9 @@ app.delete("/topicsWithCards/:id", requestHandlers.deleteTopicWithCards);
 app.put("/topic/:id", requestHandlers.updateTopic);
 app.put("/topicsWithCards/:id", requestHandlers.updateTopicWithCards);
 
+/* SEND EMAIL  */
+//app.post("/sendEmail", requestHandlers.sendEmail);
+
 app.listen(options.server.port, function() {
     console.log("Server running at port:" + options.server.port);
 });

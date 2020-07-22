@@ -106,18 +106,19 @@ InfoManager.prototype.showUsers = function() {
         document.getElementById("divInformationUser").style.display = "none";
         document.getElementById("headerTitleUser").style.display = "none";
         document.getElementById('formPerson').reset();
-        console.log("CREATE USER ");
+        // Change the texts from the title and button
+        document.getElementById("titleFormUsers").textContent = "Novo utilizador";
+        document.getElementById("btnFormUser").textContent = "Criar";
     }
 
-    function changeUserPasswordEventHandler(id) {
-        /*document.getElementById('formPerson').action = 'javascript:info.processingUser("changePassword");';
+    /*function changeUserPasswordEventHandler(id) {
+        document.getElementById('formPerson').action = 'javascript:info.processingUser("changePassword");';
         document.getElementById('formPerson').style.display = 'block';
         document.getElementById("RegisterPage").style.display = "block";
         document.getElementById("divInformationUser").style.display = "none";
         document.getElementById("headerTitleUser").style.display = "none";
         document.getElementById('formPerson').reset();
         //document.getElementById('id').value = idUser;
-        const user = info.users.find(i => i._id === id);
 
         document.getElementById("divUserPassword").style.display = "block";
         document.getElementById("divUserConfirmPassword").style.display = "block";
@@ -126,8 +127,8 @@ InfoManager.prototype.showUsers = function() {
         document.getElementById("divUserEmail").style.display = "none";
         // Change the texts from the title and button
         document.getElementById("titleFormUsers").textContent = "Alterar palavra-passe";
-        document.getElementById("btnFormUser").textContent = "Guardar";*/
-    }
+        document.getElementById("btnFormUser").textContent = "Guardar";
+    }*/
 
     function updateUserEventHandler() {
         let idUser = null;
@@ -157,7 +158,7 @@ InfoManager.prototype.showUsers = function() {
             // Change the texts from the title and button
             document.getElementById("titleFormUsers").textContent = "Alterações";
             document.getElementById("btnFormUser").textContent = "Guardar alterações";
-            createButton(document.getElementById('formPerson'), changeUserPasswordEventHandler(idUser), "Alterar palavra-passe");
+            //createButton(document.getElementById('formPerson'), changeUserPasswordEventHandler(idUser), "Alterar palavra-passe");
         }
     }
     createButton(divTableUser, newUserEventHandler, "Novo utilizador");
@@ -261,6 +262,9 @@ InfoManager.prototype.showTopics = function() {
         document.getElementById("divInformationTopic").style.display = "none";
         document.getElementById("headerTitleTopic").style.display = "none";
         document.getElementById('formTopic').reset();
+        // Change the texts from the title and button
+        document.getElementById("topicsFormTitle").textContent = "Novo tópico";
+        document.getElementById("btnFormSimpleTopic").textContent = "Criar";
     }
 
     function newTopicCardsEventHandler() {
@@ -271,6 +275,9 @@ InfoManager.prototype.showTopics = function() {
         document.getElementById("divInformationTopic").style.display = "none";
         document.getElementById("headerTitleTopic").style.display = "none";
         document.getElementById('formTopicCards').reset();
+        // Change the texts from the title and button
+        document.getElementById("topicsFormTitle").textContent = "Novo tópico";
+        document.getElementById("btnFormTopicCards").textContent = "Criar";
     }
 
     function updateTopicEventHandler() {
@@ -431,6 +438,23 @@ InfoManager.prototype.login = function() {
 InfoManager.prototype.logout = function() {
     self.loggedUser = undefined;
 }
+
+/**
+ * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso utilizadores através do verbo GET, usando pedidos assincronos e JSON
+ */
+InfoManager.prototype.sendEmail = function() {
+    let msg = document.getElementById('ContactComment').value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', '/sendEmail');
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            //Complete
+        }
+    };
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    console.log("MESSAGE " + JSON.stringify(msg));
+    xhr.send(JSON.stringify(msg));
+};
 
 /**
  * Função que que tem como principal objetivo solicitar ao servidor NODE.JS o recurso utilizadores através do verbo GET, usando pedidos assincronos e JSON
@@ -648,9 +672,8 @@ InfoManager.prototype.processingSimpleTopic = function(acao) {
         "title": title,
         "text": text,
         "image": image,
-        "idUser": "1",
+        "idUser": this.loggedUser._id,
         "date": Date.now()
-            // "idUser": this.loggedUser.Id
     }
     let xhr = new XMLHttpRequest();
     xhr.responseType = "json";
@@ -723,9 +746,8 @@ InfoManager.prototype.processingTopicWithCards = function(acao) {
         "card3_title": card3Title,
         "card3_text": card3Text,
         "card3_img": card3Img,
-        "idUser": "1",
+        "idUser": this.loggedUser._id,
         "date": Date.now()
-            // "idUser": this.loggedUser.Id
     }
 
     let xhr = new XMLHttpRequest();

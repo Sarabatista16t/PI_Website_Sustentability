@@ -9,7 +9,8 @@
         "SECRET_KEY": "whateverYouWant "
     },
     "email": {
-        "email_to": "beawareforpi@outlook.pt",
+        "email_to": "170221054@estudantes.ips.pt",
+        "email_from": "sara.batista16t@outlook.pt",
         "SENDGRID_API_KEY": "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",
         "API_KEY_NAME": "WeLovePi"
     },
